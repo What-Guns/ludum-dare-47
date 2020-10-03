@@ -3,7 +3,7 @@ export interface MapData {
   orientation: string;
   tilewidth: number;
   tileheight: number;
-  tilesets: Tileset[];
+  tilesets: Array<Tileset|ExternalTileset>;
 }
 
 export interface Tileset {
@@ -13,6 +13,11 @@ export interface Tileset {
   margin: number;
   name: string;
   tiles: Tile[];
+}
+
+export interface ExternalTileset {
+  source: string;
+  firstgid: number;
 }
 
 export interface Grid {

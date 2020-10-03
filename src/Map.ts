@@ -1,12 +1,10 @@
-import type {MapData, TileLayer} from './tiled-map';
+import type {MapData, TileLayer, ExternalTileset, Tileset} from './tiled-map';
 
 export class GameMap {
   static async load(mapDataPath: string) {
-    const response = await fetch(mapDataPath);
-    if(!response.ok) throw new Error(`Failed to load ${mapDataPath}: ${response.statusText}`);
-    const data = await response.json() as MapData;
+    const data = await loadJson(mapDataPath) as MapData;
 
-    const tileMap = createTileMap(data);
+    const tileMap = await createTileMap(data);
 
     const loadingMsg = `Loading ${tileMap.size} images`;
     console.time(loadingMsg);
@@ -51,16 +49,16 @@ interface Tile {
 
 function toLayer(layer: TileLayer, tileMap: Map<number, HTMLImageElement>, tilewidth: number, tileheight: number): BackgroundLayer {
   const tiles: Tile[] = [];
-  for(let i = 0; i < layer.data.length; i++) { const tileId = layer.data[i] - 1;
-    if(tileId === -1) continue;
+  for(let i = 0; i < layer.data.length; i++) {
+    const tileId = layer.data[i];
+    if(tileId === 0) continue;
     const x = i % layer.width;
     const y = Math.floor(i / layer.width);
     const screenX = ((x - y) * tilewidth/2);
     const screenY = ((x + y) * tileheight/2);
-    tiles.push({
-      image: tileMap.get(tileId)!,
-      x, y, screenX, screenY
-    });
+    const image = tileMap.get(tileId);
+    if(!image) throw new Error(`No image for tile ${tileId}`);
+    tiles.push({image, x, y, screenX, screenY});
   }
 
   tiles.sort((a, b) => a.screenY - b.screenY);
@@ -79,21 +77,37 @@ function waitForImageToLoad(img: HTMLImageElement) {
   });
 }
 
-function createTileMap(data: MapData) {
+async function createTileMap(data: MapData) {
   const usedTileIds = new Set(data.layers
     .filter((layer): layer is TileLayer => layer.type === 'tilelayer')
     .map(l => l.data)
-    .reduce((l, r) => l.concat(r))
-    .map(n => n - 1));
+    .reduce((l, r) => l.concat(r)));
 
-  return new Map(data.tilesets
-    .map(tileset => tileset.tiles)
-    .reduce((l, r) => l.concat(r))
-    .filter(tile => usedTileIds.has(tile.id))
-    .map(tile => {
+  const tileMap = new Map<number, HTMLImageElement>();
+
+  for(const tileset of await Promise.all(data.tilesets.map(resolveTileset))) {
+    for(const tile of tileset.tiles) {
+      const gid = tile.id + tileset.firstgid;
+      if(!usedTileIds.has(gid)) continue;
       const image = new Image();
       // HACK! Instead of resolving relative paths, I'm just stripping '..' off.
       image.src = 'maps/'+tile.image;
-      return [tile.id, image];
-    }));
+      tileMap.set(gid, image);
+    }
+  }
+
+  return tileMap;
+}
+
+async function resolveTileset(tileset: ExternalTileset|Tileset): Promise<Tileset> {
+  if(!('source' in tileset)) return tileset;
+  const remoteTileset = await loadJson('maps/'+tileset.source);
+  remoteTileset.firstgid = tileset.firstgid;
+  return remoteTileset;
+}
+
+async function loadJson(path: string) {
+  const response = await fetch(path);
+  if(!response.ok) throw new Error(`Failed to load ${path}: ${response.statusText}`);
+  return await response.json();
 }

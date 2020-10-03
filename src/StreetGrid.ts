@@ -1,12 +1,14 @@
+import {CarActionType} from './Car.js'
+
 export class StreetGrid{
   GRID_HEIGHT = 5;
   GRID_WIDTH = 5;
 
-  CELL_WIDTH = 60;
-  CELL_HEIGHT = 36;
+  CELL_WIDTH = 120;
+  CELL_HEIGHT = 72;
 
-  CELL_SPACING_X = 50;
-  CELL_SPACING_Y = 30;
+  CELL_SPACING_X = 60;
+  CELL_SPACING_Y = 36;
 
   draw(ctx: CanvasRenderingContext2D) {
     for (let x=0; x < this.GRID_WIDTH; x++) {
@@ -26,3 +28,21 @@ export class StreetGrid{
     ctx.stroke();
   }
 }
+
+/*class StreetGridNode {
+  readonly destinationNodes: {[key in CarActionType]: StreetGridNode | null};
+
+  constructor(readonly x: number, readonly y: number) {
+    this.x = x;
+    this.y = y;
+    this.destinationNodes = {
+      straight: null,
+      leftTurn: null,
+      rightTurn: null, 
+    }
+  }
+
+  setDestinationNode(node: StreetGridNode, action: CarActionType) {
+    this.destinationNodes[action] = node;
+  }
+}*/

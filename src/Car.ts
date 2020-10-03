@@ -6,8 +6,6 @@ export class Car{
   //private destination: any;
   //private directionToDestination: any;
 
-  private currentManeuver: Turn | null = null;
-
   readonly SPEED = 1;
   readonly DISTANCE_FROM_DESTINATION = 5;
   readonly MANEUVER_SPEED = 0.05;
@@ -38,6 +36,7 @@ export class Car{
 
 
   tick(dt: number) {
+    dt + 1;
     this.direction += .1;
     /*if (this.currentManeuver) {
       this.progressManeuver();

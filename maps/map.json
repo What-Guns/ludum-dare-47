@@ -1249,78 +1249,6 @@
                  "width":100,
                  "x":250,
                  "y":400
-                }, 
-                {
-                 "gid":98,
-                 "height":65,
-                 "id":21,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":100,
-                 "x":1964.125,
-                 "y":954.875
-                }, 
-                {
-                 "gid":98,
-                 "height":65,
-                 "id":22,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":100,
-                 "x":1814.625,
-                 "y":952.375
-                }, 
-                {
-                 "gid":98,
-                 "height":65,
-                 "id":23,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":100,
-                 "x":1664.75,
-                 "y":952.25
-                }, 
-                {
-                 "gid":99,
-                 "height":65,
-                 "id":24,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":100,
-                 "x":1515.5,
-                 "y":866
-                }, 
-                {
-                 "gid":99,
-                 "height":65,
-                 "id":25,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":100,
-                 "x":1665.375,
-                 "y":876.625
-                }, 
-                {
-                 "gid":99,
-                 "height":65,
-                 "id":26,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":100,
-                 "x":1815,
-                 "y":877
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1329,7 +1257,7 @@
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":27,
+ "nextobjectid":12,
  "orientation":"isometric",
  "renderorder":"right-down",
  "tiledversion":"1.4.2",
@@ -1338,10 +1266,6 @@
         {
          "firstgid":1,
          "source":"terrain.json"
-        }, 
-        {
-         "firstgid":97,
-         "source":"signs.json"
         }],
  "tilewidth":100,
  "type":"map",

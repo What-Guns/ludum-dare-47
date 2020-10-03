@@ -33,6 +33,3 @@ interface GameData {
   ctx: CanvasRenderingContext2D;
   mapData: GameMapData;
 }
-
-export const x = 8;
-

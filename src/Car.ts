@@ -29,9 +29,11 @@ export class Car {
   readonly BRAKE_DECELERATION = 0.0003;
   readonly REVERSE_ACCELERATION = -0.0002;
   readonly REVERSE_MIN_SPEED = -0.001;
-  readonly TIME_BEFORE_REVERSE = 400;
+  readonly TIME_BEFORE_REVERSE_LIGHTS = 400;
+  readonly TIME_BEFORE_REVERSE = 600;
 
   static IMAGES: Array<HTMLImageElement>;
+  static BACKUP_IMAGES: Array<HTMLImageElement>;
 
   private static async load() {
     Car.IMAGES = await Promise.all([
@@ -41,6 +43,16 @@ export class Car {
       'images/car/carBlue6_005.png',
       'images/car/carBlue6_004.png',
       'images/car/carBlue6_009.png',
+      'images/car/carBlue6_010.png',
+      'images/car/carBlue6_015.png',
+    ].map(waitForImageToLoad));
+    Car.BACKUP_IMAGES = await Promise.all([
+      'images/car/carBlue6_011.png',
+      'images/car/carBlue6_012_backup.png',
+      'images/car/carBlue6_006_backup.png',
+      'images/car/carBlue6_005_backup.png',
+      'images/car/carBlue6_004_backup.png',
+      'images/car/carBlue6_009_backup.png',
       'images/car/carBlue6_010.png',
       'images/car/carBlue6_015.png',
     ].map(waitForImageToLoad));
@@ -90,7 +102,7 @@ export class Car {
   }
 
   chooseSprite(index: number) {
-    return Car.IMAGES[index];
+    return this.timeInReverse > this.TIME_BEFORE_REVERSE_LIGHTS ? Car.BACKUP_IMAGES[index] : Car.IMAGES[index];
   }
 
   getSnappedDirectionIndex() {

@@ -44,4 +44,5 @@ async function loadAudio() {
   await Audio.load('audio/music/intro.ogg', 'intro');
   (document.querySelector('#audioButton') as HTMLButtonElement).onclick = () => Audio.play('truckin', 2.097);
   (document.querySelector('#titleScreenMusicButton') as HTMLButtonElement).onclick = () => Audio.play('intro', 13.640, 25.633);
+  (document.querySelector('#stopBGMButton') as HTMLButtonElement).onclick = () => { Audio.stop('intro'); Audio.stop('truckin'); };
 }

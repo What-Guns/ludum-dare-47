@@ -6,7 +6,12 @@ export class Audio {
     this.soundLibrary[name] = await loadAudioAsync(path, Audio.audioContext);
   }
 
+  static currentlyPlayingSounds: {[key in string]: AudioBufferSourceNode} = {};
+
   static play(trackName: string, loopStart = -1, loopEnd = 0) {
+    if(this.currentlyPlayingSounds[trackName]) {
+      Audio.stop(trackName);
+    }
     const bufferSource = Audio.audioContext.createBufferSource();
     bufferSource.buffer = Audio.soundLibrary[trackName];
     bufferSource.connect(Audio.audioContext.destination);
@@ -16,7 +21,16 @@ export class Audio {
       bufferSource.loopEnd = loopEnd || bufferSource.buffer.duration;
     }
     bufferSource.start(0);
+    this.currentlyPlayingSounds[trackName] = bufferSource;
     console.log('playing ' + trackName)
+  }
+
+  static stop(trackName: string) {
+    const namedTrack = this.currentlyPlayingSounds[trackName];
+    if (namedTrack) {
+      namedTrack.stop();
+    }
+    delete this.currentlyPlayingSounds[trackName];
   }
 }
 

@@ -30,7 +30,7 @@ export class Car{
   static IMAGES: Array<HTMLImageElement>;
 
   static async load() {
-    Car.IMAGES = await [
+    Car.IMAGES = await Promise.all([
       '../images/car/carBlue6_012.png', // REMOVE THIS TO GO TO ISOMETRIC
       '../images/car/carBlue6_006.png',
       '../images/car/carBlue6_005.png',
@@ -40,7 +40,7 @@ export class Car{
       '../images/car/carBlue6_015.png',
       '../images/car/carBlue6_011.png',
       //'../images/car/carBlue6_012.png', UNCOMMENT THIS TO GO TO ISOMETRIC
-    ].map(waitForImageToLoad);
+    ].map(waitForImageToLoad));
     console.log(Car.IMAGES);
   }
 
@@ -149,10 +149,10 @@ export class Car{
   }
 }
 
-function waitForImageToLoad(path: string) {
+async function waitForImageToLoad(path: string) {
   const img = new Image();
   img.src = path;
-  new Promise((resolve, reject) => {
+  await new Promise((resolve, reject) => {
     img.addEventListener('load', resolve);
     img.addEventListener('error', reject);
   });

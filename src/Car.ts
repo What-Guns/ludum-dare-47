@@ -7,6 +7,8 @@ export class Car{
   speed = 0;
   timeInReverse = 0;
 
+  snappedDirectionIndex = 0;
+
   readonly MAX_SPEED = 0.2;
   readonly ACCELERATION = 0.005;
   readonly TURN_SPEED = 0.005;
@@ -36,70 +38,67 @@ export class Car{
     this.x = x;
     this.y = y;
     this.direction = 0;
-    //this.attachKeyboardListener();
   }
 
   tick(dt: number) {
-    //this.direction += .1;
+    this.snappedDirectionIndex = this.getSnappedDirectionIndex();
+    let turning = false;
     if (isKeyPressed('KeyW') || isKeyPressed('ArrowUp')) {
       this.accelerate(dt);
     }
     if (isKeyPressed('KeyA') || isKeyPressed('ArrowLeft')) {
       this.turnLeft(dt);
+      turning = true;
     }
     if (isKeyPressed('KeyD') || isKeyPressed('ArrowRight')) {
       this.turnRight(dt);
+      turning = true;
     }
     if (isKeyPressed('KeyS') || isKeyPressed('ArrowDown')) {
       this.brakeOrReverse(dt);
     }
+    if (!turning) {
+      this.snapTurnDirection();
+    }
     this.x += Math.cos(this.direction) * this.speed * dt;
     this.y -= Math.sin(this.direction) * this.speed * dt;
-    /*if (this.currentManeuver) {
-      this.progressManeuver();
-    } else if(this.destination) {
-      if (((this.x - this.destination.x) * (this.x - this.destination.x)) + ((this.y - this.destination.y) * (this.y - this.destination.y)) < this.DISTANCE_FROM_DESTINATION) {
-      this.x = this.destination.x;
-      this.y = this.destination.y;
-      this.destination = null;
-      this.directionToDestination = null;
-    }
-    this.x += Math.cos(this.directionToDestination) * this.SPEED * dt;
-    this.y += Math.sin(this.directionToDestination) * this.SPEED * dt;
-    }*/
   }
   
   draw(ctx: CanvasRenderingContext2D) {
-    ctx.drawImage(this.chooseSprite(), this.x, this.y);
+    ctx.drawImage(this.chooseSprite(this.snappedDirectionIndex), this.x, this.y);
   }
 
-  chooseSprite() {
+  chooseSprite(index: number) {
+    return Car.IMAGES[index];
+  }
+
+  getSnappedDirectionIndex() {
     const d = this.direction;
     const sin = Math.sin(d);
     const cos = Math.cos(d);
     const piOverEight = Math.PI / 8;
     if(sin < Math.sin(piOverEight) && sin > Math.sin(15 * piOverEight)) {
       if(cos > 0) {
-        return Car.IMAGES[0];
+        return 0;
       } else {
-        return Car.IMAGES[4];
+        return 4;
       }
     } else if(sin < Math.sin(3 * piOverEight) && sin > 0) {
       if(cos > 0) {
-        return Car.IMAGES[7];
+        return 7;
       } else {
-        return Car.IMAGES[5];
+        return 5;
       }
     } else if(sin > Math.sin(11 * piOverEight) && sin < 0) {
       if(cos > 0) {
-        return Car.IMAGES[1];
+        return 1;
       } else {
-        return Car.IMAGES[3];
+        return 3;
       }
     }else if(sin > 0) {
-      return Car.IMAGES[6];
+      return 6;
     } else {
-      return Car.IMAGES[2];
+      return 2;
     }
   }
 
@@ -134,6 +133,10 @@ export class Car{
         this.speed = this.REVERSE_MIN_SPEED;
       }
     }
+  }
+
+  snapTurnDirection() {
+    this.direction = -Math.PI / 4 * this.snappedDirectionIndex;
   }
 }
 

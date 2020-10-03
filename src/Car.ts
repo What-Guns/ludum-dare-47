@@ -31,14 +31,14 @@ export class Car{
 
   static async load() {
     Car.IMAGES = await Promise.all([
-      '../images/car/carBlue6_012.png', // REMOVE THIS TO GO TO ISOMETRIC
-      '../images/car/carBlue6_006.png',
-      '../images/car/carBlue6_005.png',
-      '../images/car/carBlue6_004.png',
-      '../images/car/carBlue6_009.png',
-      '../images/car/carBlue6_010.png',
-      '../images/car/carBlue6_015.png',
-      '../images/car/carBlue6_011.png',
+      'images/car/carBlue6_012.png', // REMOVE THIS TO GO TO ISOMETRIC
+      'images/car/carBlue6_006.png',
+      'images/car/carBlue6_005.png',
+      'images/car/carBlue6_004.png',
+      'images/car/carBlue6_009.png',
+      'images/car/carBlue6_010.png',
+      'images/car/carBlue6_015.png',
+      'images/car/carBlue6_011.png',
       //'../images/car/carBlue6_012.png', UNCOMMENT THIS TO GO TO ISOMETRIC
     ].map(waitForImageToLoad));
     console.log(Car.IMAGES);

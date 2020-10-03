@@ -1,6 +1,6 @@
 import type {MapData, TileLayer, ExternalTileset, Tileset} from './tiled-map';
 import {loadImage, loadJson} from './loader.js';
-import {setXY, Point} from './Math.js';
+import {setXY, Point} from './math.js';
 
 const GRID_ALPHA = 0.25;
 
@@ -24,8 +24,6 @@ export class GameMap {
   }
 
   draw(ctx: CanvasRenderingContext2D) {
-    ctx.save();
-    ctx.translate(this.world.height * this.world.tilewidth/2, this.world.tileheight);
     for(const layer of this.layers) {
       for(const {screenX, screenY, image, offsetPX} of layer.tiles) {
         ctx.drawImage(image,
@@ -41,7 +39,7 @@ export class GameMap {
       ctx.lineTo(line[1].screenX, line[1].screenY);
       ctx.stroke();
     }
-    ctx.restore();
+    ctx.globalAlpha = 1;
   }
 
   private constructor(readonly world: WorldInfo, private readonly layers: CellLayer[]) {

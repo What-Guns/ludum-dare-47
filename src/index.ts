@@ -1,6 +1,5 @@
-import { Car } from './Car.js';
+import {Car} from './Car.js';
 import {Game} from './Game.js';
-import {GameMap} from './Map.js';
 
 addEventListener('load', () => {
   startTheGameAlready()
@@ -13,9 +12,7 @@ async function startTheGameAlready() {
   const canvas = document.querySelector('canvas')!;
   const ctx = canvas!.getContext('2d')!;
   await Car.load();
-  const game = new Game(canvas);
-
-  const map = await GameMap.load('maps/map.json');
+  const game = await Game.create(ctx, 'maps/map.json');
 
   requestAnimationFrame(tick);
 
@@ -23,7 +20,6 @@ async function startTheGameAlready() {
   function tick(timestamp: number) {
     ctx.clearRect(0, 0, 800, 640)
 
-    map.draw(ctx);
     if(lastTick !== 0) {
       const dt = Math.min(timestamp - lastTick, BIG_TICK_ENERGY);
       game.tick(dt);

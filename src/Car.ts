@@ -1,4 +1,6 @@
 import {isKeyPressed} from './KeyboardListener.js';
+import {Game} from './Game.js';
+import {setXY} from './math.js';
 
 /* DIRECTIONS
 Direction 0 is +x in game space, down-right in screen space
@@ -7,8 +9,10 @@ This proceeds to direction 7 which is 45 degrees clockwise from 0
 */
 
 export class Car{
-  x: number;
-  y: number;
+  x!: number;
+  y!: number;
+  screenX!: number;
+  screenY!: number;
 
   // Direction of the car in radians
   direction: number;
@@ -19,34 +23,32 @@ export class Car{
   speed = 0;
   timeInReverse = 0;
 
-  readonly MAX_SPEED = 0.2;
-  readonly ACCELERATION = 0.005;
+  readonly MAX_SPEED = 0.002;
+  readonly ACCELERATION = 0.000005;
   readonly TURN_SPEED = 0.005;
-  readonly BRAKE_DECELERATION = 0.03;
-  readonly REVERSE_ACCELERATION = -0.02;
-  readonly REVERSE_MIN_SPEED = -0.1;
+  readonly BRAKE_DECELERATION = 0.0003;
+  readonly REVERSE_ACCELERATION = -0.0002;
+  readonly REVERSE_MIN_SPEED = -0.001;
   readonly TIME_BEFORE_REVERSE = 400;
 
   static IMAGES: Array<HTMLImageElement>;
 
   static async load() {
     Car.IMAGES = await Promise.all([
-      'images/car/carBlue6_012.png', // REMOVE THIS TO GO TO ISOMETRIC
+      'images/car/carBlue6_011.png',
+      'images/car/carBlue6_012.png',
       'images/car/carBlue6_006.png',
       'images/car/carBlue6_005.png',
       'images/car/carBlue6_004.png',
       'images/car/carBlue6_009.png',
       'images/car/carBlue6_010.png',
       'images/car/carBlue6_015.png',
-      'images/car/carBlue6_011.png',
-      //'../images/car/carBlue6_012.png', UNCOMMENT THIS TO GO TO ISOMETRIC
     ].map(waitForImageToLoad));
     console.log(Car.IMAGES);
   }
 
-  constructor(x:number, y: number) {
-    this.x = x;
-    this.y = y;
+  constructor(readonly game: Game, x:number, y: number) {
+    setXY(this, x, y, game.map.world);
     this.direction = 0;
   }
 
@@ -70,12 +72,16 @@ export class Car{
     if (!turning) {
       this.snapTurnDirection();
     }
-    this.x += Math.cos(this.direction) * this.speed * dt; // cos(0) = 1 is to the right, so positive x
-    this.y -= Math.sin(this.direction) * this.speed * dt; // sin(pi / 2) = 1 is up, so negative y
+    setXY(this,
+      this.x + Math.cos(this.direction) * this.speed * dt, // cos(0) = 1 is to the right, so positive x
+      this.y - Math.sin(this.direction) * this.speed * dt, // sin(pi / 2) = 1 is down, so negative y
+      this.game.map.world
+    );
   }
   
   draw(ctx: CanvasRenderingContext2D) {
-    ctx.drawImage(this.chooseSprite(this.snappedDirectionIndex), this.x, this.y);
+    const sprite = this.chooseSprite(this.snappedDirectionIndex);
+    ctx.drawImage(sprite, this.screenX - sprite.width / 2, this.screenY - sprite.height / 2);
   }
 
   chooseSprite(index: number) {

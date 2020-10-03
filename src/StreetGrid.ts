@@ -17,6 +17,7 @@ export class StreetGrid{
   }
 
   drawCell(ctx: CanvasRenderingContext2D, x: number, y: number) {
+    ctx.beginPath();
     ctx.moveTo(x, y);
     ctx.lineTo(x - (this.CELL_WIDTH / 2), y + (this.CELL_HEIGHT / 2));
     ctx.lineTo(x, y + this.CELL_HEIGHT);

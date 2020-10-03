@@ -72,6 +72,9 @@ export class Car {
   tick(dt: number) {
     this.snappedDirectionIndex = this.getSnappedDirectionIndex();
     let turning = false;
+    if (this.speed > 0) {
+      this.timeInReverse = 0;
+    }
     if (isKeyPressed('KeyW') || isKeyPressed('ArrowUp')) {
       this.accelerate(dt);
     }

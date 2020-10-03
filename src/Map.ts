@@ -63,6 +63,8 @@ function toLayer(layer: TileLayer, tileMap: Map<number, HTMLImageElement>, tilew
     });
   }
 
+  tiles.sort((a, b) => a.screenY - b.screenY);
+
   return {
     height: layer.height,
     width: layer.width,

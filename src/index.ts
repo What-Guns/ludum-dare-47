@@ -15,12 +15,14 @@ function startTheGameAlready() {
 
   let lastTick = 0;
   function tick(timestamp: number) {
-    ctx?.clearRect(0, 0, 600, 800)
+    ctx?.clearRect(0, 0, 640, 640)
     if(lastTick !== 0) {
       const dt = Math.min(timestamp - lastTick, BIG_TICK_ENERGY);
       game.tick(dt);
       game.draw(timestamp);
-      ctx!.fillText(String(1000 / dt), 100, 100);
+      ctx!.fillStyle = "black";
+      ctx!.fillText(String(1000 / dt), 0, 50);
+      ctx!.fillText("Click to move the car!", 0, 100);
     }
 
     lastTick = timestamp;

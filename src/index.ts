@@ -30,7 +30,7 @@ async function startTheGameAlready() {
       game.tick(dt);
       game.draw(timestamp);
       ctx.fillStyle = "black";
-      ctx.fillText(String(1000 / dt), 0, 30);
+      ctx.fillText(String((1000 / dt).toFixed(0)), 0, 30);
       ctx.fillText("Arrow Keys or WASD to move the car!", 0, 100);
     }
 

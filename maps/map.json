@@ -53,6 +53,17 @@
                  "width":0,
                  "x":174.460431654676,
                  "y":225.539568345324
+                }, 
+                {
+                 "height":100,
+                 "id":8,
+                 "name":"",
+                 "rotation":0,
+                 "type":"Obstacle",
+                 "visible":true,
+                 "width":100,
+                 "x":50,
+                 "y":200
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -61,7 +72,7 @@
          "y":0
         }],
  "nextlayerid":3,
- "nextobjectid":7,
+ "nextobjectid":11,
  "orientation":"isometric",
  "renderorder":"right-down",
  "tiledversion":"1.4.2",

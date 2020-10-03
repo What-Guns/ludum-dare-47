@@ -79,7 +79,7 @@ export class GameMap implements GameObject {
 
     const mapObjects = data.layers
       .filter((layer): layer is ObjectGroup => layer.type === 'objectgroup')
-      .map(layer => toMapObjects(map, layer, data.tilewidth, data.tileheight))
+      .map(layer => toMapObjects(map, layer))
       .reduce((l, r) => l.concat(r));
 
     for(const obj of mapObjects) {
@@ -95,7 +95,11 @@ export interface GameMapData extends MapData {
   game: Game;
 }
 
-export interface SerializedObject extends Point {
+export interface SerializedObject {
+  x: number;
+  y: number;
+  width?: number;
+  height?: number;
   map: GameMap;
   name: string;
   type: string;
@@ -151,21 +155,23 @@ function toLayer(layer: TileLayer, tileMap: Map<number, Tile>, tilewidth: number
   };
 }
 
-function toMapObjects(map: GameMap, group: ObjectGroup, tilewidth: number, tileheight: number): SerializedObject[] {
+function toMapObjects(map: GameMap, group: ObjectGroup): SerializedObject[] {
   return group.objects.map(obj => {
-    const x = obj.x / tileheight; // NOT A TYPO. Tiles from tiled are squares.
-    const y = obj.y / tileheight;
-    const point = setXY({}, x, y, {tilewidth, tileheight});
-    const properties = (obj.properties ?? []).reduce<{[key: string]: Property['value']}>((collection, prop) => {
-      return {...collection, [prop.name]: prop.value};
-    }, {});
-    return {
-      ...point,
+    const mapObj: SerializedObject = {
+      x: obj.x / map.world.tileheight, // NOT A TYPO. Tiles from tiled are squares.
+      y: obj.y / map.world.tileheight,
       map,
       name: obj.name,
       type: obj.type,
-      properties,
+      properties: (obj.properties ?? []).reduce<{[key: string]: Property['value']}>((collection, prop) => {
+        return {...collection, [prop.name]: prop.value};
+      }, {}),
     };
+
+    if(obj.width) mapObj.width = obj.width / map.world.tileheight;
+    if(obj.height) mapObj.height = obj.height / map.world.tileheight;
+
+    return mapObj;
   });
 }
 

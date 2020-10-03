@@ -5,7 +5,7 @@ export function setXY(point: Partial<Point>, x: number, y: number, {tilewidth, t
   point.y = y;
   point.screenX = ((x - y) * tilewidth/2);
   point.screenY = ((x + y) * tileheight/2);
-  return point as Point;;
+  return point as Point;
 }
 
 export interface Point {

@@ -1,4 +1,4 @@
-import type {MapData, TiledLayer} from './tiled-map';
+import type {MapData, TileLayer} from './tiled-map';
 
 export class GameMap {
   static async load(mapDataPath: string) {
@@ -13,9 +13,11 @@ export class GameMap {
     await Array.from(tileMap.values()).map(waitForImageToLoad);
     console.timeEnd(loadingMsg);
 
-    const layers = data.layers.map(layer => toLayer(layer, tileMap, data.tilewidth, data.tileheight));
+    const backgroundLayers = data.layers
+      .filter((layer): layer is TileLayer => layer.type === 'tilelayer')
+      .map(layer => toLayer(layer, tileMap, data.tilewidth, data.tileheight));
 
-    return new GameMap(layers);
+    return new GameMap(backgroundLayers);
   }
 
   draw(ctx: CanvasRenderingContext2D) {
@@ -28,12 +30,12 @@ export class GameMap {
     ctx.restore();
   }
 
-  private constructor(private readonly layers: Layer[]) {
+  private constructor(private readonly layers: BackgroundLayer[]) {
     console.log(layers);
   }
 }
 
-interface Layer {
+interface BackgroundLayer {
   tiles: Tile[];
   width: number;
   height: number;
@@ -47,7 +49,7 @@ interface Tile {
   image: HTMLImageElement;
 }
 
-function toLayer(layer: TiledLayer, tileMap: Map<number, HTMLImageElement>, tilewidth: number, tileheight: number): Layer {
+function toLayer(layer: TileLayer, tileMap: Map<number, HTMLImageElement>, tilewidth: number, tileheight: number): BackgroundLayer {
   const tiles: Tile[] = [];
   for(let i = 0; i < layer.data.length; i++) { const tileId = layer.data[i] - 1;
     if(tileId === -1) continue;
@@ -76,7 +78,11 @@ function waitForImageToLoad(img: HTMLImageElement) {
 }
 
 function createTileMap(data: MapData) {
-  const usedTileIds = new Set(data.layers.map(l => l.data).reduce((l, r) => l.concat(r)).map(n => n - 1));
+  const usedTileIds = new Set(data.layers
+    .filter((layer): layer is TileLayer => layer.type === 'tilelayer')
+    .map(l => l.data)
+    .reduce((l, r) => l.concat(r))
+    .map(n => n - 1));
 
   return new Map(data.tilesets
     .map(tileset => tileset.tiles)
@@ -85,7 +91,7 @@ function createTileMap(data: MapData) {
     .map(tile => {
       const image = new Image();
       // HACK! Instead of resolving relative paths, I'm just stripping '..' off.
-      image.src = tile.image.replace('../', '');
+      image.src = 'maps/'+tile.image;
       return [tile.id, image];
     }));
 }

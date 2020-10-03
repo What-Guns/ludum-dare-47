@@ -1,5 +1,5 @@
 export interface MapData {
-  layers: TiledLayer[];
+  layers: Array<TileLayer|ObjectGroup>;
   orientation: string;
   tilewidth: number;
   tileheight: number;
@@ -28,19 +28,29 @@ export interface Tile {
   imagewidth: number;
 }
 
-export interface TiledLayer {
+export interface TileLayer {
   data: number[];
   height: number;
   id: number;
   name: string;
-  opacity:number;
-  startx: number;
-  starty: number;
-  type: string;
+  opacity: number;
+  type: 'tilelayer';
   visible:boolean;
   width:number;
   x:number;
   y:number;
+}
+
+export interface ObjectGroup {
+  draworder: string;
+  id: number;
+  name: string;
+  objects: never[];
+  opacity: number;
+  type: 'objectgroup';
+  visible: boolean;
+  x: number;
+  y: number;
 }
 
 export interface Chunk {

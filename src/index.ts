@@ -20,7 +20,7 @@ function startTheGameAlready() {
       const dt = Math.min(timestamp - lastTick, BIG_TICK_ENERGY);
       game.tick(dt);
       game.draw(timestamp);
-      ctx!.fillText(1000 / dt, 100, 100);
+      ctx!.fillText(String(1000 / dt), 100, 100);
     }
 
     lastTick = timestamp;

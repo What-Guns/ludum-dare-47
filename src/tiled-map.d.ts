@@ -15,6 +15,7 @@ export interface Tileset {
   margin: number;
   name: string;
   tiles: Tile[];
+  tileoffset?: { x: number, y: number };
 }
 
 export interface ExternalTileset {

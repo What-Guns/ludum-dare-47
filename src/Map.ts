@@ -1,7 +1,12 @@
 import type {MapData, TileLayer, ExternalTileset, Tileset} from './tiled-map';
 import {loadImage, loadJson} from './loader.js';
+import {setXY, Point} from './Math.js';
+
+const GRID_ALPHA = 0.25;
 
 export class GameMap {
+  private readonly grid: [Point, Point][];
+
   static async load(mapDataPath: string) {
     const data = await loadJson(mapDataPath) as MapData;
 
@@ -20,26 +25,50 @@ export class GameMap {
 
   draw(ctx: CanvasRenderingContext2D) {
     ctx.save();
-    ctx.translate((this.world.height - 1) * this.world.tilewidth/2, this.world.tileheight);
+    ctx.translate(this.world.height * this.world.tilewidth/2, this.world.tileheight);
     for(const layer of this.layers) {
-      for(const {screenX, screenY, image} of layer.tiles) {
-        ctx.drawImage(image, screenX, screenY + this.world.tileheight - image.height);
+      for(const {screenX, screenY, image, offsetPX} of layer.tiles) {
+        ctx.drawImage(image,
+          screenX - this.world.tilewidth + image.width / 2 + offsetPX.x,
+          screenY + this.world.tileheight - image.height + offsetPX.y);
       }
+    }
+
+    ctx.globalAlpha = GRID_ALPHA;
+    for(const line of this.grid) {
+      ctx.beginPath();
+      ctx.moveTo(line[0].screenX, line[0].screenY);
+      ctx.lineTo(line[1].screenX, line[1].screenY);
+      ctx.stroke();
     }
     ctx.restore();
   }
 
-  private constructor(readonly world: WorldInfo, private readonly layers: BackgroundLayer[]) {}
+  private constructor(readonly world: WorldInfo, private readonly layers: CellLayer[]) {
+    this.grid = [];
+    for(let x = 0; x <= world.width; x++) {
+      this.grid.push([
+        setXY({}, x, 0, world),
+        setXY({}, x, world.height, world)
+      ]);
+    }
+    for(let y = 0; y <= world.height; y++) {
+      this.grid.push([
+        setXY({}, 0, y, world),
+        setXY({}, world.width, y, world)
+      ]);
+    }
+  }
 }
 
-interface WorldInfo {
+export interface WorldInfo {
   width: number;
   height: number;
   tilewidth: number;
   tileheight: number;
 }
 
-interface BackgroundLayer {
+interface CellLayer {
   tiles: Cell[];
   width: number;
   height: number;
@@ -48,6 +77,7 @@ interface BackgroundLayer {
 interface Tile {
   image: HTMLImageElement;
   type?: string;
+  offset: {x: number; y: number};
 }
 
 interface Cell {
@@ -57,20 +87,18 @@ interface Cell {
   screenY: number;
   image: HTMLImageElement;
   type?: string;
+  offsetPX: {x: number, y: number};
 }
 
-function toLayer(layer: TileLayer, tileMap: Map<number, Tile>, tilewidth: number, tileheight: number): BackgroundLayer {
+function toLayer(layer: TileLayer, tileMap: Map<number, Tile>, tilewidth: number, tileheight: number): CellLayer {
   const tiles: Cell[] = [];
   for(let i = 0; i < layer.data.length; i++) {
     const tileId = layer.data[i];
     if(tileId === 0) continue;
-    const x = i % layer.width;
-    const y = Math.floor(i / layer.width);
-    const screenX = ((x - y) * tilewidth/2);
-    const screenY = ((x + y) * tileheight/2);
+    const point = setXY({}, i % layer.width,  Math.floor(i / layer.width), {tilewidth, tileheight});
     const tile = tileMap.get(tileId);
     if(!tile) throw new Error(`No image for tile ${tileId}`);
-    tiles.push({image: tile.image, type: tile.type, x, y, screenX, screenY});
+    tiles.push({image: tile.image, type: tile.type, ...point, offsetPX: tile.offset});
   }
 
   tiles.sort((a, b) => a.screenY - b.screenY);
@@ -98,7 +126,12 @@ async function createTileMap(data: MapData) {
       .map(async (tile) => {
       // HACK! Instead of resolving relative paths, I'm just stripping '..' off.
       const image = await loadImage('maps/'+tile.image);
-      tileMap.set(tile.id + tileset.firstgid, {image, type: tile.type});
+      const offset = tileset.tileoffset ?? {x: 0, y: 0};
+      tileMap.set(tile.id + tileset.firstgid, {
+        image,
+        type: tile.type,
+        offset,
+      });
     }));
   }
   console.timeEnd(loadingMsg);

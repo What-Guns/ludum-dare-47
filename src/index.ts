@@ -1,5 +1,6 @@
 import {loadJson} from './loader.js';
 import {deserialize} from './serialization.js';
+import {Audio} from './Audio.js';
 import './Map.js';
 
 addEventListener('load', () => {
@@ -13,6 +14,8 @@ async function startTheGameAlready() {
   const canvas = document.querySelector('canvas')!;
   const ctx = canvas!.getContext('2d')!;
   const mapData = await loadJson('maps/map.json');
+  await loadAudio();
+
   const game = await deserialize('Game', { ctx, mapData });
 
   requestAnimationFrame(tick);
@@ -33,4 +36,9 @@ async function startTheGameAlready() {
     lastTick = timestamp;
     requestAnimationFrame(tick);
   }
+}
+
+async function loadAudio() {
+  await Audio.load('/audio/music/truckin.ogg', 'truckin');
+  (document.querySelector('#audioButton') as HTMLButtonElement).onclick = () => Audio.play('truckin', 2.097);
 }

@@ -31,6 +31,7 @@ export class Car implements GameObject {
 
   speed = 0;
   timeInReverse = 0;
+  isBeeping = false;
 
   readonly MAX_SPEED = 0.003;
   readonly ACCELERATION = 0.000005;
@@ -69,6 +70,7 @@ export class Car implements GameObject {
     ].map(waitForImageToLoad));
     await Audio.load('audio/sfx/sinkWater1.ogg', 'splash');
     await Audio.load('audio/sfx/engine.ogg', 'engine');
+    await Audio.load('audio/sfx/beep.ogg', 'beep');
   }
 
   static async deserialize(data: SerializedObject) {
@@ -85,6 +87,15 @@ export class Car implements GameObject {
   tick(dt: number) {
     this.snappedDirectionIndex = this.getSnappedDirectionIndex();
     let turning = false;
+    if (this.timeInReverse > this.TIME_BEFORE_REVERSE_LIGHTS) {
+      if (!this.isBeeping) {
+        Audio.play('beep', 0); // Backing up
+        this.isBeeping = true;
+      }
+    } else {
+      Audio.stop('beep');
+      this.isBeeping = false;
+    }
     if (isKeyPressed('KeyW') || isKeyPressed('ArrowUp')) {
       this.accelerate(dt);
       Audio.setPlaybackSpeed('engine', ((this.speed / this.MAX_SPEED) * (this.MAX_ENGINE_PITCH - 1) + 1.0));

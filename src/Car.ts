@@ -25,7 +25,7 @@ export class Car {
 
   readonly MAX_SPEED = 0.003;
   readonly ACCELERATION = 0.000005;
-  readonly TURN_SPEED = 0.005;
+  readonly TURN_SPEED = 1.7;
   readonly BRAKE_DECELERATION = 0.00001;
   readonly REVERSE_ACCELERATION = -0.0002;
   readonly REVERSE_MIN_SPEED = -0.001;
@@ -146,13 +146,13 @@ export class Car {
   }
 
   turnLeft(dt: number) {
-    const turnAmount = this.TURN_SPEED * dt * Math.sign(this.speed);
+    const turnAmount = this.TURN_SPEED * dt * this.speed;
     this.direction += turnAmount;
     this.currentTurn += turnAmount;
   }
 
   turnRight(dt: number) {
-    const turnAmount = this.TURN_SPEED * dt * Math.sign(this.speed);
+    const turnAmount = this.TURN_SPEED * dt * this.speed;
     this.direction -= turnAmount;
     this.currentTurn -= turnAmount;
   }

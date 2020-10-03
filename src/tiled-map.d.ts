@@ -50,6 +50,8 @@ export interface InlineTileLayer {
   width:number;
   x:number;
   y:number;
+  startx?: number;
+  starty?: number;
 }
 
 export interface ChunkedTileLayer {
@@ -63,6 +65,8 @@ export interface ChunkedTileLayer {
   width:number;
   x:number;
   y:number;
+  startx: number;
+  starty: number;
 }
 
 export interface ObjectGroup {

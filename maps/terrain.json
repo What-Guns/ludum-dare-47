@@ -121,13 +121,15 @@
          "id":13,
          "image":"tilesets\/roads\/bridgeEW.png",
          "imageheight":62,
-         "imagewidth":100
+         "imagewidth":100,
+         "type":"road"
         }, 
         {
          "id":14,
          "image":"tilesets\/roads\/bridgeNS.png",
          "imageheight":62,
-         "imagewidth":100
+         "imagewidth":100,
+         "type":"road"
         }, 
         {
          "id":19,

@@ -1,5 +1,5 @@
 import {isKeyPressed} from './KeyboardListener.js';
-import {WorldInfo, SerializedObject} from './Map.js';
+import {GameMap, SerializedObject, Terrain} from './Map.js';
 import {setXY} from './math.js';
 import {Serializable} from './serialization.js';
 
@@ -9,12 +9,22 @@ Direction 1 is 45 degrees counterclockwise from 0
 This proceeds to direction 7 which is 45 degrees clockwise from 0
 */
 
+const TERRAIN_SPEED: {[key in Terrain]: number} = {
+  road: 0.004,
+  dirt: 0.001,
+  grass: 0.002,
+  sand: 0.0005,
+  void: 1,
+  water: 0,
+};
+
 @Serializable()
 export class Car {
   x!: number;
   y!: number;
   screenX!: number;
   screenY!: number;
+  terrain: Terrain = 'road';
 
   // Direction of the car from 0-7
   snappedDirectionIndex = 0;
@@ -63,11 +73,11 @@ export class Car {
     await this.load();
     const degrees = data.properties.direction as number|undefined ?? 0;
     const direction = -degrees / 180 * Math.PI;
-    return new Car(data.map.world, data.x, data.y, direction);
+    return new Car(data.map, data.x, data.y, direction);
   }
 
-  constructor(readonly world: WorldInfo, x:number, y: number, /** Direction in radians */ public direction: number) {
-    setXY(this, x, y, world);
+  constructor(readonly map: GameMap, x:number, y: number, /** Direction in radians */ public direction: number) {
+    setXY(this, x, y, map.world);
   }
 
   tick(dt: number) {
@@ -94,8 +104,12 @@ export class Car {
     setXY(this,
       this.x + Math.cos(this.direction) * this.speed * dt, // cos(0) = 1 is to the right, so positive x
       this.y - Math.sin(this.direction) * this.speed * dt, // sin(pi / 2) = 1 is down, so negative y
-      this.world
+      this.map.world
     );
+
+    this.terrain = this.map.getTerrain(this);
+
+    if(this.terrain === 'water') this.map.remove(this);
   }
   
   draw(ctx: CanvasRenderingContext2D) {
@@ -140,8 +154,8 @@ export class Car {
   accelerate(dt: number) {
     this.timeInReverse = 0;
     this.speed += this.ACCELERATION * dt;
-    if (this.speed >= this.MAX_SPEED) {
-      this.speed = this.MAX_SPEED;
+    if (this.speed >= TERRAIN_SPEED[this.terrain]) {
+      this.speed = TERRAIN_SPEED[this.terrain]
     }
   }
 

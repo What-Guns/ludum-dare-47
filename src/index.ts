@@ -13,6 +13,7 @@ const BIG_TICK_ENERGY = 500;
 async function startTheGameAlready() {
   const canvas = document.querySelector('canvas')!;
   const ctx = canvas!.getContext('2d')!;
+  // const mapData = await loadJson('maps/map.json');
   const mapData = await loadJson('maps/map.json');
   await loadAudio();
 

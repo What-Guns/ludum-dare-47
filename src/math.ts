@@ -16,3 +16,9 @@ export interface Point {
 }
 
 type TileDimensions = Pick<WorldInfo, 'tilewidth'|'tileheight'>;
+
+export type GeoLookup<T> = {
+  [x: number]: {
+    [y: number]: T|undefined
+  }|undefined
+}

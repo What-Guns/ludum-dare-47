@@ -2,14 +2,16 @@ import type {MapData, TileLayer, ExternalTileset, Tileset, ObjectGroup, Property
 import {Game, GameObject} from './Game.js';
 import {Serializable, deserialize} from './serialization.js';
 import {loadImage, loadJson} from './loader.js';
-import {setXY, Point} from './math.js';
+import { setXY, Point, GeoLookup } from './math.js';
 import { Car } from './Car.js';
 
 const GRID_ALPHA = 0.25;
 
+export type Terrain = 'void'|'grass'|'road'|'water'|'sand'|'dirt';
+
 @Serializable()
 export class GameMap implements GameObject {
-  readonly objects: GameObject[] = [];
+  private readonly objects: GameObject[] = [];
 
   private readonly camera: Point = {
     x: 0,
@@ -19,6 +21,8 @@ export class GameMap implements GameObject {
   };
 
   private readonly grid: [Point, Point][];
+
+  private readonly chunkLookup: GeoLookup<Chunk> = {};
 
   constructor(
     readonly world: WorldInfo,
@@ -38,6 +42,23 @@ export class GameMap implements GameObject {
         setXY({}, world.width, y, world)
       ]);
     }
+
+    for(const chunk of layers[0].chunks) {
+      const x = chunk.x / chunk.width;
+      const y = chunk.y / chunk.height;
+      this.chunkLookup[x] = this.chunkLookup[x] ?? {};
+      this.chunkLookup[x]![y] = chunk;
+    }
+  }
+
+  add(obj: GameObject) {
+    this.objects.push(obj);
+  }
+
+  remove(obj: GameObject) {
+    const index = this.objects.indexOf(obj);
+    if(index === -1) return;
+    this.objects.splice(index, 1);
   }
 
   tick(dt: number) {
@@ -56,12 +77,11 @@ export class GameMap implements GameObject {
     ctx.translate(screenWidth / 2, screenHeight / 2);
 
 
-    let drawnChunks = 0;
     for(const layer of this.layers) {
       for(const chunk of layer.chunks) {
         if(!this.isChunkVisible(chunk, screenWidth, screenHeight)) continue;
-        drawnChunks++;
-        for(const {screenX, screenY, image, offsetPX} of chunk.tiles) {
+        for(const tile of chunk.tilesSortedByY) {
+          const {screenX, screenY, image, offsetPX} = tile;
           ctx.drawImage(image,
             screenX - this.world.tilewidth + image.width / 2 + offsetPX.x,
             screenY + this.world.tileheight - image.height + offsetPX.y);
@@ -83,8 +103,6 @@ export class GameMap implements GameObject {
     }
 
     ctx.restore();
-
-    ctx.fillText(`chunks drawn ${drawnChunks}`, 30, 50);
   }
 
   private isChunkVisible(chunk: Chunk, screenWidth: number, screenHeight: number) {
@@ -102,6 +120,23 @@ export class GameMap implements GameObject {
         && rightEdgeOfChunk > leftEdgeOfScreen
         && topEdgeOfChunk < bottomEdgeOfScreen
         && bottomEdgeOfChunk > topEdgeOfScreen;
+  }
+
+  getTerrain(point: Pick<Point, 'x'|'y'>): Terrain {
+    // Assumption here is that layer 0 is the ground.
+    const chunks = this.layers[0].chunks;
+
+    const chunkX = Math.floor(point.x / chunks[0].width);
+    const chunkY = Math.floor(point.y / chunks[0].height);
+    const chunk = this.chunkLookup[chunkX]?.[chunkY];
+    if(!chunk) return 'void';
+
+    const tileX = Math.floor(point.x - chunk.x);
+    const tileY = Math.floor(point.y - chunk.y);
+    const tileIndex = tileX + tileY * chunk.width;
+    const tile = chunk.tiles[tileIndex];
+
+    return tile?.terrain ?? 'void';
   }
 
   static async deserialize(data: MapData) {
@@ -124,7 +159,7 @@ export class GameMap implements GameObject {
 
     for(const obj of mapObjects) {
       const instance = await deserialize(obj.type, obj);
-      map.objects.push(instance);
+      map.add(instance);
     }
 
     return map;
@@ -169,7 +204,8 @@ interface Chunk {
   screenY: number;
   screenWidth: number;
   screenHeight: number;
-  tiles: Cell[];
+  tiles: readonly Cell[];
+  tilesSortedByY: readonly Cell[];
 }
 
 interface Tile {
@@ -184,44 +220,59 @@ interface Cell {
   screenX: number;
   screenY: number;
   image: HTMLImageElement;
-  type?: string;
+  terrain: Terrain;
   offsetPX: {x: number, y: number};
 }
 
 function toLayer(layer: TileLayer, tileMap: Map<number, Tile>, tilewidth: number, tileheight: number): CellLayer {
   const chunks: TiledMapChunk[] = 'data' in layer ? [layer] : layer.chunks;
 
-  return {
+  if((layer.startx ?? 0) !== 0 || (layer.starty ?? 0) !== 0) {
+    throw new Error(`Layers with offsets are not supported`);
+  }
+
+  const gameLayer = {
     height: layer.height,
     width: layer.width,
     chunks: chunks.map(c =>  {
       const point = setXY({}, c.x, c.y, {tilewidth, tileheight});
       const screenWidth = setXY({}, c.width, 0, {tilewidth, tileheight}).screenX * 2;
       const screenHeight = setXY({}, c.width, c.height, {tilewidth, tileheight}).screenY;
+      const tiles = toTiles(c, tileMap, tilewidth, tileheight);
+      const tilesSortedByY = tiles.slice(0);
+      tilesSortedByY.sort((a, b) => a.screenY - b.screenY)
       return {
         ...point,
         width: c.width,
         height: c.height,
         screenWidth,
         screenHeight,
-        tiles: toTiles(c, tileMap, tilewidth, tileheight)
+        tiles,
+        tilesSortedByY,
       };
     })
   };
+
+  for(const chunk of gameLayer.chunks) {
+    if(chunk.width !== gameLayer.chunks[0].width || chunk.height !== gameLayer.chunks[0].height) {
+      throw new Error(`Non-uniform chunk sizes not supported!`);
+    }
+  }
+
+  return gameLayer;
 }
 
 function toTiles(chunk: TiledMapChunk, tileMap: Map<number, Tile>, tilewidth: number, tileheight: number) {
   const tiles: Cell[] = [];
   for(let i = 0; i < chunk.data.length; i++) {
     const tileId = chunk.data[i];
-    if(tileId === 0) continue;
     const point = setXY({}, chunk.x + i % chunk.width, chunk.y +  Math.floor(i / chunk.width), {tilewidth, tileheight});
-    const tile = tileMap.get(tileId);
-    if(!tile) throw new Error(`No image for tile ${tileId}`);
-    tiles.push({image: tile.image, type: tile.type, ...point, offsetPX: tile.offset});
+    const tileImage = tileMap.get(tileId);
+    if(!tileImage) throw new Error(`No image for tile ${tileId}`);
+    const terrain = tileImage.type ?? 'void';
+    checkTerrain(terrain);
+    tiles.push({image: tileImage.image, terrain, ...point, offsetPX: tileImage.offset});
   }
-
-  tiles.sort((a, b) => a.screenY - b.screenY);
 
   return tiles;
 }
@@ -254,7 +305,15 @@ async function createTileMap(data: MapData) {
     .map(chunk => chunk.data)
     .reduce((l, r) => l.concat(r)));
 
+  const missingTileImage = new Image(100, 50);
+  // missingTileImage.src = 'images/missing-tile.png';
+
   const tileMap = new Map<number, Tile>();
+  tileMap.set(0, {
+    image: missingTileImage,
+    offset: {x: 0, y: 0},
+    type: 'void',
+  });
 
   const loadingMsg = `Loading ${tileMap.size} images`;
   console.time(loadingMsg);
@@ -282,4 +341,9 @@ async function resolveTileset(tileset: ExternalTileset|Tileset): Promise<Tileset
   const remoteTileset = await loadJson('maps/'+tileset.source);
   remoteTileset.firstgid = tileset.firstgid;
   return remoteTileset;
+}
+
+const knownTerrains = new Set<Terrain>(['grass', 'road', 'sand', 'void', 'water', 'dirt']);
+function checkTerrain(terrain: string): asserts terrain is Terrain {
+  if(!knownTerrains.has(terrain as Terrain)) throw new Error(`Unrecognized terrain ${terrain}`);
 }

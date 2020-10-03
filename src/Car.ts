@@ -1,13 +1,23 @@
 import {isKeyPressed} from './KeyboardListener.js';
 
+/* DIRECTIONS
+Direction 0 is +x in game space, down-right in screen space
+Direction 1 is 45 degrees counterclockwise from 0
+This proceeds to direction 7 which is 45 degrees clockwise from 0
+*/
+
 export class Car{
   x: number;
   y: number;
+
+  // Direction of the car in radians
   direction: number;
+
+  // Direction of the car from 0-7
+  snappedDirectionIndex = 0;
+
   speed = 0;
   timeInReverse = 0;
-
-  snappedDirectionIndex = 0;
 
   readonly MAX_SPEED = 0.2;
   readonly ACCELERATION = 0.005;
@@ -22,13 +32,13 @@ export class Car{
   static async load() {
     Car.IMAGES = await [
       '../images/car/carBlue6_012.png', // REMOVE THIS TO GO TO ISOMETRIC
-      '../images/car/carBlue6_011.png',
-      '../images/car/carBlue6_015.png',
-      '../images/car/carBlue6_010.png',
-      '../images/car/carBlue6_009.png',
-      '../images/car/carBlue6_004.png',
-      '../images/car/carBlue6_005.png',
       '../images/car/carBlue6_006.png',
+      '../images/car/carBlue6_005.png',
+      '../images/car/carBlue6_004.png',
+      '../images/car/carBlue6_009.png',
+      '../images/car/carBlue6_010.png',
+      '../images/car/carBlue6_015.png',
+      '../images/car/carBlue6_011.png',
       //'../images/car/carBlue6_012.png', UNCOMMENT THIS TO GO TO ISOMETRIC
     ].map(waitForImageToLoad);
     console.log(Car.IMAGES);
@@ -60,8 +70,8 @@ export class Car{
     if (!turning) {
       this.snapTurnDirection();
     }
-    this.x += Math.cos(this.direction) * this.speed * dt;
-    this.y -= Math.sin(this.direction) * this.speed * dt;
+    this.x += Math.cos(this.direction) * this.speed * dt; // cos(0) = 1 is to the right, so positive x
+    this.y -= Math.sin(this.direction) * this.speed * dt; // sin(pi / 2) = 1 is up, so negative y
   }
   
   draw(ctx: CanvasRenderingContext2D) {
@@ -85,20 +95,20 @@ export class Car{
       }
     } else if(sin < Math.sin(3 * piOverEight) && sin > 0) {
       if(cos > 0) {
-        return 7;
-      } else {
-        return 5;
-      }
-    } else if(sin > Math.sin(11 * piOverEight) && sin < 0) {
-      if(cos > 0) {
         return 1;
       } else {
         return 3;
       }
+    } else if(sin > Math.sin(11 * piOverEight) && sin < 0) {
+      if(cos > 0) {
+        return 7;
+      } else {
+        return 5;
+      }
     }else if(sin > 0) {
-      return 6;
-    } else {
       return 2;
+    } else {
+      return 6;
     }
   }
 
@@ -118,7 +128,6 @@ export class Car{
   }
 
   brakeOrReverse(dt: number) {
-    console.log(this.timeInReverse)
     if (this.speed > 0) {
       this.timeInReverse = 0;
       this.speed -= this.BRAKE_DECELERATION * dt;
@@ -136,7 +145,7 @@ export class Car{
   }
 
   snapTurnDirection() {
-    this.direction = -Math.PI / 4 * this.snappedDirectionIndex;
+    this.direction = Math.PI / 4 * this.snappedDirectionIndex;
   }
 }
 

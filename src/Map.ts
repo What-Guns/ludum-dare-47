@@ -1,5 +1,6 @@
 import type {MapData, TileLayer, ExternalTileset, Tileset, ObjectGroup, Property, TiledMapChunk} from './tiled-map';
-import {Game, GameObject} from './Game.js';
+import {Game} from './Game.js';
+import {GameObject} from './GameObject.js';
 import {Serializable, deserialize} from './serialization.js';
 import {loadImage, loadJson} from './loader.js';
 import { Point, GeoLookup, computeScreenCoords, ScreenPoint } from './math.js';
@@ -27,6 +28,7 @@ export class GameMap {
     private readonly layers: CellLayer[],
   ) {
     this.grid = this.createGrid();
+    (window as any).firstChunk = layers[0].chunks[0];
   }
 
   add(obj: GameObject) {
@@ -45,28 +47,29 @@ export class GameMap {
 
     const firstChunk = this.layers[0].chunks[0];
 
-
     // Points are centered at x,y, but rectangles use x,y as top corner
     const minX = obj.x - (obj.radius ?? 0);
     const minY = obj.y - (obj.radius ?? 0);
 
-    const width = obj.width ?? obj.radius ?? 0;
-    const height = obj.height ?? obj.radius ?? 0;
+    const width = obj.radius ? obj.radius * 2 : obj.width ?? 0;
+    const height = obj.radius ? obj.radius * 2 : obj.height ?? 0;
 
     const maxX = obj.x + width;
     const maxY = obj.y + height;
 
-    obj.chunks.length = 0;
+    for(const chunk of obj.chunks) chunk.objects.delete(obj);
+    obj.chunks.clear();
 
     // Add all of the chunks that the object is touching
     for(let x = minX; x < maxX; x += Math.min(width, firstChunk.width)) {
       for(let y = minY; y < maxY; y += Math.min(height, firstChunk.height)) {
         const chunk = this.getChunkContaining(x, y);
-        if(chunk) obj.chunks.push(chunk);
+        if(chunk) {
+          obj.chunks.add(chunk);
+          chunk.objects.add(obj);
+        }
       }
     }
-
-    removeDuplicates(obj.chunks);
   }
 
   tick(dt: number) {
@@ -232,18 +235,18 @@ interface CellLayer {
 
 export interface Chunk {
   /** Objects that are in this chunk, even partially. */
-  objects: GameObject[];
-  width: number;
-  height: number;
-  x: number;
-  y: number;
+  readonly objects: Set<GameObject>;
+  readonly width: number;
+  readonly height: number;
+  readonly x: number;
+  readonly y: number;
   /** Represents the top corner of the chunk */
-  screenX: number;
-  screenY: number;
-  screenWidth: number;
-  screenHeight: number;
-  tiles: readonly Cell[];
-  tilesSortedByY: readonly Cell[];
+  readonly screenX: number;
+  readonly screenY: number;
+  readonly screenWidth: number;
+  readonly screenHeight: number;
+  readonly tiles: readonly Cell[];
+  readonly tilesSortedByY: readonly Cell[];
 }
 
 interface Tile {
@@ -289,7 +292,7 @@ function toLayer(layer: TileLayer, tileMap: Map<number, Tile>, tilewidth: number
         screenHeight,
         tiles,
         tilesSortedByY,
-        objects: [],
+        objects: new Set(),
       };
     })
   };
@@ -394,16 +397,4 @@ async function resolveTileset(tileset: ExternalTileset|Tileset): Promise<Tileset
 const knownTerrains = new Set<Terrain>(['grass', 'road', 'sand', 'void', 'water', 'dirt']);
 function checkTerrain(terrain: string): asserts terrain is Terrain {
   if(!knownTerrains.has(terrain as Terrain)) throw new Error(`Unrecognized terrain ${terrain}`);
-}
-
-function removeDuplicates(items: any[]) {
-  if(items.length > 8) throw new Error(`It's too expensive to look for duplicates of ${items}!`);
-
-  for(let i = 0; i < items.length - 1; i++) {
-    let compareWith = i+1;
-    while(compareWith < items.length) {
-      if(items[i] === items[compareWith]) items.splice(compareWith, 1);
-      else compareWith++;
-    }
-  }
 }

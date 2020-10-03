@@ -1,18 +1,20 @@
-import { GameObject } from './Game.js';
+import { GameObject } from './GameObject.js';
 import { Serializable } from './serialization.js';
 import { SerializedObject, GameMap, Chunk } from './Map.js';
-import { Point, computeScreenCoords, ScreenPoint } from './math.js';
+import { computeScreenCoords, ScreenPoint } from './math.js';
 
 @Serializable()
-export class Obstacle implements GameObject, Point {
-  chunks: Chunk[] = [];
+export class Obstacle extends GameObject {
+  readonly chunks = new Set<Chunk>();
   screenX!: number;
   screenY!: number;
 
   /** All corners except the top, which is represented by screenX/Y. */
   private otherCorners: ScreenPoint[];
 
-  constructor(map: GameMap, public x: number, public y: number, readonly width: number, readonly height: number) {
+  constructor(map: GameMap, x: number, y: number, readonly width: number, readonly height: number) {
+    super(map, x, y);
+    (window as any).obstacle = this;
     this.otherCorners = [
       computeScreenCoords({}, {x: x + width, y}, map.world),
       computeScreenCoords({}, {x: x + width, y: y + height}, map.world),

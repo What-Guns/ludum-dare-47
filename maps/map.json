@@ -1246,7 +1246,7 @@
                  "rotation":0,
                  "type":"Obstacle",
                  "visible":true,
-                 "width":100,
+                 "width":150,
                  "x":250,
                  "y":400
                 }],

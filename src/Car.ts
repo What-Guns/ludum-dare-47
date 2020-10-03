@@ -1,6 +1,7 @@
 import {isKeyPressed} from './KeyboardListener.js';
-import {GameObject} from './Game.js';
-import {GameMap, SerializedObject, Terrain, Chunk} from './Map.js';
+import {GameObject} from './GameObject.js';
+import {GameMap, SerializedObject, Terrain} from './Map.js';
+import {Obstacle} from './Obstacle.js';
 import {Serializable} from './serialization.js';
 import {Audio} from './Audio.js';
 
@@ -20,13 +21,14 @@ const TERRAIN_SPEED: {[key in Terrain]: number} = {
 };
 
 @Serializable()
-export class Car implements GameObject {
-  readonly radius = 0.5;
+export class Car extends GameObject {
+  readonly radius = 0.25;
 
-  chunks: Chunk[] = [];
   screenX!: number;
   screenY!: number;
   terrain: Terrain = 'road';
+
+  debug = "";
 
   // Direction of the car from 0-7
   snappedDirectionIndex = 0;
@@ -85,10 +87,13 @@ export class Car implements GameObject {
 
   constructor(
     readonly map: GameMap,
-    public x:number,
-    public y: number,
-    /** Direction in radians */ public direction: number
+    x: number,
+    y: number,
+    /** Direction in radians */
+    public direction: number
   ) {
+    super(map, x, y);
+    (window as any).car = this;
     Audio.play('engine', 0);
   }
 
@@ -136,11 +141,14 @@ export class Car implements GameObject {
       Audio.stop('engine');
       this.map.remove(this);
     } 
+
+    this.collideWithObstacles();
   }
   
   draw(ctx: CanvasRenderingContext2D) {
     const sprite = this.chooseSprite(this.snappedDirectionIndex);
     ctx.drawImage(sprite, this.screenX - sprite.width / 2, this.screenY - sprite.height / 2);
+    ctx.fillText(this.debug, this.screenX + 30, this.screenY + 30);
   }
 
   chooseSprite(index: number) {
@@ -227,6 +235,30 @@ export class Car implements GameObject {
     this.snappedDirectionIndex %= 8;
     this.direction = Math.PI / 4 * this.snappedDirectionIndex;
   }
+
+  private collideWithObstacles() {
+    this.debug = '';
+    for(const chunk of this.chunks) {
+      for(const obj of chunk.objects) {
+        if(obj instanceof Obstacle) this.collideWithObstacle(obj);
+      }
+    }
+  }
+
+  private collideWithObstacle(obstacle: Obstacle) {
+    const diffX = this.x - (obstacle.x + (obstacle.width / 2));
+    const diffY = this.y - (obstacle.y + (obstacle.height / 2));
+
+    const clampedDiffX = clamp(diffX, -obstacle.width / 2, obstacle.width / 2);
+    const clampedDiffY = clamp(diffY, -obstacle.height / 2, obstacle.height / 2);
+
+    const collisionX = obstacle.x + obstacle.width / 2 + clampedDiffX;
+    const collisionY = obstacle.y + obstacle.height / 2 + clampedDiffY;
+
+    const distSquared = Math.pow(collisionX - this.x, 2) + Math.pow(collisionY - this.y, 2);
+
+    this.debug = (distSquared <= this.radius * this.radius).toString();
+  }
 }
 
 async function waitForImageToLoad(path: string) {
@@ -237,4 +269,8 @@ async function waitForImageToLoad(path: string) {
     img.addEventListener('error', reject);
   });
   return img;
+}
+
+function clamp(value: number, min: number, max: number) {
+  return Math.max(min, Math.min(max, value));
 }

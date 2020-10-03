@@ -1,7 +1,6 @@
 import {isKeyPressed} from './KeyboardListener.js';
 import {GameObject} from './Game.js';
 import {GameMap, SerializedObject, Terrain} from './Map.js';
-import {computeScreenCoords} from './math.js';
 import {Serializable} from './serialization.js';
 import {Audio} from './Audio.js';
 
@@ -77,9 +76,7 @@ export class Car implements GameObject {
     return new Car(data.map, data.x, data.y, direction);
   }
 
-  constructor(readonly map: GameMap, public x:number, public y: number, /** Direction in radians */ public direction: number) {
-    computeScreenCoords(this, this, map.world);
-  }
+  constructor(readonly map: GameMap, public x:number, public y: number, /** Direction in radians */ public direction: number) {}
 
   tick(dt: number) {
     this.snappedDirectionIndex = this.getSnappedDirectionIndex();

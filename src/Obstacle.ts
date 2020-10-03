@@ -12,7 +12,6 @@ export class Obstacle implements GameObject, Point {
   private otherCorners: ScreenPoint[];
 
   constructor(map: GameMap, public x: number, public y: number, readonly width: number, readonly height: number) {
-    computeScreenCoords(this, this, map.world);
     this.otherCorners = [
       computeScreenCoords({}, {x: x + width, y}, map.world),
       computeScreenCoords({}, {x: x + width, y: y + height}, map.world),

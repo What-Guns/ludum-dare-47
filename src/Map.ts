@@ -26,31 +26,12 @@ export class GameMap {
     readonly world: WorldInfo,
     private readonly layers: CellLayer[],
   ) {
-    this.grid = [];
-
-    for(let x = 0; x <= world.width; x++) {
-      this.grid.push([
-        computeScreenCoords({}, {x, y: 0}, world),
-        computeScreenCoords({}, {x, y: world.height}, world)
-      ]);
-    }
-    for(let y = 0; y <= world.height; y++) {
-      this.grid.push([
-        computeScreenCoords({}, {x: 0, y}, world),
-        computeScreenCoords({}, {x: world.width, y}, world)
-      ]);
-    }
-
-    for(const chunk of layers[0].chunks) {
-      const x = chunk.x / chunk.width;
-      const y = chunk.y / chunk.height;
-      this.chunkLookup[x] = this.chunkLookup[x] ?? {};
-      this.chunkLookup[x]![y] = chunk;
-    }
+    this.grid = this.createGrid();
   }
 
   add(obj: GameObject) {
     this.objects.push(obj);
+    this.objectMoved(obj);
   }
 
   remove(obj: GameObject) {
@@ -142,6 +123,32 @@ export class GameMap {
     const chunkX = Math.floor(point.x / chunks[0].width);
     const chunkY = Math.floor(point.y / chunks[0].height);
     return this.chunkLookup[chunkX]?.[chunkY];
+  }
+
+  private createGrid() {
+    const grid: [ScreenPoint, ScreenPoint][] = [];
+
+    for(let x = 0; x <= this.world.width; x++) {
+      grid.push([
+        computeScreenCoords({}, {x, y: 0}, this.world),
+        computeScreenCoords({}, {x, y: this.world.height}, this.world)
+      ]);
+    }
+    for(let y = 0; y <= this.world.height; y++) {
+      grid.push([
+        computeScreenCoords({}, {x: 0, y}, this.world),
+        computeScreenCoords({}, {x: this.world.width, y}, this.world)
+      ]);
+    }
+
+    for(const chunk of this.layers[0].chunks) {
+      const x = chunk.x / chunk.width;
+      const y = chunk.y / chunk.height;
+      this.chunkLookup[x] = this.chunkLookup[x] ?? {};
+      this.chunkLookup[x]![y] = chunk;
+    }
+
+    return grid;
   }
 
   static async deserialize(data: MapData) {
@@ -332,8 +339,6 @@ async function createTileMap(data: MapData) {
     type: 'void',
   });
 
-  const loadingMsg = `Loading ${tileMap.size} images`;
-  console.time(loadingMsg);
   for(const tileset of await Promise.all(data.tilesets.map(resolveTileset))) {
     await Promise.all(tileset.tiles
       .filter(tile => usedTileIds.has(tile.id + tileset.firstgid))
@@ -348,7 +353,6 @@ async function createTileMap(data: MapData) {
       });
     }));
   }
-  console.timeEnd(loadingMsg);
 
   return tileMap;
 }
@@ -364,3 +368,4 @@ const knownTerrains = new Set<Terrain>(['grass', 'road', 'sand', 'void', 'water'
 function checkTerrain(terrain: string): asserts terrain is Terrain {
   if(!knownTerrains.has(terrain as Terrain)) throw new Error(`Unrecognized terrain ${terrain}`);
 }
+

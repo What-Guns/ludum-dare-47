@@ -1,4 +1,5 @@
 import type {MapData, TileLayer, ExternalTileset, Tileset} from './tiled-map';
+import {loadImage, loadJson} from './loader.js';
 
 export class GameMap {
   static async load(mapDataPath: string) {
@@ -91,14 +92,13 @@ async function createTileMap(data: MapData) {
   const tileMap = new Map<number, Tile>();
 
   for(const tileset of await Promise.all(data.tilesets.map(resolveTileset))) {
-    for(const tile of tileset.tiles) {
-      const gid = tile.id + tileset.firstgid;
-      if(!usedTileIds.has(gid)) continue;
-      const image = new Image();
+    await Promise.all(tileset.tiles
+      .filter(tile => usedTileIds.has(tile.id + tileset.firstgid))
+      .map(async (tile) => {
       // HACK! Instead of resolving relative paths, I'm just stripping '..' off.
-      image.src = 'maps/'+tile.image;
-      tileMap.set(gid, {image, type: tile.type});
-    }
+      const image = await loadImage('maps/'+tile.image);
+      tileMap.set(tile.id + tileset.firstgid, {image, type: tile.type});
+    }));
   }
 
   return tileMap;
@@ -109,10 +109,4 @@ async function resolveTileset(tileset: ExternalTileset|Tileset): Promise<Tileset
   const remoteTileset = await loadJson('maps/'+tileset.source);
   remoteTileset.firstgid = tileset.firstgid;
   return remoteTileset;
-}
-
-async function loadJson(path: string) {
-  const response = await fetch(path);
-  if(!response.ok) throw new Error(`Failed to load ${path}: ${response.statusText}`);
-  return await response.json();
 }

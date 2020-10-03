@@ -39,6 +39,6 @@ async function startTheGameAlready() {
 }
 
 async function loadAudio() {
-  await Audio.load('/audio/music/truckin.ogg', 'truckin');
+  await Audio.load('audio/music/truckin.ogg', 'truckin');
   (document.querySelector('#audioButton') as HTMLButtonElement).onclick = () => Audio.play('truckin', 2.097);
 }

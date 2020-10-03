@@ -48,7 +48,7 @@ export class Car {
 
   static async deserialize(data: SerializedObject) {
     await this.load();
-    const degrees = data.properties.find(p => p.name === 'direction')?.value as number ?? 0;
+    const degrees = data.properties.direction as number|undefined ?? 0;
     const direction = -degrees / 180 * Math.PI;
     return new Car(data.map.world, data.x, data.y, direction);
   }

@@ -67,7 +67,7 @@ export interface TiledObject {
   id: number;
   name: string;
   point?: boolean;
-  properties: Property[];
+  properties?: Property[];
   rotation: number;
   type: string;
   visible: boolean;

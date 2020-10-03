@@ -99,7 +99,7 @@ export interface SerializedObject extends Point {
   map: GameMap;
   name: string;
   type: string;
-  properties: Property[];
+  properties: {[key: string]: Property['value']};
 }
 
 export interface WorldInfo {
@@ -156,12 +156,15 @@ function toMapObjects(map: GameMap, group: ObjectGroup, tilewidth: number, tileh
     const x = obj.x / tileheight; // NOT A TYPO. Tiles from tiled are squares.
     const y = obj.y / tileheight;
     const point = setXY({}, x, y, {tilewidth, tileheight});
+    const properties = (obj.properties ?? []).reduce<{[key: string]: Property['value']}>((collection, prop) => {
+      return {...collection, [prop.name]: prop.value};
+    }, {});
     return {
       ...point,
       map,
       name: obj.name,
       type: obj.type,
-      properties: obj.properties
+      properties,
     };
   });
 }

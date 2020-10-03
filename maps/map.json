@@ -34,7 +34,7 @@
                 {
                  "height":0,
                  "id":1,
-                 "name":"car-spawn",
+                 "name":"car spawn",
                  "point":true,
                  "properties":[
                         {
@@ -61,7 +61,7 @@
          "y":0
         }],
  "nextlayerid":3,
- "nextobjectid":5,
+ "nextobjectid":7,
  "orientation":"isometric",
  "renderorder":"right-down",
  "tiledversion":"1.4.2",

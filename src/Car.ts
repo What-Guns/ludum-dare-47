@@ -1,4 +1,5 @@
 import {isKeyPressed} from './KeyboardListener.js';
+import {GameObject} from './Game.js';
 import {GameMap, SerializedObject, Terrain} from './Map.js';
 import {computeScreenCoords} from './math.js';
 import {Serializable} from './serialization.js';
@@ -20,7 +21,7 @@ const TERRAIN_SPEED: {[key in Terrain]: number} = {
 };
 
 @Serializable()
-export class Car {
+export class Car implements GameObject {
   screenX!: number;
   screenY!: number;
   terrain: Terrain = 'road';

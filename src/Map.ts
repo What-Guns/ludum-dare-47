@@ -61,6 +61,7 @@ export class GameMap {
 
   objectMoved(obj: GameObject) {
     computeScreenCoords(obj, obj, this.world);
+    obj.chunk = this.getChunkContaining(obj);
   }
 
   tick(dt: number) {
@@ -124,21 +125,23 @@ export class GameMap {
         && bottomEdgeOfChunk > topEdgeOfScreen;
   }
 
-  getTerrain(point: Pick<Point, 'x'|'y'>): Terrain {
-    // Assumption here is that layer 0 is the ground.
-    const chunks = this.layers[0].chunks;
-
-    const chunkX = Math.floor(point.x / chunks[0].width);
-    const chunkY = Math.floor(point.y / chunks[0].height);
-    const chunk = this.chunkLookup[chunkX]?.[chunkY];
+  getTerrain(obj: GameObject): Terrain {
+    const chunk = obj.chunk;
     if(!chunk) return 'void';
 
-    const tileX = Math.floor(point.x - chunk.x);
-    const tileY = Math.floor(point.y - chunk.y);
+    const tileX = Math.floor(obj.x - chunk.x);
+    const tileY = Math.floor(obj.y - chunk.y);
     const tileIndex = tileX + tileY * chunk.width;
     const tile = chunk.tiles[tileIndex];
 
     return tile?.terrain ?? 'void';
+  }
+
+  private getChunkContaining(point: Point) {
+    const chunks = this.layers[0].chunks;
+    const chunkX = Math.floor(point.x / chunks[0].width);
+    const chunkY = Math.floor(point.y / chunks[0].height);
+    return this.chunkLookup[chunkX]?.[chunkY];
   }
 
   static async deserialize(data: MapData) {
@@ -196,7 +199,7 @@ interface CellLayer {
   height: number;
 }
 
-interface Chunk {
+export interface Chunk {
   width: number;
   height: number;
   x: number;

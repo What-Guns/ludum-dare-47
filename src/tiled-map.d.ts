@@ -31,6 +31,7 @@ export interface Tile {
   image: string;
   imageheight: number;
   imagewidth: number;
+  type?: string;
 }
 
 export interface TileLayer {

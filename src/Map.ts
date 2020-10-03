@@ -8,7 +8,7 @@ export class GameMap {
 
     const loadingMsg = `Loading ${tileMap.size} images`;
     console.time(loadingMsg);
-    await Array.from(tileMap.values()).map(waitForImageToLoad);
+    await Array.from(tileMap.values()).map(tile => tile.image).map(waitForImageToLoad);
     console.timeEnd(loadingMsg);
 
     const backgroundLayers = data.layers
@@ -20,6 +20,7 @@ export class GameMap {
 
   draw(ctx: CanvasRenderingContext2D) {
     ctx.save();
+    ctx.translate(350, 0);
     for(const layer of this.layers) {
       for(const {screenX, screenY, image} of layer.tiles) {
         ctx.drawImage(image, screenX, screenY);
@@ -28,27 +29,31 @@ export class GameMap {
     ctx.restore();
   }
 
-  private constructor(private readonly layers: BackgroundLayer[]) {
-    console.log(layers);
-  }
+  private constructor(private readonly layers: BackgroundLayer[]) {}
 }
 
 interface BackgroundLayer {
-  tiles: Tile[];
+  tiles: Cell[];
   width: number;
   height: number;
 }
 
 interface Tile {
+  image: HTMLImageElement;
+  type?: string;
+}
+
+interface Cell {
   x: number;
   y: number;
   screenX: number;
   screenY: number;
   image: HTMLImageElement;
+  type?: string;
 }
 
-function toLayer(layer: TileLayer, tileMap: Map<number, HTMLImageElement>, tilewidth: number, tileheight: number): BackgroundLayer {
-  const tiles: Tile[] = [];
+function toLayer(layer: TileLayer, tileMap: Map<number, Tile>, tilewidth: number, tileheight: number): BackgroundLayer {
+  const tiles: Cell[] = [];
   for(let i = 0; i < layer.data.length; i++) {
     const tileId = layer.data[i];
     if(tileId === 0) continue;
@@ -56,9 +61,9 @@ function toLayer(layer: TileLayer, tileMap: Map<number, HTMLImageElement>, tilew
     const y = Math.floor(i / layer.width);
     const screenX = ((x - y) * tilewidth/2);
     const screenY = ((x + y) * tileheight/2);
-    const image = tileMap.get(tileId);
-    if(!image) throw new Error(`No image for tile ${tileId}`);
-    tiles.push({image, x, y, screenX, screenY});
+    const tile = tileMap.get(tileId);
+    if(!tile) throw new Error(`No image for tile ${tileId}`);
+    tiles.push({image: tile.image, type: tile.type, x, y, screenX, screenY});
   }
 
   tiles.sort((a, b) => a.screenY - b.screenY);
@@ -83,7 +88,7 @@ async function createTileMap(data: MapData) {
     .map(l => l.data)
     .reduce((l, r) => l.concat(r)));
 
-  const tileMap = new Map<number, HTMLImageElement>();
+  const tileMap = new Map<number, Tile>();
 
   for(const tileset of await Promise.all(data.tilesets.map(resolveTileset))) {
     for(const tile of tileset.tiles) {
@@ -92,7 +97,7 @@ async function createTileMap(data: MapData) {
       const image = new Image();
       // HACK! Instead of resolving relative paths, I'm just stripping '..' off.
       image.src = 'maps/'+tile.image;
-      tileMap.set(gid, image);
+      tileMap.set(gid, {image, type: tile.type});
     }
   }
 

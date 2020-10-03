@@ -7,11 +7,6 @@ export class GameMap {
 
     const tileMap = await createTileMap(data);
 
-    const loadingMsg = `Loading ${tileMap.size} images`;
-    console.time(loadingMsg);
-    await Array.from(tileMap.values()).map(tile => tile.image).map(waitForImageToLoad);
-    console.timeEnd(loadingMsg);
-
     const backgroundLayers = data.layers
       .filter((layer): layer is TileLayer => layer.type === 'tilelayer')
       .map(layer => toLayer(layer, tileMap, data.tilewidth, data.tileheight));
@@ -76,13 +71,6 @@ function toLayer(layer: TileLayer, tileMap: Map<number, Tile>, tilewidth: number
   };
 }
 
-function waitForImageToLoad(img: HTMLImageElement) {
-  return new Promise((resolve, reject) => {
-    img.addEventListener('load', resolve);
-    img.addEventListener('error', reject);
-  });
-}
-
 async function createTileMap(data: MapData) {
   const usedTileIds = new Set(data.layers
     .filter((layer): layer is TileLayer => layer.type === 'tilelayer')
@@ -91,6 +79,8 @@ async function createTileMap(data: MapData) {
 
   const tileMap = new Map<number, Tile>();
 
+  const loadingMsg = `Loading ${tileMap.size} images`;
+  console.time(loadingMsg);
   for(const tileset of await Promise.all(data.tilesets.map(resolveTileset))) {
     await Promise.all(tileset.tiles
       .filter(tile => usedTileIds.has(tile.id + tileset.firstgid))
@@ -100,6 +90,7 @@ async function createTileMap(data: MapData) {
       tileMap.set(tile.id + tileset.firstgid, {image, type: tile.type});
     }));
   }
+  console.timeEnd(loadingMsg);
 
   return tileMap;
 }

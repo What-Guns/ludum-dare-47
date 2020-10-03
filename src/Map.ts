@@ -11,21 +11,32 @@ export class GameMap {
       .filter((layer): layer is TileLayer => layer.type === 'tilelayer')
       .map(layer => toLayer(layer, tileMap, data.tilewidth, data.tileheight));
 
-    return new GameMap(backgroundLayers);
+    const {width, height, tilewidth, tileheight} = data;
+
+    return new GameMap({
+      width, height, tilewidth, tileheight,
+    }, backgroundLayers);
   }
 
   draw(ctx: CanvasRenderingContext2D) {
     ctx.save();
-    ctx.translate(350, 0);
+    ctx.translate((this.world.height - 1) * this.world.tilewidth/2, this.world.tileheight);
     for(const layer of this.layers) {
       for(const {screenX, screenY, image} of layer.tiles) {
-        ctx.drawImage(image, screenX, screenY);
+        ctx.drawImage(image, screenX, screenY + this.world.tileheight - image.height);
       }
     }
     ctx.restore();
   }
 
-  private constructor(private readonly layers: BackgroundLayer[]) {}
+  private constructor(readonly world: WorldInfo, private readonly layers: BackgroundLayer[]) {}
+}
+
+interface WorldInfo {
+  width: number;
+  height: number;
+  tilewidth: number;
+  tileheight: number;
 }
 
 interface BackgroundLayer {

@@ -1,6 +1,8 @@
 export interface MapData {
   layers: Array<TileLayer|ObjectGroup>;
   orientation: string;
+  width: number;
+  height: number;
   tilewidth: number;
   tileheight: number;
   tilesets: Array<Tileset|ExternalTileset>;

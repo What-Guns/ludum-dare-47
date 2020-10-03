@@ -1,5 +1,5 @@
 export interface MapData {
-  layers: Array<TileLayer|ObjectGroup>;
+  layers: Array<ChunkedTileLayer|TileLayer|ObjectGroup>;
   orientation: string;
   width: number;
   height: number;
@@ -37,8 +37,23 @@ export interface Tile {
   type?: string;
 }
 
-export interface TileLayer {
+export type TileLayer = InlineTileLayer|ChunkedTileLayer;
+
+export interface InlineTileLayer {
   data: number[];
+  height: number;
+  id: number;
+  name: string;
+  opacity: number;
+  type: 'tilelayer';
+  visible:boolean;
+  width:number;
+  x:number;
+  y:number;
+}
+
+export interface ChunkedTileLayer {
+  chunks: TiledMapChunk[];
   height: number;
   id: number;
   name: string;
@@ -105,7 +120,7 @@ type Property = FloatProperty
   | ObjectProperty
   | ColorProperty;
 
-export interface Chunk {
+export interface TiledMapChunk {
   data: number[];
   height: number;
   width: number;

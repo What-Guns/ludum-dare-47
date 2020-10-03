@@ -1,4 +1,4 @@
-import type {MapData, TileLayer, ExternalTileset, Tileset, ObjectGroup, Property} from './tiled-map';
+import type {MapData, TileLayer, ExternalTileset, Tileset, ObjectGroup, Property, TiledMapChunk} from './tiled-map';
 import {Game, GameObject} from './Game.js';
 import {Serializable, deserialize} from './serialization.js';
 import {loadImage, loadJson} from './loader.js';
@@ -44,19 +44,28 @@ export class GameMap implements GameObject {
     for(const obj of this.objects) obj.tick(dt);
     // TODO: don't look for the car on every frame like c'mon that's insane.
     const car = this.objects.find(o => o instanceof Car) as Car|undefined;
-    if(car) setXY(this.camera, -car.x, -car.y, this.world);
+    if(car) setXY(this.camera, car.x, car.y, this.world);
   }
 
   draw(ctx: CanvasRenderingContext2D) {
-    ctx.save();
-    ctx.translate(this.camera.screenX, this.camera.screenY);
-    ctx.translate(ctx.canvas.width / 2, ctx.canvas.height / 2);
+    const screenWidth = ctx.canvas.width;
+    const screenHeight = ctx.canvas.height;
 
+    ctx.save();
+    ctx.translate(-this.camera.screenX, -this.camera.screenY);
+    ctx.translate(screenWidth / 2, screenHeight / 2);
+
+
+    let drawnChunks = 0;
     for(const layer of this.layers) {
-      for(const {screenX, screenY, image, offsetPX} of layer.tiles) {
-        ctx.drawImage(image,
-          screenX - this.world.tilewidth + image.width / 2 + offsetPX.x,
-          screenY + this.world.tileheight - image.height + offsetPX.y);
+      for(const chunk of layer.chunks) {
+        if(!this.isChunkVisible(chunk, screenWidth, screenHeight)) continue;
+        drawnChunks++;
+        for(const {screenX, screenY, image, offsetPX} of chunk.tiles) {
+          ctx.drawImage(image,
+            screenX - this.world.tilewidth + image.width / 2 + offsetPX.x,
+            screenY + this.world.tileheight - image.height + offsetPX.y);
+        }
       }
     }
 
@@ -74,6 +83,25 @@ export class GameMap implements GameObject {
     }
 
     ctx.restore();
+
+    ctx.fillText(`chunks drawn ${drawnChunks}`, 30, 50);
+  }
+
+  private isChunkVisible(chunk: Chunk, screenWidth: number, screenHeight: number) {
+    const leftEdgeOfChunk = chunk.screenX - chunk.screenWidth / 2;
+    const rightEdgeOfChunk = chunk.screenX + (chunk.screenWidth / 2);
+    const topEdgeOfChunk = chunk.screenY;
+    const bottomEdgeOfChunk = chunk.screenY + chunk.screenHeight;
+
+    const leftEdgeOfScreen = this.camera.screenX - screenWidth / 2;
+    const rightEdgeOfScreen = this.camera.screenX + screenWidth / 2;
+    const topEdgeOfScreen = this.camera.screenY - screenHeight / 2;
+    const bottomEdgeOfScreen = this.camera.screenY + screenHeight / 2;
+
+    return leftEdgeOfChunk < rightEdgeOfScreen
+        && rightEdgeOfChunk > leftEdgeOfScreen
+        && topEdgeOfChunk < bottomEdgeOfScreen
+        && bottomEdgeOfChunk > topEdgeOfScreen;
   }
 
   static async deserialize(data: MapData) {
@@ -126,9 +154,22 @@ export interface WorldInfo {
 }
 
 interface CellLayer {
-  tiles: Cell[];
+  chunks: Chunk[];
   width: number;
   height: number;
+}
+
+interface Chunk {
+  width: number;
+  height: number;
+  x: number;
+  y: number;
+  /** Represents the top corner of the chunk */
+  screenX: number;
+  screenY: number;
+  screenWidth: number;
+  screenHeight: number;
+  tiles: Cell[];
 }
 
 interface Tile {
@@ -148,11 +189,33 @@ interface Cell {
 }
 
 function toLayer(layer: TileLayer, tileMap: Map<number, Tile>, tilewidth: number, tileheight: number): CellLayer {
+  const chunks: TiledMapChunk[] = 'data' in layer ? [layer] : layer.chunks;
+
+  return {
+    height: layer.height,
+    width: layer.width,
+    chunks: chunks.map(c =>  {
+      const point = setXY({}, c.x, c.y, {tilewidth, tileheight});
+      const screenWidth = setXY({}, c.width, 0, {tilewidth, tileheight}).screenX * 2;
+      const screenHeight = setXY({}, c.width, c.height, {tilewidth, tileheight}).screenY;
+      return {
+        ...point,
+        width: c.width,
+        height: c.height,
+        screenWidth,
+        screenHeight,
+        tiles: toTiles(c, tileMap, tilewidth, tileheight)
+      };
+    })
+  };
+}
+
+function toTiles(chunk: TiledMapChunk, tileMap: Map<number, Tile>, tilewidth: number, tileheight: number) {
   const tiles: Cell[] = [];
-  for(let i = 0; i < layer.data.length; i++) {
-    const tileId = layer.data[i];
+  for(let i = 0; i < chunk.data.length; i++) {
+    const tileId = chunk.data[i];
     if(tileId === 0) continue;
-    const point = setXY({}, i % layer.width,  Math.floor(i / layer.width), {tilewidth, tileheight});
+    const point = setXY({}, chunk.x + i % chunk.width, chunk.y +  Math.floor(i / chunk.width), {tilewidth, tileheight});
     const tile = tileMap.get(tileId);
     if(!tile) throw new Error(`No image for tile ${tileId}`);
     tiles.push({image: tile.image, type: tile.type, ...point, offsetPX: tile.offset});
@@ -160,11 +223,7 @@ function toLayer(layer: TileLayer, tileMap: Map<number, Tile>, tilewidth: number
 
   tiles.sort((a, b) => a.screenY - b.screenY);
 
-  return {
-    height: layer.height,
-    width: layer.width,
-    tiles
-  };
+  return tiles;
 }
 
 function toMapObjects(map: GameMap, group: ObjectGroup): SerializedObject[] {
@@ -190,7 +249,9 @@ function toMapObjects(map: GameMap, group: ObjectGroup): SerializedObject[] {
 async function createTileMap(data: MapData) {
   const usedTileIds = new Set(data.layers
     .filter((layer): layer is TileLayer => layer.type === 'tilelayer')
-    .map(l => l.data)
+    .map(l => 'data' in l ? [l] : l.chunks)
+    .reduce((l, r) => l.concat(r))
+    .map(chunk => chunk.data)
     .reduce((l, r) => l.concat(r)));
 
   const tileMap = new Map<number, Tile>();

@@ -41,6 +41,7 @@ export class Car implements GameObject {
   readonly TIME_BEFORE_REVERSE_LIGHTS = 400;
   readonly TIME_BEFORE_REVERSE = 600;
   readonly DECELERATION_FACTOR = 0.998;
+  readonly MAX_ENGINE_PITCH = 1.3;
 
   static IMAGES: Array<HTMLImageElement>;
   static BACKUP_IMAGES: Array<HTMLImageElement>;
@@ -67,6 +68,7 @@ export class Car implements GameObject {
       'images/car/carBlue6_015.png',
     ].map(waitForImageToLoad));
     await Audio.load('audio/sfx/sinkWater1.ogg', 'splash');
+    await Audio.load('audio/sfx/engine.ogg', 'engine');
   }
 
   static async deserialize(data: SerializedObject) {
@@ -76,13 +78,18 @@ export class Car implements GameObject {
     return new Car(data.map, data.x, data.y, direction);
   }
 
-  constructor(readonly map: GameMap, public x:number, public y: number, /** Direction in radians */ public direction: number) {}
+  constructor(readonly map: GameMap, public x:number, public y: number, /** Direction in radians */ public direction: number) {
+    Audio.play('engine', 0);
+  }
 
   tick(dt: number) {
     this.snappedDirectionIndex = this.getSnappedDirectionIndex();
     let turning = false;
     if (isKeyPressed('KeyW') || isKeyPressed('ArrowUp')) {
       this.accelerate(dt);
+      Audio.setPlaybackSpeed('engine', ((this.speed / this.MAX_SPEED) * (this.MAX_ENGINE_PITCH - 1) + 1.0));
+    } else {
+      Audio.setPlaybackSpeed('engine', 1.0);
     }
     if (isKeyPressed('KeyA') || isKeyPressed('ArrowLeft')) {
       this.turnLeft(dt);
@@ -107,6 +114,7 @@ export class Car implements GameObject {
 
     if(this.terrain === 'water') {
       Audio.play('splash');
+      Audio.stop('engine');
       this.map.remove(this);
     } 
   }

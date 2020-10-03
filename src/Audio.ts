@@ -32,6 +32,13 @@ export class Audio {
     }
     delete this.currentlyPlayingSounds[trackName];
   }
+
+  static setPlaybackSpeed(trackName: string, speed: number) {
+    const namedTrack = this.currentlyPlayingSounds[trackName];
+    if(namedTrack) {
+      namedTrack.playbackRate.value = speed;
+    }
+  }
 }
 
 async function loadAudioAsync(url: string, audioContext: AudioContext) {

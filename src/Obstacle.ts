@@ -1,21 +1,22 @@
 import { GameObject } from './Game.js';
 import { Serializable } from './serialization.js';
 import { SerializedObject, GameMap } from './Map.js';
-import { Point, setXY } from './math.js';
+import { Point, computeScreenCoords, ScreenPoint } from './math.js';
 
 @Serializable()
 export class Obstacle implements GameObject, Point {
   screenX!: number;
   screenY!: number;
 
-  private otherCorners: Point[];
+  /** All corners except the top, which is represented by screenX/Y. */
+  private otherCorners: ScreenPoint[];
 
   constructor(map: GameMap, public x: number, public y: number, readonly width: number, readonly height: number) {
-    setXY(this, x, y, map.world);
+    computeScreenCoords(this, this, map.world);
     this.otherCorners = [
-      setXY({}, x + width, y, map.world),
-      setXY({}, x + width, y + height, map.world),
-      setXY({}, x, y + height, map.world),
+      computeScreenCoords({}, {x: x + width, y}, map.world),
+      computeScreenCoords({}, {x: x + width, y: y + height}, map.world),
+      computeScreenCoords({}, {x, y: y + height}, map.world),
     ];
   }
 

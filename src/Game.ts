@@ -1,5 +1,6 @@
 import {GameMap, GameMapData} from './Map.js';
 import {Serializable, deserialize} from './serialization.js';
+import {Point, ScreenPoint} from './math.js';
 
 @Serializable()
 export class Game {
@@ -24,7 +25,7 @@ export class Game {
   }
 };
 
-export interface GameObject {
+export interface GameObject extends Point, ScreenPoint {
   tick(dt: number): void;
   draw(ctx: CanvasRenderingContext2D): void;
 }

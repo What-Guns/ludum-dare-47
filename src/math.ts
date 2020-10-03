@@ -1,16 +1,17 @@
 import {WorldInfo} from './Map.js';
 
-export function setXY(point: Partial<Point>, x: number, y: number, {tilewidth, tileheight}: TileDimensions): Point {
-  point.x = x;
-  point.y = y;
-  point.screenX = ((x - y) * tilewidth/2);
-  point.screenY = ((x + y) * tileheight/2);
-  return point as Point;
+export function computeScreenCoords<T extends Partial<ScreenPoint>>(out: T, {x, y}: Point, {tilewidth, tileheight}: TileDimensions) {
+  out.screenX = ((x - y) * tilewidth/2);
+  out.screenY = ((x + y) * tileheight/2);
+  return out as T&ScreenPoint;
 }
 
 export interface Point {
   x: number;
   y: number;
+}
+
+export interface ScreenPoint {
   screenX: number;
   screenY: number;
 }

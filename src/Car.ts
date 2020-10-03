@@ -1,6 +1,6 @@
 import {isKeyPressed} from './KeyboardListener.js';
 import {GameMap, SerializedObject, Terrain} from './Map.js';
-import {setXY} from './math.js';
+import {computeScreenCoords} from './math.js';
 import {Serializable} from './serialization.js';
 import {Audio} from './Audio.js';
 
@@ -21,8 +21,6 @@ const TERRAIN_SPEED: {[key in Terrain]: number} = {
 
 @Serializable()
 export class Car {
-  x!: number;
-  y!: number;
   screenX!: number;
   screenY!: number;
   terrain: Terrain = 'road';
@@ -78,8 +76,8 @@ export class Car {
     return new Car(data.map, data.x, data.y, direction);
   }
 
-  constructor(readonly map: GameMap, x:number, y: number, /** Direction in radians */ public direction: number) {
-    setXY(this, x, y, map.world);
+  constructor(readonly map: GameMap, public x:number, public y: number, /** Direction in radians */ public direction: number) {
+    computeScreenCoords(this, this, map.world);
   }
 
   tick(dt: number) {
@@ -103,11 +101,9 @@ export class Car {
     if (!turning) {
       this.snapTurnDirection();
     }
-    setXY(this,
-      this.x + Math.cos(this.direction) * this.speed * dt, // cos(0) = 1 is to the right, so positive x
-      this.y - Math.sin(this.direction) * this.speed * dt, // sin(pi / 2) = 1 is down, so negative y
-      this.map.world
-    );
+    this.x += Math.cos(this.direction) * this.speed * dt; // cos(0) = 1 is to the right, so positive x 
+    this.y -= Math.sin(this.direction) * this.speed * dt; // sin(pi / 2) = 1 is down, so negative y
+    this.map.objectMoved(this);
 
     this.terrain = this.map.getTerrain(this);
 

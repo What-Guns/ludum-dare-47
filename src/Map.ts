@@ -2,7 +2,7 @@ import type {MapData, TileLayer, ExternalTileset, Tileset, ObjectGroup, Property
 import {Game, GameObject} from './Game.js';
 import {Serializable, deserialize} from './serialization.js';
 import {loadImage, loadJson} from './loader.js';
-import { setXY, Point, GeoLookup } from './math.js';
+import { Point, GeoLookup, computeScreenCoords, ScreenPoint } from './math.js';
 import { Car } from './Car.js';
 
 const GRID_ALPHA = 0.25;
@@ -10,17 +10,15 @@ const GRID_ALPHA = 0.25;
 export type Terrain = 'void'|'grass'|'road'|'water'|'sand'|'dirt';
 
 @Serializable()
-export class GameMap implements GameObject {
+export class GameMap {
   private readonly objects: GameObject[] = [];
 
-  private readonly camera: Point = {
-    x: 0,
-    y: 0,
+  private readonly camera: ScreenPoint = {
     screenX: 0,
     screenY: 0,
   };
 
-  private readonly grid: [Point, Point][];
+  private readonly grid: [ScreenPoint, ScreenPoint][];
 
   private readonly chunkLookup: GeoLookup<Chunk> = {};
 
@@ -32,14 +30,14 @@ export class GameMap implements GameObject {
 
     for(let x = 0; x <= world.width; x++) {
       this.grid.push([
-        setXY({}, x, 0, world),
-        setXY({}, x, world.height, world)
+        computeScreenCoords({}, {x, y: 0}, world),
+        computeScreenCoords({}, {x, y: world.height}, world)
       ]);
     }
     for(let y = 0; y <= world.height; y++) {
       this.grid.push([
-        setXY({}, 0, y, world),
-        setXY({}, world.width, y, world)
+        computeScreenCoords({}, {x: 0, y}, world),
+        computeScreenCoords({}, {x: world.width, y}, world)
       ]);
     }
 
@@ -61,11 +59,15 @@ export class GameMap implements GameObject {
     this.objects.splice(index, 1);
   }
 
+  objectMoved(obj: GameObject) {
+    computeScreenCoords(obj, obj, this.world);
+  }
+
   tick(dt: number) {
     for(const obj of this.objects) obj.tick(dt);
     // TODO: don't look for the car on every frame like c'mon that's insane.
     const car = this.objects.find(o => o instanceof Car) as Car|undefined;
-    if(car) setXY(this.camera, car.x, car.y, this.world);
+    if(car) computeScreenCoords(this.camera, car, this.world);
   }
 
   draw(ctx: CanvasRenderingContext2D) {
@@ -221,7 +223,7 @@ interface Cell {
   screenY: number;
   image: HTMLImageElement;
   terrain: Terrain;
-  offsetPX: {x: number, y: number};
+  offsetPX: Point;
 }
 
 function toLayer(layer: TileLayer, tileMap: Map<number, Tile>, tilewidth: number, tileheight: number): CellLayer {
@@ -235,14 +237,16 @@ function toLayer(layer: TileLayer, tileMap: Map<number, Tile>, tilewidth: number
     height: layer.height,
     width: layer.width,
     chunks: chunks.map(c =>  {
-      const point = setXY({}, c.x, c.y, {tilewidth, tileheight});
-      const screenWidth = setXY({}, c.width, 0, {tilewidth, tileheight}).screenX * 2;
-      const screenHeight = setXY({}, c.width, c.height, {tilewidth, tileheight}).screenY;
+      const screenPoint = computeScreenCoords({}, c, {tilewidth, tileheight});
+      const screenWidth = computeScreenCoords({}, {x: c.width, y: 0}, {tilewidth, tileheight}).screenX * 2;
+      const screenHeight = computeScreenCoords({}, {x: c.width, y: c.height}, {tilewidth, tileheight}).screenY;
       const tiles = toTiles(c, tileMap, tilewidth, tileheight);
       const tilesSortedByY = tiles.slice(0);
       tilesSortedByY.sort((a, b) => a.screenY - b.screenY)
       return {
-        ...point,
+        x: c.x,
+        y: c.y,
+        ...screenPoint,
         width: c.width,
         height: c.height,
         screenWidth,
@@ -266,12 +270,22 @@ function toTiles(chunk: TiledMapChunk, tileMap: Map<number, Tile>, tilewidth: nu
   const tiles: Cell[] = [];
   for(let i = 0; i < chunk.data.length; i++) {
     const tileId = chunk.data[i];
-    const point = setXY({}, chunk.x + i % chunk.width, chunk.y +  Math.floor(i / chunk.width), {tilewidth, tileheight});
+    const point = {
+      x: chunk.x + i % chunk.width,
+      y: chunk.y +  Math.floor(i / chunk.width),
+    };
+    const screenPoint = computeScreenCoords({}, point, {tilewidth, tileheight});
     const tileImage = tileMap.get(tileId);
     if(!tileImage) throw new Error(`No image for tile ${tileId}`);
     const terrain = tileImage.type ?? 'void';
     checkTerrain(terrain);
-    tiles.push({image: tileImage.image, terrain, ...point, offsetPX: tileImage.offset});
+    tiles.push({
+      ...point,
+      ...screenPoint,
+      image: tileImage.image,
+      terrain,
+      offsetPX: tileImage.offset
+    });
   }
 
   return tiles;

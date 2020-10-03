@@ -1,42 +1,38 @@
-import type {MapData} from './tiled-map';
-import {Car} from './Car.js';
-import {GameMap} from './Map.js';
+import {GameMap, GameMapData} from './Map.js';
 import {Serializable, deserialize} from './serialization.js';
 
 @Serializable()
 export class Game {
-  private readonly car: Car;
+  map!: GameMap;
 
-  constructor(readonly map: GameMap, readonly ctx: CanvasRenderingContext2D) {
-    const carSpawn = map.findObjectByName('car-spawn')!;
-    const degrees = carSpawn.properties.find(p => p.name === 'direction')!.value as number;
-    this.car = new Car(this, carSpawn.x, carSpawn.y, - degrees * Math.PI / 180);
+  constructor(readonly ctx: CanvasRenderingContext2D) {
   }
 
   tick(dt: number){
-    dt + 1;
-    this.car.tick(dt);
+    this.map.tick(dt);
   }
 
-  draw(timestamp: number){
-    timestamp + 1;
-    this.ctx.save();
-    this.ctx.translate(this.map.world.height * this.map.world.tilewidth/2, this.map.world.tileheight);
+  draw(){
     this.map.draw(this.ctx);
-    this.car.draw(this.ctx);
-    this.ctx.restore();
   }
 
   static async deserialize({ctx, mapData}: GameData) {
-    const map = await deserialize('GameMap', mapData);
-    const game = new Game(map, ctx);
+    const game = new Game(ctx);
+    game.map = await deserialize(GameMap, mapData)
     // HACK! these objects reference each other, so we just set this here.
-    (map as any).game = game;
     return game;
   }
 };
 
+export interface GameObject {
+  tick(dt: number): void;
+  draw(ctx: CanvasRenderingContext2D): void;
+}
+
 interface GameData {
   ctx: CanvasRenderingContext2D;
-  mapData: MapData;
+  mapData: GameMapData;
 }
+
+export const x = 8;
+

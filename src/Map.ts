@@ -1,26 +1,23 @@
 import type {MapData, TileLayer, ExternalTileset, Tileset, ObjectGroup, Property} from './tiled-map';
-import {Serializable} from './serialization.js';
+import {Game, GameObject} from './Game.js';
+import {Serializable, deserialize} from './serialization.js';
 import {loadImage, loadJson} from './loader.js';
 import {setXY, Point} from './math.js';
 
 const GRID_ALPHA = 0.25;
 
 @Serializable()
-export class GameMap {
+export class GameMap implements GameObject {
+  readonly objects: GameObject[] = [];
+
   private readonly grid: [Point, Point][];
-  private readonly objectsByName: {[key: string]: MapObject|undefined};
 
   constructor(
     readonly world: WorldInfo,
     private readonly layers: CellLayer[],
-    objects: MapObject[],
   ) {
-    this.objectsByName = objects.reduce((collection, obj) => {
-      if(obj.name in collection) console.warn(`Found duplicate object ${obj.name}`);
-      return {...collection, [obj.name]: obj};
-    }, {});
-
     this.grid = [];
+
     for(let x = 0; x <= world.width; x++) {
       this.grid.push([
         setXY({}, x, 0, world),
@@ -35,11 +32,14 @@ export class GameMap {
     }
   }
 
-  findObjectByName(name: string) {
-    return this.objectsByName[name];
+  tick(dt: number) {
+    for(const obj of this.objects) obj.tick(dt);
   }
 
   draw(ctx: CanvasRenderingContext2D) {
+    ctx.save();
+    ctx.translate(this.world.height * this.world.tilewidth/2, this.world.tileheight);
+
     for(const layer of this.layers) {
       for(const {screenX, screenY, image, offsetPX} of layer.tiles) {
         ctx.drawImage(image,
@@ -56,39 +56,49 @@ export class GameMap {
       ctx.stroke();
     }
     ctx.globalAlpha = 1;
+
+    for(const obj of this.objects) {
+      obj.draw(ctx);
+    }
+
+    ctx.restore();
   }
 
-  getObject(name: string) {
-    return this.objectsByName[name];
-  }
+  static async deserialize(data: MapData) {
+    const tileMap = await createTileMap(data);
 
-  static deserialize(data: MapData) {
-    return loadMap(data);
+    const backgroundLayers = data.layers
+      .filter((layer): layer is TileLayer => layer.type === 'tilelayer')
+      .map(layer => toLayer(layer, tileMap, data.tilewidth, data.tileheight));
+
+    const {width, height, tilewidth, tileheight} = data;
+
+    const map = new GameMap({
+      width, height, tilewidth, tileheight,
+    }, backgroundLayers);
+
+    const mapObjects = data.layers
+      .filter((layer): layer is ObjectGroup => layer.type === 'objectgroup')
+      .map(layer => toMapObjects(map, layer, data.tilewidth, data.tileheight))
+      .reduce((l, r) => l.concat(r));
+
+    for(const obj of mapObjects) {
+      const instance = await deserialize(obj.type, obj);
+      map.objects.push(instance);
+    }
+
+    return map;
   }
 }
 
-async function loadMap(data: MapData) {
-  const tileMap = await createTileMap(data);
-
-  const backgroundLayers = data.layers
-    .filter((layer): layer is TileLayer => layer.type === 'tilelayer')
-    .map(layer => toLayer(layer, tileMap, data.tilewidth, data.tileheight));
-
-  const objectLayers = data.layers
-    .filter((layer): layer is ObjectGroup => layer.type === 'objectgroup')
-    .map(layer => toMapObjects(layer, data.tilewidth, data.tileheight))
-    .reduce((l, r) => l.concat(r));
-
-  const {width, height, tilewidth, tileheight} = data;
-
-  return new GameMap({
-    width, height, tilewidth, tileheight,
-  }, backgroundLayers, objectLayers);
+export interface GameMapData extends MapData {
+  game: Game;
 }
 
-
-export interface MapObject extends Point {
+export interface SerializedObject extends Point {
+  map: GameMap;
   name: string;
+  type: string;
   properties: Property[];
 }
 
@@ -141,12 +151,18 @@ function toLayer(layer: TileLayer, tileMap: Map<number, Tile>, tilewidth: number
   };
 }
 
-function toMapObjects(group: ObjectGroup, tilewidth: number, tileheight: number): MapObject[] {
+function toMapObjects(map: GameMap, group: ObjectGroup, tilewidth: number, tileheight: number): SerializedObject[] {
   return group.objects.map(obj => {
     const x = obj.x / tileheight; // NOT A TYPO. Tiles from tiled are squares.
     const y = obj.y / tileheight;
     const point = setXY({}, x, y, {tilewidth, tileheight});
-    return {...point, name: obj.name, properties: obj.properties};
+    return {
+      ...point,
+      map,
+      name: obj.name,
+      type: obj.type,
+      properties: obj.properties
+    };
   });
 }
 

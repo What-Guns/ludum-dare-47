@@ -1,7 +1,5 @@
-import {Car} from './Car.js';
 import {loadJson} from './loader.js';
 import {deserialize} from './serialization.js';
-import './Game.js';
 import './Map.js';
 
 addEventListener('load', () => {
@@ -14,7 +12,6 @@ const BIG_TICK_ENERGY = 500;
 async function startTheGameAlready() {
   const canvas = document.querySelector('canvas')!;
   const ctx = canvas!.getContext('2d')!;
-  await Car.load();
   const mapData = await loadJson('maps/map.json');
   const game = await deserialize('Game', { ctx, mapData });
 

@@ -1,6 +1,7 @@
 import {isKeyPressed} from './KeyboardListener.js';
-import {Game} from './Game.js';
+import {WorldInfo, SerializedObject} from './Map.js';
 import {setXY} from './math.js';
+import {Serializable} from './serialization.js';
 
 /* DIRECTIONS
 Direction 0 is +x in game space, down-right in screen space
@@ -8,7 +9,8 @@ Direction 1 is 45 degrees counterclockwise from 0
 This proceeds to direction 7 which is 45 degrees clockwise from 0
 */
 
-export class Car{
+@Serializable()
+export class Car {
   x!: number;
   y!: number;
   screenX!: number;
@@ -30,7 +32,7 @@ export class Car{
 
   static IMAGES: Array<HTMLImageElement>;
 
-  static async load() {
+  private static async load() {
     Car.IMAGES = await Promise.all([
       'images/car/carBlue6_011.png',
       'images/car/carBlue6_012.png',
@@ -44,8 +46,15 @@ export class Car{
     console.log(Car.IMAGES);
   }
 
-  constructor(readonly game: Game, x:number, y: number, /** Direction in radians */ public direction: number) {
-    setXY(this, x, y, game.map.world);
+  static async deserialize(data: SerializedObject) {
+    await this.load();
+    const degrees = data.properties.find(p => p.name === 'direction')?.value as number ?? 0;
+    const direction = -degrees / 180 * Math.PI;
+    return new Car(data.map.world, data.x, data.y, direction);
+  }
+
+  constructor(readonly world: WorldInfo, x:number, y: number, /** Direction in radians */ public direction: number) {
+    setXY(this, x, y, world);
   }
 
   tick(dt: number) {
@@ -71,7 +80,7 @@ export class Car{
     setXY(this,
       this.x + Math.cos(this.direction) * this.speed * dt, // cos(0) = 1 is to the right, so positive x
       this.y - Math.sin(this.direction) * this.speed * dt, // sin(pi / 2) = 1 is down, so negative y
-      this.game.map.world
+      this.world
     );
   }
   

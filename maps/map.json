@@ -48,7 +48,7 @@
                          "value":270
                         }],
                  "rotation":0,
-                 "type":"car-spawn",
+                 "type":"Car",
                  "visible":true,
                  "width":0,
                  "x":174.460431654676,

@@ -11,9 +11,7 @@ export class Audio {
     bufferSource.buffer = Audio.soundLibrary[trackName];
     bufferSource.connect(Audio.audioContext.destination);
     bufferSource.loop = loopStart !== -1;
-    console.log(loopStart, bufferSource.loop)
     if (bufferSource.loop) {
-      console.log('yes')
       bufferSource.loopStart = loopStart;
       bufferSource.loopEnd = loopEnd || bufferSource.buffer.duration;
     }

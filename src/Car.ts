@@ -43,7 +43,6 @@ export class Car {
       'images/car/carBlue6_010.png',
       'images/car/carBlue6_015.png',
     ].map(waitForImageToLoad));
-    console.log(Car.IMAGES);
   }
 
   static async deserialize(data: SerializedObject) {

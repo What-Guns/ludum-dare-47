@@ -23,14 +23,15 @@ export class Car {
   speed = 0;
   timeInReverse = 0;
 
-  readonly MAX_SPEED = 0.002;
+  readonly MAX_SPEED = 0.003;
   readonly ACCELERATION = 0.000005;
   readonly TURN_SPEED = 0.005;
-  readonly BRAKE_DECELERATION = 0.0003;
+  readonly BRAKE_DECELERATION = 0.00001;
   readonly REVERSE_ACCELERATION = -0.0002;
   readonly REVERSE_MIN_SPEED = -0.001;
   readonly TIME_BEFORE_REVERSE_LIGHTS = 400;
   readonly TIME_BEFORE_REVERSE = 600;
+  readonly DECELERATION_FACTOR = 0.998;
 
   static IMAGES: Array<HTMLImageElement>;
   static BACKUP_IMAGES: Array<HTMLImageElement>;
@@ -72,9 +73,6 @@ export class Car {
   tick(dt: number) {
     this.snappedDirectionIndex = this.getSnappedDirectionIndex();
     let turning = false;
-    if (this.speed > 0) {
-      this.timeInReverse = 0;
-    }
     if (isKeyPressed('KeyW') || isKeyPressed('ArrowUp')) {
       this.accelerate(dt);
     }
@@ -89,6 +87,7 @@ export class Car {
     if (isKeyPressed('KeyS') || isKeyPressed('ArrowDown')) {
       this.brakeOrReverse(dt);
     }
+    this.speed *= this.DECELERATION_FACTOR;
     if (!turning) {
       this.snapTurnDirection();
     }
@@ -139,6 +138,7 @@ export class Car {
   }
 
   accelerate(dt: number) {
+    this.timeInReverse = 0;
     this.speed += this.ACCELERATION * dt;
     if (this.speed >= this.MAX_SPEED) {
       this.speed = this.MAX_SPEED;
@@ -146,13 +146,13 @@ export class Car {
   }
 
   turnLeft(dt: number) {
-    const turnAmount = this.TURN_SPEED * dt;
+    const turnAmount = this.TURN_SPEED * dt * Math.sign(this.speed);
     this.direction += turnAmount;
     this.currentTurn += turnAmount;
   }
 
   turnRight(dt: number) {
-    const turnAmount = this.TURN_SPEED * dt;
+    const turnAmount = this.TURN_SPEED * dt * Math.sign(this.speed);
     this.direction -= turnAmount;
     this.currentTurn -= turnAmount;
   }

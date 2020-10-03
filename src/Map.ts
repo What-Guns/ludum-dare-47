@@ -3,12 +3,20 @@ import {Game, GameObject} from './Game.js';
 import {Serializable, deserialize} from './serialization.js';
 import {loadImage, loadJson} from './loader.js';
 import {setXY, Point} from './math.js';
+import { Car } from './Car.js';
 
 const GRID_ALPHA = 0.25;
 
 @Serializable()
 export class GameMap implements GameObject {
   readonly objects: GameObject[] = [];
+
+  private readonly camera: Point = {
+    x: 0,
+    y: 0,
+    screenX: 0,
+    screenY: 0,
+  };
 
   private readonly grid: [Point, Point][];
 
@@ -34,11 +42,15 @@ export class GameMap implements GameObject {
 
   tick(dt: number) {
     for(const obj of this.objects) obj.tick(dt);
+    // TODO: don't look for the car on every frame like c'mon that's insane.
+    const car = this.objects.find(o => o instanceof Car) as Car|undefined;
+    if(car) setXY(this.camera, -car.x, -car.y, this.world);
   }
 
   draw(ctx: CanvasRenderingContext2D) {
     ctx.save();
-    ctx.translate(this.world.height * this.world.tilewidth/2, this.world.tileheight);
+    ctx.translate(this.camera.screenX, this.camera.screenY);
+    ctx.translate(ctx.canvas.width / 2, ctx.canvas.height / 2);
 
     for(const layer of this.layers) {
       for(const {screenX, screenY, image, offsetPX} of layer.tiles) {

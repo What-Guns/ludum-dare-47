@@ -18,6 +18,7 @@ export class Car {
 
   // Direction of the car from 0-7
   snappedDirectionIndex = 0;
+  currentTurn = 0;
 
   speed = 0;
   timeInReverse = 0;
@@ -130,11 +131,15 @@ export class Car {
   }
 
   turnLeft(dt: number) {
-    this.direction += this.TURN_SPEED * dt;
+    const turnAmount = this.TURN_SPEED * dt;
+    this.direction += turnAmount;
+    this.currentTurn += turnAmount;
   }
 
   turnRight(dt: number) {
-    this.direction -= this.TURN_SPEED * dt;
+    const turnAmount = this.TURN_SPEED * dt;
+    this.direction -= turnAmount;
+    this.currentTurn -= turnAmount;
   }
 
   brakeOrReverse(dt: number) {
@@ -155,6 +160,16 @@ export class Car {
   }
 
   snapTurnDirection() {
+    if (this.currentTurn < Math.PI / 8 && this.currentTurn > -Math.PI / 8) {
+      if (this.currentTurn > 0) {
+        this.snappedDirectionIndex++;
+      } else if(this.currentTurn < 0) {
+        this.snappedDirectionIndex--;
+      }
+    }
+    this.currentTurn = 0;
+    this.snappedDirectionIndex += 8;
+    this.snappedDirectionIndex %= 8;
     this.direction = Math.PI / 4 * this.snappedDirectionIndex;
   }
 }

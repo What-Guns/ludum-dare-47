@@ -9,9 +9,12 @@ export class Game{
     this.streetGrid = new StreetGrid();
   }
 
-  tick(dt: number){}
+  tick(dt: number){
+    dt + 1;
+  }
 
   draw(timestamp: number){
+    timestamp + 1;
     this.streetGrid.draw(this.ctx);
   }
 };

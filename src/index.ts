@@ -1,3 +1,4 @@
+import { Car } from './Car.js';
 import {Game} from './Game.js';
 import {GameMap} from './Map.js';
 
@@ -11,6 +12,7 @@ const BIG_TICK_ENERGY = 500;
 async function startTheGameAlready() {
   const canvas = document.querySelector('canvas')!;
   const ctx = canvas!.getContext('2d')!;
+  await Car.load();
   const game = new Game(canvas);
 
   const map = await GameMap.load('maps/map.json');

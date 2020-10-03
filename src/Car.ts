@@ -3,8 +3,8 @@ export class Car{
   y: number;
   direction: number;
 
-  private destination: any;
-  private directionToDestination: any;
+  //private destination: any;
+  //private directionToDestination: any;
 
   private currentManeuver: Turn | null = null;
 
@@ -12,26 +12,34 @@ export class Car{
   readonly DISTANCE_FROM_DESTINATION = 5;
   readonly MANEUVER_SPEED = 0.05;
 
+  static IMAGES: Array<HTMLImageElement>;
+
   lastTurnLeft = false;
+
+  static async load() {
+    Car.IMAGES = await [
+      '../images/car/carBlue6_011.png',
+      '../images/car/carBlue6_015.png',
+      '../images/car/carBlue6_010.png',
+      '../images/car/carBlue6_009.png',
+      '../images/car/carBlue6_004.png',
+      '../images/car/carBlue6_005.png',
+      '../images/car/carBlue6_006.png',
+      '../images/car/carBlue6_012.png',
+    ].map(waitForImageToLoad);
+    console.log(Car.IMAGES);
+  }
 
   constructor(x:number, y: number) {
     this.x = x;
     this.y = y;
     this.direction = Math.PI;
-    this.setDestination(600, 200)
   }
 
 
   tick(dt: number) {
-    if (this.currentManeuver) {
-      this.progressManeuver();
-    } else if(this.lastTurnLeft) {
-      this.lastTurnLeft = false;
-      this.makeRightTurn();
-      this.progressManeuver();
-    } else if(!this.lastTurnLeft) {
-      this.lastTurnLeft = true;
-      this.makeLeftTurn();
+    this.direction += .1;
+    /*if (this.currentManeuver) {
       this.progressManeuver();
     } else if(this.destination) {
       if (((this.x - this.destination.x) * (this.x - this.destination.x)) + ((this.y - this.destination.y) * (this.y - this.destination.y)) < this.DISTANCE_FROM_DESTINATION) {
@@ -42,60 +50,49 @@ export class Car{
     }
     this.x += Math.cos(this.directionToDestination) * this.SPEED * dt;
     this.y += Math.sin(this.directionToDestination) * this.SPEED * dt;
-    }
+    }*/
   }
   
   draw(ctx: CanvasRenderingContext2D) {
-    ctx.beginPath();
-    ctx.fillStyle = "red";
-    ctx.arc(this.x, this.y, 5, 0, 2 * Math.PI);
-    ctx.fill();
+    ctx.drawImage(this.chooseSprite(), this.x, this.y);
   }
 
-  setDestination(x: number, y: number) {
-    this.destination = {x, y}
-    this.directionToDestination = Math.atan2(y - this.y, x - this.x);
-  }
-
-  makeRightTurn() {
-    this.currentManeuver = {
-      startingRotation: this.direction,
-      endingRotation: this.direction + (Math.PI / 2),
-      type: 'rightTurn',
-      percentageComplete: 0,
+  chooseSprite() {
+    const d = this.direction;
+    const sin = Math.sin(d);
+    const cos = Math.cos(d);
+    if(sin < Math.sin(Math.PI / 8) && sin > Math.sin(15 * Math.PI / 8)) {
+      if(cos > 0) {
+        return Car.IMAGES[0];
+      } else {
+        return Car.IMAGES[4];
+      }
+    } else if(sin < Math.sin(3 * Math.PI / 8) && sin > 0) {
+      if(cos > 0) {
+        return Car.IMAGES[7];
+      } else {
+        return Car.IMAGES[5];
+      }
+    } else if(sin > Math.sin(11 * Math.PI / 8) && sin < 0) {
+      if(cos > 0) {
+        return Car.IMAGES[1];
+      } else {
+        return Car.IMAGES[3];
+      }
+    }else if(sin > 0) {
+      return Car.IMAGES[6];
+    } else {
+      return Car.IMAGES[2];
     }
-  }
-
-  makeLeftTurn() {
-    this.currentManeuver = {
-      startingRotation: this.direction,
-      endingRotation: this.direction - (Math.PI / 2),
-      type: 'leftTurn',
-      percentageComplete: 0,
-    }
-  }
-
-  progressManeuver() {
-    const mvr  = this.currentManeuver!;
-    if(mvr && mvr.percentageComplete >=1 ) {
-      this.currentManeuver = null;
-    }
-    this.direction = lerp(mvr.startingRotation, mvr.endingRotation, mvr.percentageComplete);
-    this.x += Math.cos(this.direction) * this.SPEED;
-    this.y += Math.sin(this.direction) * this.SPEED;
-    mvr.percentageComplete += this.MANEUVER_SPEED;
   }
 }
 
-interface Turn {
-  startingRotation: number,
-  endingRotation: number,
-  type: CarActionType,
-  percentageComplete: number,
+function waitForImageToLoad(path: string) {
+  const img = new Image();
+  img.src = path;
+  new Promise((resolve, reject) => {
+    img.addEventListener('load', resolve);
+    img.addEventListener('error', reject);
+  });
+  return img;
 }
-
-function lerp(start: number, end: number, percent: number) {
-  return start*(1 - percent) + end*percent;
-}
-
-export type CarActionType = 'straight' | 'leftTurn' | 'rightTurn';

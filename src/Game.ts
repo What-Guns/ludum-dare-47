@@ -9,10 +9,7 @@ export class Game{
   constructor(canvas: HTMLCanvasElement) {
     this.ctx = canvas.getContext('2d')!;
     this.streetGrid = new StreetGrid();
-    this.car = new Car(600, 200);
-    canvas.addEventListener('click', ev => {
-      this.car.setDestination(ev.offsetX, ev.offsetY);
-    });
+    this.car = new Car(600, 600);
   }
 
   tick(dt: number){

@@ -1,5 +1,3 @@
-import {CarActionType} from './Car.js'
-
 export class StreetGrid{
   GRID_HEIGHT = 5;
   GRID_WIDTH = 5;
@@ -28,21 +26,3 @@ export class StreetGrid{
     ctx.stroke();
   }
 }
-
-/*class StreetGridNode {
-  readonly destinationNodes: {[key in CarActionType]: StreetGridNode | null};
-
-  constructor(readonly x: number, readonly y: number) {
-    this.x = x;
-    this.y = y;
-    this.destinationNodes = {
-      straight: null,
-      leftTurn: null,
-      rightTurn: null, 
-    }
-  }
-
-  setDestinationNode(node: StreetGridNode, action: CarActionType) {
-    this.destinationNodes[action] = node;
-  }
-}*/

@@ -1,18 +1,21 @@
+import {isKeyPressed} from './KeyboardListener.js';
+
 export class Car{
   x: number;
   y: number;
   direction: number;
+  speed = 0;
+  timeInReverse = 0;
 
-  //private destination: any;
-  //private directionToDestination: any;
-
-  readonly SPEED = 1;
-  readonly DISTANCE_FROM_DESTINATION = 5;
-  readonly MANEUVER_SPEED = 0.05;
+  readonly MAX_SPEED = 0.2;
+  readonly ACCELERATION = 0.005;
+  readonly TURN_SPEED = 0.005;
+  readonly BRAKE_DECELERATION = 0.03;
+  readonly REVERSE_ACCELERATION = -0.02;
+  readonly REVERSE_MIN_SPEED = -0.1;
+  readonly TIME_BEFORE_REVERSE = 400;
 
   static IMAGES: Array<HTMLImageElement>;
-
-  lastTurnLeft = false;
 
   static async load() {
     Car.IMAGES = await [
@@ -32,12 +35,25 @@ export class Car{
     this.x = x;
     this.y = y;
     this.direction = 0;
+    //this.attachKeyboardListener();
   }
 
-
   tick(dt: number) {
-    dt + 1;
-    this.direction += .1;
+    //this.direction += .1;
+    if (isKeyPressed('KeyW') || isKeyPressed('ArrowUp')) {
+      this.accelerate(dt);
+    }
+    if (isKeyPressed('KeyA') || isKeyPressed('ArrowLeft')) {
+      this.turnLeft(dt);
+    }
+    if (isKeyPressed('KeyD') || isKeyPressed('ArrowRight')) {
+      this.turnRight(dt);
+    }
+    if (isKeyPressed('KeyS') || isKeyPressed('ArrowDown')) {
+      this.brakeOrReverse(dt);
+    }
+    this.x += Math.cos(this.direction) * this.speed * dt;
+    this.y -= Math.sin(this.direction) * this.speed * dt;
     /*if (this.currentManeuver) {
       this.progressManeuver();
     } else if(this.destination) {
@@ -83,6 +99,39 @@ export class Car{
       return Car.IMAGES[6];
     } else {
       return Car.IMAGES[2];
+    }
+  }
+
+  accelerate(dt: number) {
+    this.speed += this.ACCELERATION * dt;
+    if (this.speed >= this.MAX_SPEED) {
+      this.speed = this.MAX_SPEED;
+    }
+  }
+
+  turnLeft(dt: number) {
+    this.direction += this.TURN_SPEED * dt;
+  }
+
+  turnRight(dt: number) {
+    this.direction -= this.TURN_SPEED * dt;
+  }
+
+  brakeOrReverse(dt: number) {
+    console.log(this.timeInReverse)
+    if (this.speed > 0) {
+      this.timeInReverse = 0;
+      this.speed -= this.BRAKE_DECELERATION * dt;
+      if (this.speed < 0) {
+        this.speed = 0;
+      }
+    } else if (this.timeInReverse < this.TIME_BEFORE_REVERSE) {
+      this.timeInReverse += dt;
+    } else {
+      this.speed += this.REVERSE_ACCELERATION * dt;
+      if (this.speed < this.REVERSE_MIN_SPEED) {
+        this.speed = this.REVERSE_MIN_SPEED;
+      }
     }
   }
 }

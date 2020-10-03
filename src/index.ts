@@ -21,17 +21,18 @@ async function startTheGameAlready() {
 
   let lastTick = 0;
   function tick(timestamp: number) {
-    ctx.clearRect(0, 0, 640, 640)
+    ctx.clearRect(0, 0, 800, 640)
+
+    map.draw(ctx);
     if(lastTick !== 0) {
       const dt = Math.min(timestamp - lastTick, BIG_TICK_ENERGY);
       game.tick(dt);
       game.draw(timestamp);
       ctx.fillStyle = "black";
-      ctx.fillText(String(1000 / dt), 0, 50);
-      ctx.fillText("Click to move the car!", 0, 100);
+      ctx.fillText(String(1000 / dt), 0, 30);
+      ctx.fillText("Arrow Keys or WASD to move the car!", 0, 100);
+      ctx.fillText("The sprite is turned 45 degrees because of our viewing angle", 0, 120);
     }
-
-    map.draw(ctx);
 
     lastTick = timestamp;
     requestAnimationFrame(tick);

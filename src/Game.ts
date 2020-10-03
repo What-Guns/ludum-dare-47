@@ -19,7 +19,7 @@ export class Game{
 
   draw(timestamp: number){
     timestamp + 1;
-    this.streetGrid.draw(this.ctx);
+    //this.streetGrid.draw(this.ctx);
     this.car.draw(this.ctx);
   }
 };

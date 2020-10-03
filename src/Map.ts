@@ -1,39 +1,16 @@
 import type {MapData, TileLayer, ExternalTileset, Tileset, ObjectGroup, Property} from './tiled-map';
-import type {Game} from './Game';
+import {Serializable} from './serialization.js';
 import {loadImage, loadJson} from './loader.js';
 import {setXY, Point} from './math.js';
 
 const GRID_ALPHA = 0.25;
 
+@Serializable()
 export class GameMap {
-  // HACK: these objects reference each other, so this is initialized externally.
-  readonly game!: Game;
-
   private readonly grid: [Point, Point][];
   private readonly objectsByName: {[key: string]: MapObject|undefined};
 
-  static async load(mapDataPath: string) {
-    const data = await loadJson(mapDataPath) as MapData;
-
-    const tileMap = await createTileMap(data);
-
-    const backgroundLayers = data.layers
-      .filter((layer): layer is TileLayer => layer.type === 'tilelayer')
-      .map(layer => toLayer(layer, tileMap, data.tilewidth, data.tileheight));
-
-    const objectLayers = data.layers
-      .filter((layer): layer is ObjectGroup => layer.type === 'objectgroup')
-      .map(layer => toMapObjects(layer, data.tilewidth, data.tileheight))
-      .reduce((l, r) => l.concat(r));
-
-    const {width, height, tilewidth, tileheight} = data;
-
-    return new GameMap({
-      width, height, tilewidth, tileheight,
-    }, backgroundLayers, objectLayers);
-  }
-
-  private constructor(
+  constructor(
     readonly world: WorldInfo,
     private readonly layers: CellLayer[],
     objects: MapObject[],
@@ -84,7 +61,31 @@ export class GameMap {
   getObject(name: string) {
     return this.objectsByName[name];
   }
+
+  static deserialize(data: MapData) {
+    return loadMap(data);
+  }
 }
+
+async function loadMap(data: MapData) {
+  const tileMap = await createTileMap(data);
+
+  const backgroundLayers = data.layers
+    .filter((layer): layer is TileLayer => layer.type === 'tilelayer')
+    .map(layer => toLayer(layer, tileMap, data.tilewidth, data.tileheight));
+
+  const objectLayers = data.layers
+    .filter((layer): layer is ObjectGroup => layer.type === 'objectgroup')
+    .map(layer => toMapObjects(layer, data.tilewidth, data.tileheight))
+    .reduce((l, r) => l.concat(r));
+
+  const {width, height, tilewidth, tileheight} = data;
+
+  return new GameMap({
+    width, height, tilewidth, tileheight,
+  }, backgroundLayers, objectLayers);
+}
+
 
 export interface MapObject extends Point {
   name: string;

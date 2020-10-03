@@ -1,6 +1,9 @@
+import type {MapData} from './tiled-map';
 import {Car} from './Car.js';
 import {GameMap} from './Map.js';
+import {Serializable, deserialize} from './serialization.js';
 
+@Serializable()
 export class Game {
   private readonly car: Car;
 
@@ -24,11 +27,16 @@ export class Game {
     this.ctx.restore();
   }
 
-  static async create(ctx: CanvasRenderingContext2D, pathToMap: string) {
-    const map = await GameMap.load(pathToMap);
+  static async deserialize({ctx, mapData}: GameData) {
+    const map = await deserialize('GameMap', mapData);
     const game = new Game(map, ctx);
     // HACK! these objects reference each other, so we just set this here.
     (map as any).game = game;
     return game;
   }
 };
+
+interface GameData {
+  ctx: CanvasRenderingContext2D;
+  mapData: MapData;
+}

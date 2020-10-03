@@ -1,5 +1,8 @@
 import {Car} from './Car.js';
-import {Game} from './Game.js';
+import {loadJson} from './loader.js';
+import {deserialize} from './serialization.js';
+import './Game.js';
+import './Map.js';
 
 addEventListener('load', () => {
   startTheGameAlready()
@@ -12,7 +15,8 @@ async function startTheGameAlready() {
   const canvas = document.querySelector('canvas')!;
   const ctx = canvas!.getContext('2d')!;
   await Car.load();
-  const game = await Game.create(ctx, 'maps/map.json');
+  const mapData = await loadJson('maps/map.json');
+  const game = await deserialize('Game', { ctx, mapData });
 
   requestAnimationFrame(tick);
 

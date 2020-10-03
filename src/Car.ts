@@ -2,6 +2,7 @@ import {isKeyPressed} from './KeyboardListener.js';
 import {GameMap, SerializedObject, Terrain} from './Map.js';
 import {setXY} from './math.js';
 import {Serializable} from './serialization.js';
+import {Audio} from './Audio.js';
 
 /* DIRECTIONS
 Direction 0 is +x in game space, down-right in screen space
@@ -67,6 +68,7 @@ export class Car {
       'images/car/carBlue6_010.png',
       'images/car/carBlue6_015.png',
     ].map(waitForImageToLoad));
+    await Audio.load('audio/sfx/sinkWater1.ogg', 'splash');
   }
 
   static async deserialize(data: SerializedObject) {
@@ -109,7 +111,10 @@ export class Car {
 
     this.terrain = this.map.getTerrain(this);
 
-    if(this.terrain === 'water') this.map.remove(this);
+    if(this.terrain === 'water') {
+      Audio.play('splash');
+      this.map.remove(this);
+    } 
   }
   
   draw(ctx: CanvasRenderingContext2D) {

@@ -1,6 +1,6 @@
 import {isKeyPressed} from './KeyboardListener.js';
 import {GameObject} from './Game.js';
-import {GameMap, SerializedObject, Terrain} from './Map.js';
+import {GameMap, SerializedObject, Terrain, Chunk} from './Map.js';
 import {Serializable} from './serialization.js';
 import {Audio} from './Audio.js';
 
@@ -21,6 +21,9 @@ const TERRAIN_SPEED: {[key in Terrain]: number} = {
 
 @Serializable()
 export class Car implements GameObject {
+  readonly radius = 0.5;
+
+  chunks: Chunk[] = [];
   screenX!: number;
   screenY!: number;
   terrain: Terrain = 'road';
@@ -80,7 +83,12 @@ export class Car implements GameObject {
     return new Car(data.map, data.x, data.y, direction);
   }
 
-  constructor(readonly map: GameMap, public x:number, public y: number, /** Direction in radians */ public direction: number) {
+  constructor(
+    readonly map: GameMap,
+    public x:number,
+    public y: number,
+    /** Direction in radians */ public direction: number
+  ) {
     Audio.play('engine', 0);
   }
 

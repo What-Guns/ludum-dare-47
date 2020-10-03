@@ -42,7 +42,31 @@ export class GameMap {
 
   objectMoved(obj: GameObject) {
     computeScreenCoords(obj, obj, this.world);
-    obj.chunk = this.getChunkContaining(obj);
+
+    const firstChunk = this.layers[0].chunks[0];
+
+
+    // Points are centered at x,y, but rectangles use x,y as top corner
+    const minX = obj.x - (obj.radius ?? 0);
+    const minY = obj.y - (obj.radius ?? 0);
+
+    const width = obj.width ?? obj.radius ?? 0;
+    const height = obj.height ?? obj.radius ?? 0;
+
+    const maxX = obj.x + width;
+    const maxY = obj.y + height;
+
+    obj.chunks.length = 0;
+
+    // Add all of the chunks that the object is touching
+    for(let x = minX; x < maxX; x += Math.min(width, firstChunk.width)) {
+      for(let y = minY; y < maxY; y += Math.min(height, firstChunk.height)) {
+        const chunk = this.getChunkContaining(x, y);
+        if(chunk) obj.chunks.push(chunk);
+      }
+    }
+
+    removeDuplicates(obj.chunks);
   }
 
   tick(dt: number) {
@@ -107,7 +131,7 @@ export class GameMap {
   }
 
   getTerrain(obj: GameObject): Terrain {
-    const chunk = obj.chunk;
+    const chunk = this.getChunkContaining(obj.x, obj.y);
     if(!chunk) return 'void';
 
     const tileX = Math.floor(obj.x - chunk.x);
@@ -118,10 +142,10 @@ export class GameMap {
     return tile?.terrain ?? 'void';
   }
 
-  private getChunkContaining(point: Point) {
+  private getChunkContaining(x: number, y: number) {
     const chunks = this.layers[0].chunks;
-    const chunkX = Math.floor(point.x / chunks[0].width);
-    const chunkY = Math.floor(point.y / chunks[0].height);
+    const chunkX = Math.floor(x / chunks[0].width);
+    const chunkY = Math.floor(y / chunks[0].height);
     return this.chunkLookup[chunkX]?.[chunkY];
   }
 
@@ -207,6 +231,8 @@ interface CellLayer {
 }
 
 export interface Chunk {
+  /** Objects that are in this chunk, even partially. */
+  objects: GameObject[];
   width: number;
   height: number;
   x: number;
@@ -246,7 +272,7 @@ function toLayer(layer: TileLayer, tileMap: Map<number, Tile>, tilewidth: number
   const gameLayer = {
     height: layer.height,
     width: layer.width,
-    chunks: chunks.map(c =>  {
+    chunks: chunks.map<Chunk>(c =>  {
       const screenPoint = computeScreenCoords({}, c, {tilewidth, tileheight});
       const screenWidth = computeScreenCoords({}, {x: c.width, y: 0}, {tilewidth, tileheight}).screenX * 2;
       const screenHeight = computeScreenCoords({}, {x: c.width, y: c.height}, {tilewidth, tileheight}).screenY;
@@ -263,6 +289,7 @@ function toLayer(layer: TileLayer, tileMap: Map<number, Tile>, tilewidth: number
         screenHeight,
         tiles,
         tilesSortedByY,
+        objects: [],
       };
     })
   };
@@ -369,3 +396,14 @@ function checkTerrain(terrain: string): asserts terrain is Terrain {
   if(!knownTerrains.has(terrain as Terrain)) throw new Error(`Unrecognized terrain ${terrain}`);
 }
 
+function removeDuplicates(items: any[]) {
+  if(items.length > 8) throw new Error(`It's too expensive to look for duplicates of ${items}!`);
+
+  for(let i = 0; i < items.length - 1; i++) {
+    let compareWith = i+1;
+    while(compareWith < items.length) {
+      if(items[i] === items[compareWith]) items.splice(compareWith, 1);
+      else compareWith++;
+    }
+  }
+}

@@ -26,7 +26,12 @@ export class Game {
 };
 
 export interface GameObject extends Point, ScreenPoint {
-  chunk?: Chunk;
+  chunks: Chunk[];
+
+  radius?: number;
+  width?: number;
+  height?: number;
+
   tick(dt: number): void;
   draw(ctx: CanvasRenderingContext2D): void;
 }

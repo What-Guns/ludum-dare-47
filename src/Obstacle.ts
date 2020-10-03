@@ -1,10 +1,11 @@
 import { GameObject } from './Game.js';
 import { Serializable } from './serialization.js';
-import { SerializedObject, GameMap } from './Map.js';
+import { SerializedObject, GameMap, Chunk } from './Map.js';
 import { Point, computeScreenCoords, ScreenPoint } from './math.js';
 
 @Serializable()
 export class Obstacle implements GameObject, Point {
+  chunks: Chunk[] = [];
   screenX!: number;
   screenY!: number;
 

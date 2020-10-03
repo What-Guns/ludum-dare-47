@@ -31,7 +31,6 @@ async function startTheGameAlready() {
       ctx.fillStyle = "black";
       ctx.fillText(String(1000 / dt), 0, 30);
       ctx.fillText("Arrow Keys or WASD to move the car!", 0, 100);
-      ctx.fillText("The sprite is turned 45 degrees because of our viewing angle", 0, 120);
     }
 
     lastTick = timestamp;

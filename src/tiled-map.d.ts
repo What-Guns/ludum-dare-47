@@ -54,13 +54,56 @@ export interface ObjectGroup {
   draworder: string;
   id: number;
   name: string;
-  objects: never[];
+  objects: TiledObject[]
   opacity: number;
   type: 'objectgroup';
   visible: boolean;
   x: number;
   y: number;
 }
+
+export interface TiledObject {
+  height: number;
+  id: number;
+  name: string;
+  point?: boolean;
+  properties: Property[];
+  rotation: number;
+  type: string;
+  visible: boolean;
+  width: number;
+  x: number;
+  y: number;
+}
+
+export interface FloatProperty {
+  name: string;
+  type: 'float';
+  value: number;
+}
+
+export interface BoolProperty {
+  name: string;
+  type: 'bool';
+  value: boolean;
+}
+
+export interface ObjectProperty {
+  name: string;
+  type: 'object';
+  value: number;
+}
+
+export interface ColorProperty {
+  name: string;
+  type: 'color';
+  value: string;
+}
+
+type Property = FloatProperty
+  | BoolProperty
+  | ObjectProperty
+  | ColorProperty;
 
 export interface Chunk {
   data: number[];

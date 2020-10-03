@@ -14,9 +14,6 @@ export class Car{
   screenX!: number;
   screenY!: number;
 
-  // Direction of the car in radians
-  direction: number;
-
   // Direction of the car from 0-7
   snappedDirectionIndex = 0;
 
@@ -47,9 +44,8 @@ export class Car{
     console.log(Car.IMAGES);
   }
 
-  constructor(readonly game: Game, x:number, y: number) {
+  constructor(readonly game: Game, x:number, y: number, /** Direction in radians */ public direction: number) {
     setXY(this, x, y, game.map.world);
-    this.direction = 0;
   }
 
   tick(dt: number) {

@@ -1,11 +1,13 @@
-import { Car } from './Car.js';
+import {Car} from './Car.js';
 import {GameMap} from './Map.js';
 
 export class Game {
   private readonly car: Car;
 
   constructor(readonly map: GameMap, readonly ctx: CanvasRenderingContext2D) {
-    this.car = new Car(this, 1, 1);
+    const carSpawn = map.findObjectByName('car-spawn')!;
+    const degrees = carSpawn.properties.find(p => p.name === 'direction')!.value as number;
+    this.car = new Car(this, carSpawn.x, carSpawn.y, - degrees * Math.PI / 180);
   }
 
   tick(dt: number){
@@ -24,6 +26,9 @@ export class Game {
 
   static async create(ctx: CanvasRenderingContext2D, pathToMap: string) {
     const map = await GameMap.load(pathToMap);
-    return new Game(map, ctx);
+    const game = new Game(map, ctx);
+    // HACK! these objects reference each other, so we just set this here.
+    (map as any).game = game;
+    return game;
   }
 };

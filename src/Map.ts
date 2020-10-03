@@ -1,11 +1,16 @@
-import type {MapData, TileLayer, ExternalTileset, Tileset} from './tiled-map';
+import type {MapData, TileLayer, ExternalTileset, Tileset, ObjectGroup, Property} from './tiled-map';
+import type {Game} from './Game';
 import {loadImage, loadJson} from './loader.js';
 import {setXY, Point} from './math.js';
 
 const GRID_ALPHA = 0.25;
 
 export class GameMap {
+  // HACK: these objects reference each other, so this is initialized externally.
+  readonly game!: Game;
+
   private readonly grid: [Point, Point][];
+  private readonly objectsByName: {[key: string]: MapObject|undefined};
 
   static async load(mapDataPath: string) {
     const data = await loadJson(mapDataPath) as MapData;
@@ -16,11 +21,45 @@ export class GameMap {
       .filter((layer): layer is TileLayer => layer.type === 'tilelayer')
       .map(layer => toLayer(layer, tileMap, data.tilewidth, data.tileheight));
 
+    const objectLayers = data.layers
+      .filter((layer): layer is ObjectGroup => layer.type === 'objectgroup')
+      .map(layer => toMapObjects(layer, data.tilewidth, data.tileheight))
+      .reduce((l, r) => l.concat(r));
+
     const {width, height, tilewidth, tileheight} = data;
 
     return new GameMap({
       width, height, tilewidth, tileheight,
-    }, backgroundLayers);
+    }, backgroundLayers, objectLayers);
+  }
+
+  private constructor(
+    readonly world: WorldInfo,
+    private readonly layers: CellLayer[],
+    objects: MapObject[],
+  ) {
+    this.objectsByName = objects.reduce((collection, obj) => {
+      if(obj.name in collection) console.warn(`Found duplicate object ${obj.name}`);
+      return {...collection, [obj.name]: obj};
+    }, {});
+
+    this.grid = [];
+    for(let x = 0; x <= world.width; x++) {
+      this.grid.push([
+        setXY({}, x, 0, world),
+        setXY({}, x, world.height, world)
+      ]);
+    }
+    for(let y = 0; y <= world.height; y++) {
+      this.grid.push([
+        setXY({}, 0, y, world),
+        setXY({}, world.width, y, world)
+      ]);
+    }
+  }
+
+  findObjectByName(name: string) {
+    return this.objectsByName[name];
   }
 
   draw(ctx: CanvasRenderingContext2D) {
@@ -42,21 +81,14 @@ export class GameMap {
     ctx.globalAlpha = 1;
   }
 
-  private constructor(readonly world: WorldInfo, private readonly layers: CellLayer[]) {
-    this.grid = [];
-    for(let x = 0; x <= world.width; x++) {
-      this.grid.push([
-        setXY({}, x, 0, world),
-        setXY({}, x, world.height, world)
-      ]);
-    }
-    for(let y = 0; y <= world.height; y++) {
-      this.grid.push([
-        setXY({}, 0, y, world),
-        setXY({}, world.width, y, world)
-      ]);
-    }
+  getObject(name: string) {
+    return this.objectsByName[name];
   }
+}
+
+export interface MapObject extends Point {
+  name: string;
+  properties: Property[];
 }
 
 export interface WorldInfo {
@@ -106,6 +138,15 @@ function toLayer(layer: TileLayer, tileMap: Map<number, Tile>, tilewidth: number
     width: layer.width,
     tiles
   };
+}
+
+function toMapObjects(group: ObjectGroup, tilewidth: number, tileheight: number): MapObject[] {
+  return group.objects.map(obj => {
+    const x = obj.x / tileheight; // NOT A TYPO. Tiles from tiled are squares.
+    const y = obj.y / tileheight;
+    const point = setXY({}, x, y, {tilewidth, tileheight});
+    return {...point, name: obj.name, properties: obj.properties};
+  });
 }
 
 async function createTileMap(data: MapData) {

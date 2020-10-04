@@ -43,6 +43,9 @@ export class Car extends GameObject {
   timeInReverse = 0;
   isBeeping = false;
 
+  timeSpentBraking = 0;
+  isSquealing = false;
+
   gameInfo: GameInfo | null = null;
 
   readonly MAX_SPEED = 0.003;
@@ -53,6 +56,7 @@ export class Car extends GameObject {
   readonly REVERSE_MIN_SPEED = -0.001;
   readonly TIME_BEFORE_REVERSE_LIGHTS = 400;
   readonly TIME_BEFORE_REVERSE = 600;
+  readonly TIME_BEFORE_BRAKE_SQUEAL = 150;
   readonly DECELERATION_FACTOR = 0.998;
   readonly MAX_ENGINE_PITCH = 1.3;
   readonly ESSENTIALLY_STOPPED = 0.00004;
@@ -85,6 +89,7 @@ export class Car extends GameObject {
     await Audio.load('audio/sfx/engine.ogg', 'engine');
     await Audio.load('audio/sfx/beep.ogg', 'beep');
     await Audio.load('audio/sfx/pickup.wav', 'pickup');
+    await Audio.load('audio/sfx/brake.ogg', 'brake');
   }
 
   static async deserialize(data: SerializedObject) {
@@ -129,6 +134,10 @@ export class Car extends GameObject {
     }
     if (isKeyPressed('KeyS') || isKeyPressed('ArrowDown')) {
       this.brakeOrReverse(dt);
+    } else {
+      Audio.stop('brake');
+      this.timeSpentBraking = 0;
+      this.isSquealing = false;
     }
     this.speed *= this.DECELERATION_FACTOR;
     if (Math.abs(this.speed) < this.ESSENTIALLY_STOPPED) this.speed = 0;
@@ -223,9 +232,18 @@ export class Car extends GameObject {
       if (this.speed < 0) {
         this.speed = 0;
       }
+      this.timeSpentBraking += dt;
+      if(this.timeSpentBraking > this.TIME_BEFORE_BRAKE_SQUEAL) {
+        if(!this.isSquealing) {
+          Audio.playSFX('brake');
+          this.isSquealing = true;
+        }    
+      }
     } else if (this.timeInReverse < this.TIME_BEFORE_REVERSE) {
       this.timeInReverse += dt;
+      Audio.stop('brake')
     } else {
+      Audio.stop('brake')
       this.speed += this.REVERSE_ACCELERATION * dt;
       if (this.speed < this.REVERSE_MIN_SPEED) {
         this.speed = this.REVERSE_MIN_SPEED;

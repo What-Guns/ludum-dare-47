@@ -66,9 +66,9 @@ export class Building extends GameObject {
 
     const myPieces = [];
 
-    const {maxTallness = 8, minTallness = 2, ...globalFilter} = obj.properties as unknown as ZoningRestrictions;
+    const {tallness: fixedTallness, maxTallness = 8, minTallness = 2, ...globalFilter} = obj.properties as unknown as ZoningRestrictions&{tallness?: number};
 
-    const tallness = minTallness + Math.floor(Math.random() * (maxTallness - minTallness));
+    const tallness = fixedTallness ?? minTallness + Math.floor(Math.random() * (maxTallness - minTallness));
 
     for(let i = 0; i < tallness; i++) {
       const filter = {
@@ -105,10 +105,14 @@ async function loadPieces(pieces: BuildingPiece[]) {
 }
 
 function pickPiece(pieces: BuildingPiece[], filters: BuildingFilters) {
+  for(const [key, value] of Object.entries(filters)) {
+    if(value === undefined || value === "") delete (filters as any)[key];
+  }
   const legalPieces = pieces.filter(piece => {
     return Object.entries(filters).every(([key, value]) => {
       if(value === "") return true;
       if(value === undefined) return true;
+      if((typeof value !== 'boolean') && !(key in piece)) return true;
       return piece[key as keyof BuildingFilters] === value;
     });
     return true;

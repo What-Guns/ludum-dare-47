@@ -108,7 +108,7 @@
                  "y":0
                 }, 
                 {
-                 "data":[84, 11, 1, 67, 67, 35, 35, 35, 84, 11, 1, 67, 67, 35, 35, 35, 84, 11, 1, 67, 67, 35, 35, 227, 84, 11, 1, 67, 67, 35, 35, 35, 84, 11, 1, 67, 67, 35, 35, 48, 84, 11, 1, 67, 67, 26, 35, 49, 84, 11, 1, 67, 67, 26, 26, 26, 84, 11, 1, 67, 67, 26, 26, 26],
+                 "data":[84, 11, 1, 67, 67, 35, 35, 35, 84, 11, 1, 67, 67, 35, 35, 35, 84, 11, 1, 67, 67, 35, 35, 35, 84, 11, 1, 67, 67, 35, 35, 35, 84, 11, 1, 67, 67, 35, 35, 48, 84, 11, 1, 67, 67, 26, 35, 49, 84, 11, 1, 67, 67, 26, 26, 26, 84, 11, 1, 67, 67, 26, 26, 26],
                  "height":8,
                  "width":8,
                  "x":0,
@@ -1236,17 +1236,6 @@
                 }, 
                 {
                  "height":50,
-                 "id":8,
-                 "name":"",
-                 "rotation":0,
-                 "type":"Obstacle",
-                 "visible":true,
-                 "width":50,
-                 "x":250,
-                 "y":600
-                }, 
-                {
-                 "height":50,
                  "id":12,
                  "name":"",
                  "properties":[
@@ -1521,18 +1510,6 @@
                 }, 
                 {
                  "height":0,
-                 "id":29,
-                 "name":"",
-                 "point":true,
-                 "rotation":0,
-                 "type":"Building",
-                 "visible":true,
-                 "width":0,
-                 "x":250,
-                 "y":600
-                }, 
-                {
-                 "height":0,
                  "id":38,
                  "name":"Package Test",
                  "point":true,
@@ -1554,6 +1531,62 @@
                  "width":0,
                  "x":528.333333333333,
                  "y":622.333333333333
+                }, 
+                {
+                 "height":250,
+                 "id":40,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"color",
+                         "type":"string",
+                         "value":"red"
+                        }],
+                 "rotation":0,
+                 "type":"BuildingBlock",
+                 "visible":true,
+                 "width":100,
+                 "x":900,
+                 "y":600
+                }, 
+                {
+                 "height":250,
+                 "id":41,
+                 "name":"",
+                 "rotation":0,
+                 "type":"BuildingBlock",
+                 "visible":true,
+                 "width":100,
+                 "x":900,
+                 "y":900
+                }, 
+                {
+                 "height":0,
+                 "id":42,
+                 "name":"",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"color",
+                         "type":"string",
+                         "value":"yellow"
+                        }, 
+                        {
+                         "name":"direction",
+                         "type":"string",
+                         "value":"east"
+                        }, 
+                        {
+                         "name":"tallness",
+                         "type":"int",
+                         "value":5
+                        }],
+                 "rotation":0,
+                 "type":"Building",
+                 "visible":true,
+                 "width":0,
+                 "x":350,
+                 "y":450
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1562,7 +1595,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":40,
+ "nextobjectid":45,
  "orientation":"isometric",
  "renderorder":"right-down",
  "tiledversion":"1.4.2",

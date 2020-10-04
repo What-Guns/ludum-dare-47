@@ -8,7 +8,8 @@ export class Minimap {
   readonly mapOffsetX = 70;
   readonly mapOffsetY = -69;
 
-  readonly mapScale = 1.4;
+  readonly mapScaleX = 1.4;
+  readonly mapScaleY = 1.0;
   readonly mapAlpha = 0.85
 
   readonly blinkOnTime = 700;
@@ -30,8 +31,8 @@ export class Minimap {
 
   draw(ctx: CanvasRenderingContext2D) {
     ctx.save();
+    ctx.scale(this.mapScaleX, this.mapScaleY);
     ctx.rotate(Math.PI / 4);
-    ctx.scale(this.mapScale, this.mapScale);
     ctx.strokeStyle = 'black 2px';
     ctx.strokeRect(this.mapOffsetX-1, this.mapOffsetY-1, this.mapImage.width + 1, this.mapImage.height + 1)
     ctx.globalAlpha = this.mapAlpha;

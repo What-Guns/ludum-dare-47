@@ -17,6 +17,19 @@
  "name":"terrain",
  "objectalignment":"bottom",
  "spacing":0,
+ "terrains":[
+        {
+         "name":"Water",
+         "tile":83
+        }, 
+        {
+         "name":"Grass",
+         "tile":34
+        }, 
+        {
+         "name":"Road",
+         "tile":64
+        }],
  "tilecount":88,
  "tiledversion":"1.4.2",
  "tileheight":80,
@@ -38,6 +51,7 @@
          "image":"tilesets\/roads\/beachCornerES.png",
          "imageheight":58,
          "imagewidth":100,
+         "terrain":[0, 1, 0, 0],
          "type":"water"
         }, 
         {
@@ -45,6 +59,7 @@
          "image":"tilesets\/roads\/beachCornerNE.png",
          "imageheight":65,
          "imagewidth":100,
+         "terrain":[1, 0, 0, 0],
          "type":"water"
         }, 
         {
@@ -52,6 +67,7 @@
          "image":"tilesets\/roads\/beachCornerNW.png",
          "imageheight":58,
          "imagewidth":100,
+         "terrain":[0, 0, 1, 0],
          "type":"water"
         }, 
         {
@@ -59,6 +75,7 @@
          "image":"tilesets\/roads\/beachCornerSW.png",
          "imageheight":58,
          "imagewidth":100,
+         "terrain":[0, 0, 0, 1],
          "type":"water"
         }, 
         {
@@ -66,6 +83,7 @@
          "image":"tilesets\/roads\/beachE.png",
          "imageheight":65,
          "imagewidth":100,
+         "terrain":[1, 1, 0, 0],
          "type":"water"
         }, 
         {
@@ -73,6 +91,7 @@
          "image":"tilesets\/roads\/beachES.png",
          "imageheight":65,
          "imagewidth":100,
+         "terrain":[1, 0, 1, 1],
          "type":"water"
         }, 
         {
@@ -80,6 +99,7 @@
          "image":"tilesets\/roads\/beachN.png",
          "imageheight":65,
          "imagewidth":100,
+         "terrain":[1, 0, 1, 0],
          "type":"water"
         }, 
         {
@@ -87,6 +107,7 @@
          "image":"tilesets\/roads\/beachNE.png",
          "imageheight":58,
          "imagewidth":100,
+         "terrain":[0, 1, 1, 1],
          "type":"water"
         }, 
         {
@@ -94,6 +115,7 @@
          "image":"tilesets\/roads\/beachNW.png",
          "imageheight":65,
          "imagewidth":100,
+         "terrain":[1, 1, 0, 1],
          "type":"water"
         }, 
         {
@@ -101,6 +123,7 @@
          "image":"tilesets\/roads\/beachS.png",
          "imageheight":58,
          "imagewidth":100,
+         "terrain":[0, 1, 0, 1],
          "type":"water"
         }, 
         {
@@ -108,6 +131,7 @@
          "image":"tilesets\/roads\/beachSW.png",
          "imageheight":65,
          "imagewidth":100,
+         "terrain":[1, 1, 1, 0],
          "type":"water"
         }, 
         {
@@ -115,6 +139,7 @@
          "image":"tilesets\/roads\/beachW.png",
          "imageheight":58,
          "imagewidth":100,
+         "terrain":[0, 0, 1, 1],
          "type":"water"
         }, 
         {
@@ -213,6 +238,7 @@
          "image":"tilesets\/roads\/exitE.png",
          "imageheight":65,
          "imagewidth":100,
+         "terrain":[-1, -1, 2, 2],
          "type":"road"
         }, 
         {
@@ -220,6 +246,7 @@
          "image":"tilesets\/roads\/exitN.png",
          "imageheight":65,
          "imagewidth":100,
+         "terrain":[-1, 2, -1, 2],
          "type":"road"
         }, 
         {
@@ -227,6 +254,7 @@
          "image":"tilesets\/roads\/exitS.png",
          "imageheight":65,
          "imagewidth":100,
+         "terrain":[2, -1, 2, -1],
          "type":"road"
         }, 
         {
@@ -234,6 +262,7 @@
          "image":"tilesets\/roads\/exitW.png",
          "imageheight":65,
          "imagewidth":100,
+         "terrain":[2, 2, -1, -1],
          "type":"road"
         }, 
         {
@@ -241,6 +270,7 @@
          "image":"tilesets\/roads\/grass.png",
          "imageheight":65,
          "imagewidth":100,
+         "terrain":[1, 1, 1, 1],
          "type":"grass"
         }, 
         {
@@ -311,6 +341,7 @@
          "image":"tilesets\/roads\/lotE.png",
          "imageheight":65,
          "imagewidth":100,
+         "terrain":[1, 1, 2, 2],
          "type":"road"
         }, 
         {
@@ -318,6 +349,7 @@
          "image":"tilesets\/roads\/lotES.png",
          "imageheight":65,
          "imagewidth":100,
+         "terrain":[1, 1, 2, 1],
          "type":"road"
         }, 
         {
@@ -325,6 +357,7 @@
          "image":"tilesets\/roads\/lotN.png",
          "imageheight":65,
          "imagewidth":100,
+         "terrain":[1, 2, 1, 2],
          "type":"road"
         }, 
         {
@@ -332,6 +365,7 @@
          "image":"tilesets\/roads\/lotNE.png",
          "imageheight":65,
          "imagewidth":100,
+         "terrain":[1, 1, 1, 2],
          "type":"road"
         }, 
         {
@@ -339,6 +373,7 @@
          "image":"tilesets\/roads\/lotNW.png",
          "imageheight":65,
          "imagewidth":100,
+         "terrain":[1, 2, 1, 1],
          "type":"road"
         }, 
         {
@@ -346,6 +381,7 @@
          "image":"tilesets\/roads\/lotS.png",
          "imageheight":65,
          "imagewidth":100,
+         "terrain":[2, 1, 2, 1],
          "type":"road"
         }, 
         {
@@ -353,6 +389,7 @@
          "image":"tilesets\/roads\/lotSW.png",
          "imageheight":65,
          "imagewidth":100,
+         "terrain":[2, 1, 1, 1],
          "type":"road"
         }, 
         {
@@ -360,6 +397,7 @@
          "image":"tilesets\/roads\/lotW.png",
          "imageheight":65,
          "imagewidth":100,
+         "terrain":[2, 2, 1, 1],
          "type":"road"
         }, 
         {
@@ -451,6 +489,7 @@
          "image":"tilesets\/roads\/road.png",
          "imageheight":65,
          "imagewidth":100,
+         "terrain":[2, 2, 2, 2],
          "type":"road"
         }, 
         {
@@ -556,6 +595,7 @@
          "image":"tilesets\/roads\/water.png",
          "imageheight":58,
          "imagewidth":100,
+         "terrain":[0, 0, 0, 0],
          "type":"water"
         }, 
         {

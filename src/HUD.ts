@@ -1,4 +1,5 @@
 import { AudioControls } from "./AudioControls.js";
+import { GameInfo } from "./GameInfo.js";
 import { GameMap } from "./GameMap.js";
 import { MessageBar } from "./MessageBar.js";
 import { Minimap } from "./Minimap.js";
@@ -31,6 +32,10 @@ export class HUD {
 
   tick(dt: number) {
     this.hudElementList.forEach(el => el.tick(dt));
+  }
+
+  setGameInfo(info: GameInfo) {
+    this.messageBar.setGameInfo(info);
   }
 }
 

@@ -1,3 +1,5 @@
+import { GameInfo } from "./GameInfo";
+
 export class MessageBar {
   private width = 0.8; // 80% of the screen
   private bottomMargin = 50;
@@ -10,6 +12,10 @@ export class MessageBar {
   readonly maxIterations = 5;
   readonly timeBetweenIterations = 180;
   readonly unscramblePercentage = 0.6;
+  
+  setGameInfo(info: GameInfo) {
+    info.messageBar = this;
+  }
 
   draw(ctx: CanvasRenderingContext2D){
     ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';

@@ -8,6 +8,7 @@ import {Point, GeoLookup, computeScreenCoords, ScreenPoint, removeFromArray} fro
 import {Car} from './Car.js';
 import { HUD } from './HUD.js';
 import { Package } from './Package.js';
+import { GameInfo } from './GameInfo';
 
 const GRID_ALPHA = 0.25;
 
@@ -29,6 +30,8 @@ export class GameMap {
   private readonly chunkLookup: GeoLookup<Chunk> = {};
 
   private readonly hud: HUD;
+  private car?: Car;
+  gameInfo?: GameInfo = undefined;
 
   widthInTiles = 0;
   heightInTiles = 0;
@@ -68,8 +71,10 @@ export class GameMap {
     this.objectMoved(obj);
     this.objectsById.set(obj.id, obj);
     if(obj instanceof Car) {
+      this.car = obj;
       this.camera.target = obj;
       this.hud.minimap.addPoint(obj, 'red')
+      obj.setGameInfo(this.gameInfo as GameInfo)
     }
     if(obj instanceof Package) {
       this.hud.minimap.addPoint(obj, 'blue')
@@ -80,6 +85,7 @@ export class GameMap {
     for(const chunk of obj.chunks) removeFromArray(obj, chunk.objects);
     this.objectsById.delete(obj.id);
     removeFromArray(obj, this.objects);
+    if (obj === this.car) this.car = undefined;
     /* if(obj instanceof Car) */ this.hud.minimap.removePoint(obj);
   }
 
@@ -328,6 +334,12 @@ export class GameMap {
         }
       }
     }
+  }
+
+  setGameInfo(info: GameInfo) {
+    this.gameInfo = info;
+    this.hud.setGameInfo(info);
+    this.car?.setGameInfo(info);
   }
 }
 

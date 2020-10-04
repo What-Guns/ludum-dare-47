@@ -7,6 +7,7 @@ import {Audio} from './Audio.js';
 import {clamp} from './math.js';
 import {RespawnPoint} from './RespawnPoint.js';
 import { Package } from './Package.js';
+import { GameInfo } from './GameInfo.js';
 
 /* DIRECTIONS
 Direction 0 is +x in game space, down-right in screen space
@@ -41,6 +42,8 @@ export class Car extends GameObject {
   speed = 0;
   timeInReverse = 0;
   isBeeping = false;
+
+  gameInfo: GameInfo | null = null;
 
   readonly MAX_SPEED = 0.003;
   readonly ACCELERATION = 0.000005;
@@ -297,6 +300,11 @@ export class Car extends GameObject {
   collectPackage(pkg: Package) {
     this.map.remove(pkg);
     Audio.playSFX('pickup');
+    this.gameInfo!.incrementPackages();
+  }
+
+  setGameInfo(info: GameInfo) {
+    this.gameInfo = info;
   }
 }
 

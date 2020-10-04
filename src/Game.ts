@@ -1,9 +1,11 @@
+import { GameInfo } from './GameInfo.js';
 import {GameMap, GameMapData} from './GameMap.js';
 import {Serializable, deserialize} from './serialization.js';
 
 @Serializable()
 export class Game {
   map!: GameMap;
+  gameInfo = new GameInfo();
 
   constructor(readonly ctx: CanvasRenderingContext2D) {
   }
@@ -19,6 +21,7 @@ export class Game {
   static async deserialize({ctx, mapData}: GameData) {
     const game = new Game(ctx);
     game.map = await deserialize(GameMap, mapData)
+    game.map.setGameInfo(game.gameInfo);
     // HACK! these objects reference each other, so we just set this here.
     return game;
   }

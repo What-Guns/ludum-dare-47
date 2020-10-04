@@ -1,5 +1,5 @@
 import { HUD } from './HUD.js';
-import {GameMap, GameMapData} from './Map.js';
+import {GameMap, GameMapData} from './GameMap.js';
 import {Serializable, deserialize} from './serialization.js';
 
 @Serializable()

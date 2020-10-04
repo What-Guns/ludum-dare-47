@@ -1,4 +1,4 @@
-import {GameMap, Chunk} from './Map.js';
+import {GameMap, Chunk} from './GameMap.js';
 import {Point, ScreenPoint} from './math.js';
 import {Property} from './tiled-map';
 

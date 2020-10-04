@@ -1,6 +1,6 @@
 import {isKeyPressed} from './KeyboardListener.js';
 import {GameObject, SerializedObject} from './GameObject.js';
-import {Terrain} from './Map.js';
+import {Terrain} from './GameMap.js';
 import {Obstacle} from './Obstacle.js';
 import {Serializable} from './serialization.js';
 import {Audio} from './Audio.js';

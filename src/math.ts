@@ -1,4 +1,3 @@
-import {WorldInfo} from './Map.js';
 
 export function computeScreenCoords<T extends Partial<ScreenPoint>>(out: T, {x, y}: Point, {tilewidth, tileheight}: TileDimensions) {
   out.screenX = ((x - y) * tilewidth/2);
@@ -16,7 +15,7 @@ export interface ScreenPoint {
   screenY: number;
 }
 
-type TileDimensions = Pick<WorldInfo, 'tilewidth'|'tileheight'>;
+type TileDimensions = {tilewidth: number, tileheight: number}
 
 export type GeoLookup<T> = {
   [x: number]: {

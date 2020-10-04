@@ -1,7 +1,6 @@
 import {loadJson} from './loader.js';
 import {deserialize} from './serialization.js';
 import {Audio} from './Audio.js';
-import './Map.js';
 
 addEventListener('load', () => {
   startTheGameAlready()

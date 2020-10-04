@@ -1,5 +1,9 @@
 const typeMap = new Map<string, SerializableType<any, any>>();
 
+export type Type<T> = {
+  new(...args: any): T;
+};
+
 export function Serializable<TData, T>() {
   return (type: SerializableType<TData, T>) => {
     typeMap.set(type.name, type);

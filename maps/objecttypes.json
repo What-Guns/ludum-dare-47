@@ -1,0 +1,25 @@
+[
+    {
+        "color": "#ffa0a0a4",
+        "name": "Car",
+        "properties": [
+            {
+                "name": "direction",
+                "type": "float",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "color": "#ffaa0000",
+        "name": "Obstacle",
+        "properties": [
+        ]
+    },
+    {
+        "color": "#ff00ff00",
+        "name": "RespawnPoint",
+        "properties": [
+        ]
+    }
+]

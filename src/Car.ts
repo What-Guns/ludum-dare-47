@@ -5,6 +5,7 @@ import {Obstacle} from './Obstacle.js';
 import {Serializable} from './serialization.js';
 import {Audio} from './Audio.js';
 import {clamp} from './math.js';
+import {RespawnPoint} from './RespawnPoint.js';
 
 /* DIRECTIONS
 Direction 0 is +x in game space, down-right in screen space
@@ -137,6 +138,8 @@ export class Car extends GameObject {
       Audio.play('splash');
       Audio.stop('engine');
       this.map.remove(this);
+
+      this.map.expensivelyfindNearestOfType(RespawnPoint, this)?.startTimer();
     } 
 
     const currentCollision = this.collideWithObstacles();

@@ -1,10 +1,10 @@
 import type {MapData, TileLayer, ExternalTileset, Tileset, ObjectGroup, Property, TiledMapChunk} from './tiled-map';
 import {Game} from './Game.js';
 import {GameObject} from './GameObject.js';
-import {Serializable, deserialize} from './serialization.js';
+import {Serializable, deserialize, Type} from './serialization.js';
 import {loadImage, loadJson} from './loader.js';
 import { Point, GeoLookup, computeScreenCoords, ScreenPoint } from './math.js';
-import { Car } from './Car.js';
+import {Car} from './Car.js';
 
 const GRID_ALPHA = 0.25;
 
@@ -12,13 +12,14 @@ export type Terrain = 'void'|'grass'|'road'|'water'|'sand'|'dirt';
 
 @Serializable()
 export class GameMap {
-  private readonly objects: GameObject[] = [];
-  private readonly objectsById = new Map<number, GameObject>();
-
-  private readonly camera: ScreenPoint = {
+  readonly camera = {
+    target: null as GameObject|null,
     screenX: 0,
     screenY: 0,
   };
+
+  private readonly objects: GameObject[] = [];
+  private readonly objectsById = new Map<number, GameObject>();
 
   private readonly grid: [ScreenPoint, ScreenPoint][];
 
@@ -36,6 +37,7 @@ export class GameMap {
     this.objects.push(obj);
     this.objectMoved(obj);
     this.objectsById.set(obj.id, obj);
+    if(obj instanceof Car) this.camera.target = obj;
   }
 
   remove(obj: GameObject) {
@@ -46,6 +48,20 @@ export class GameMap {
 
   find(id: number) {
     return this.objectsById.get(id);
+  }
+
+  expensivelyfindNearestOfType<T extends GameObject>(type: Type<T>, point: Point) {
+    return this.objects
+      .filter(obj => obj instanceof type)
+      .map(obj => {
+        return {
+          obj,
+          distSquared: Math.pow(obj.x - point.x, 2) + Math.pow(obj.y - point.y, 2),
+        };
+      })
+      .sort((l, r) => l.distSquared - r.distSquared)
+      .slice(0, 1)
+      .map(x => x.obj)[0] as T|undefined;
   }
 
   objectMoved(obj: GameObject) {
@@ -80,9 +96,7 @@ export class GameMap {
 
   tick(dt: number) {
     for(const obj of this.objects) obj.tick(dt);
-    // TODO: don't look for the car on every frame like c'mon that's insane.
-    const car = this.objects.find(o => o instanceof Car) as Car|undefined;
-    if(car) computeScreenCoords(this.camera, car, this.world);
+    if(this.camera.target) computeScreenCoords(this.camera, this.camera.target, this.world);
   }
 
   draw(ctx: CanvasRenderingContext2D) {

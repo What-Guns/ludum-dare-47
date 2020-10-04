@@ -120,8 +120,8 @@ export class GameMap {
     obj.chunks.length = 0;
 
     // Add all of the chunks that the object is touching
-    for(let x = minX; x < maxX; x += Math.min(width, firstChunk.width)) {
-      for(let y = minY; y < maxY; y += Math.min(height, firstChunk.height)) {
+    for(let x = minX; x <= maxX; x += Math.min(width, firstChunk.width)) {
+      for(let y = minY; y <= maxY; y += Math.min(height, firstChunk.height)) {
         const chunk = this.getChunkContaining(x, y);
         if(chunk) this.addObjectToChunk(obj, chunk);
       }

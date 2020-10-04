@@ -81,7 +81,7 @@ export class Car extends GameObject {
       'images/car/carBlue6_010.png',
       'images/car/carBlue6_015.png',
     ].map(waitForImageToLoad));
-    await Audio.load('audio/sfx/sinkWater1.ogg', 'splash');
+    await Audio.load('audio/sfx/splash.ogg', 'splash');
     await Audio.load('audio/sfx/engine.ogg', 'engine');
     await Audio.load('audio/sfx/beep.ogg', 'beep');
     await Audio.load('audio/sfx/pickup.wav', 'pickup');

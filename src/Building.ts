@@ -109,7 +109,7 @@ async function loadPieces(pieces: BuildingPiece[]) {
   }));
 }
 
-function pickPiece(pieces: BuildingPiece[], filters: BuildingFilters) {
+function pickPiece(pieces: BuildingPiece[], filters: BuildingFilters): BuildingPiece {
   for(const [key, value] of Object.entries(filters)) {
     if(value === undefined || value === "") delete (filters as any)[key];
   }
@@ -123,7 +123,12 @@ function pickPiece(pieces: BuildingPiece[], filters: BuildingFilters) {
     return true;
   });
 
-  if(legalPieces.length === 0) throw new Error(`No pieces match the filter ${JSON.stringify(filters)}`);
+  if(legalPieces.length === 0) {
+    if(!filters.color) throw new Error(`No pieces match the filter ${JSON.stringify(filters)}`);
+    console.log(`Warning: no pieces match ${JSON.stringify(filters)}`);
+    delete filters.color;
+    return pickPiece(pieces, filters);
+  }
 
   return pickRandom(legalPieces);
 }

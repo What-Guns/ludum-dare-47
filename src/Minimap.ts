@@ -5,8 +5,10 @@ export class Minimap {
   readonly mapImage: HTMLImageElement;
   readonly points: Array<MinimapPoint>;
 
-  readonly mapOffsetX = 60;
-  readonly mapOffsetY = -50;
+  readonly mapOffsetX = 70;
+  readonly mapOffsetY = -69;
+
+  readonly mapScale = 1.3;
 
   readonly blinkOnTime = 700;
   readonly blinkOffTime = 400;
@@ -29,9 +31,9 @@ export class Minimap {
     ctx.save();
     ctx.rotate(Math.PI / 4);
     ctx.strokeStyle = 'black 2px';
-    ctx.strokeRect(this.mapOffsetX-1, this.mapOffsetY-1, this.mapImage.width + 2, this.mapImage.height + 2)
+    ctx.strokeRect(this.mapOffsetX-1, this.mapOffsetY-1, this.mapImage.width * this.mapScale + 1, this.mapImage.height *this.mapScale + 1)
     ctx.globalAlpha = 0.75;
-    ctx.drawImage(this.mapImage, this.mapOffsetX, this.mapOffsetY);
+    ctx.drawImage(this.mapImage, this.mapOffsetX, this.mapOffsetY, this.mapImage.width * this.mapScale, this.mapImage.height * this.mapScale);
     ctx.globalAlpha = 1;
     ctx.translate(this.mapOffsetX, this.mapOffsetY)
     if (this.drawPoints) this.points.forEach(p => p.draw(ctx));

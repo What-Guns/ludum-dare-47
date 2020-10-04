@@ -64,6 +64,11 @@
                  "value":true
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -89,6 +94,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":true
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
                 }, 
                 {
                  "name":"middle",
@@ -118,6 +128,11 @@
                  "value":true
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -143,6 +158,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":true
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -253,6 +273,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":true
@@ -278,6 +303,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":true
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
                 }, 
                 {
                  "name":"middle",
@@ -307,6 +337,11 @@
                  "value":true
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -334,6 +369,11 @@
                  "value":true
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -359,6 +399,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":true
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -415,6 +460,11 @@
                  "value":true
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"brown"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -440,6 +490,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -469,6 +524,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":true
@@ -496,6 +556,11 @@
                  "value":true
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -521,6 +586,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":true
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
                 }, 
                 {
                  "name":"middle",
@@ -604,6 +674,11 @@
                  "value":true
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"brown"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -629,6 +704,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":true
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -658,6 +738,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":true
@@ -683,6 +768,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -712,6 +802,11 @@
                  "value":true
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -737,6 +832,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":true
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
                 }, 
                 {
                  "name":"middle",
@@ -766,6 +866,11 @@
                  "value":true
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -791,6 +896,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":true
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -820,6 +930,11 @@
                  "value":true
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -845,6 +960,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":true
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
                 }, 
                 {
                  "name":"middle",
@@ -901,6 +1021,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"brown"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":true
@@ -926,6 +1051,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":true
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
                 }, 
                 {
                  "name":"middle",
@@ -955,6 +1085,11 @@
                  "value":true
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -980,6 +1115,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":true
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -1009,6 +1149,11 @@
                  "value":true
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -1034,6 +1179,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":true
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -1063,6 +1213,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"brown"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":true
@@ -1088,6 +1243,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -1117,6 +1277,11 @@
                  "value":true
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -1142,6 +1307,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":true
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
                 }, 
                 {
                  "name":"middle",
@@ -1171,6 +1341,11 @@
                  "value":true
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -1196,6 +1371,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"brown"
                 }, 
                 {
                  "name":"middle",
@@ -1225,6 +1405,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":true
@@ -1250,6 +1435,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
                 }, 
                 {
                  "name":"middle",
@@ -1279,6 +1469,11 @@
                  "value":true
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -1304,6 +1499,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"brown"
                 }, 
                 {
                  "name":"middle",
@@ -1333,6 +1533,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":true
@@ -1358,6 +1563,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
                 }, 
                 {
                  "name":"middle",
@@ -1387,6 +1597,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":true
@@ -1412,6 +1627,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -1441,6 +1661,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":true
@@ -1466,6 +1691,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -1495,6 +1725,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":true
@@ -1520,6 +1755,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -1549,6 +1789,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":true
@@ -1574,6 +1819,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -1603,6 +1853,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -1628,6 +1883,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -1657,6 +1917,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -1682,6 +1947,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -1711,6 +1981,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"brown"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -1736,6 +2011,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -1765,6 +2045,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -1790,6 +2075,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"brown"
                 }, 
                 {
                  "name":"middle",
@@ -1819,6 +2109,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"brown"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -1844,6 +2139,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -1873,6 +2173,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -1898,6 +2203,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
                 }, 
                 {
                  "name":"middle",
@@ -1927,6 +2237,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"brown"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -1952,6 +2267,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"brown"
                 }, 
                 {
                  "name":"middle",
@@ -1981,6 +2301,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -2006,6 +2331,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -2035,6 +2365,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -2060,6 +2395,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
                 }, 
                 {
                  "name":"middle",
@@ -2089,6 +2429,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"brown"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -2114,6 +2459,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"brown"
                 }, 
                 {
                  "name":"middle",
@@ -2143,6 +2493,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -2168,6 +2523,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -2224,6 +2584,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -2249,6 +2614,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
                 }, 
                 {
                  "name":"middle",
@@ -2278,6 +2648,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"brown"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -2303,6 +2678,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":true
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -2332,6 +2712,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -2357,6 +2742,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -2440,6 +2830,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -2465,6 +2860,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
                 }, 
                 {
                  "name":"middle",
@@ -2494,6 +2894,11 @@
                  "value":true
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -2519,6 +2924,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":true
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -2548,6 +2958,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -2573,6 +2988,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -2656,6 +3076,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -2681,6 +3106,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":true
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
                 }, 
                 {
                  "name":"middle",
@@ -2710,6 +3140,11 @@
                  "value":true
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -2735,6 +3170,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":true
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -2764,6 +3204,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -2789,6 +3234,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -2872,6 +3322,11 @@
                  "value":true
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -2897,6 +3352,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":true
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -2926,6 +3386,11 @@
                  "value":true
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -2951,6 +3416,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":true
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -2980,6 +3450,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -3005,6 +3480,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -3061,6 +3541,11 @@
                  "value":true
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -3086,6 +3571,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":true
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -3115,6 +3605,11 @@
                  "value":true
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -3142,6 +3637,11 @@
                  "value":true
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -3167,6 +3667,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":true
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -3304,6 +3809,11 @@
                  "value":true
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -3329,6 +3839,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":true
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"red"
                 }, 
                 {
                  "name":"middle",
@@ -3358,6 +3873,11 @@
                  "value":true
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -3383,6 +3903,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":true
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",

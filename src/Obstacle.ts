@@ -2,6 +2,11 @@ import { GameObject, SerializedObject } from './GameObject.js';
 import { Serializable } from './serialization.js';
 import { computeScreenCoords, ScreenPoint } from './math.js';
 
+export interface ObstacleProps extends SerializedObject {
+  width: number;
+  height: number;
+}
+
 @Serializable()
 export class Obstacle extends GameObject {
   readonly height: number;
@@ -9,10 +14,12 @@ export class Obstacle extends GameObject {
   screenX!: number;
   screenY!: number;
 
+  color?: string;
+
   /** All corners except the top, which is represented by screenX/Y. */
   private otherCorners: ScreenPoint[];
 
-  constructor(data: SerializedObject&{width: number, height: number}) {
+  constructor(data: ObstacleProps) {
     super(data);
     (window as any).obstacle = this;
     const {x, y, width, height, map} = data;
@@ -28,8 +35,8 @@ export class Obstacle extends GameObject {
   draw(ctx: CanvasRenderingContext2D) {
     ctx.save();
 
-    ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
-    ctx.strokeStyle = 'red';
+    ctx.fillStyle = this.color ?? 'rgba(255, 0, 0, 0.5)';
+    ctx.strokeStyle = this.color ?? 'red';
     ctx.lineWidth = 2;
 
     ctx.beginPath();
@@ -47,7 +54,7 @@ export class Obstacle extends GameObject {
   static async deserialize(data: SerializedObject) {
     if(typeof(data.width) !== 'number') throw new Error(`Invalid width ${data.width}`);
     if(typeof(data.height) !== 'number') throw new Error(`Invalid height ${data.height}`);
-    return new Obstacle(data as SerializedObject&{width: number, height: number});
+    return new Obstacle(data as ObstacleProps);
   }
 
   pointToClosestEdge(x: number, y: number) {

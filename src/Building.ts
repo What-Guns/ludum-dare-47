@@ -1,4 +1,6 @@
 import {GameObject, SerializedObject, reduceProperties} from './GameObject.js';
+import {Point} from './math.js';
+import {GameMap} from './GameMap.js';
 import {Serializable} from './serialization.js';
 import {loadJson, loadImage} from './loader.js';
 import {Tileset, Grid} from './tiled-map';
@@ -47,17 +49,33 @@ export class Building extends GameObject {
     ctx.clip();
   }
 
+  static async create(map: GameMap, {x, y}: Point, zoning: ZoningRestrictions) {
+    return this.deserialize({
+      id: -1,
+      name: '',
+      type: Building.name,
+      x,
+      y,
+      map,
+      properties: zoning as any,
+    });
+  }
+
   static async deserialize(obj: SerializedObject) {
-    const height = (obj.properties.height as number|undefined) ?? 8;
     const {pieces, grid} = await buildings;
 
     const myPieces = [];
 
-    for(let i = 0; i < height; i++) {
+    const {maxTallness = 8, minTallness = 2, ...globalFilter} = obj.properties as unknown as ZoningRestrictions;
+
+    const tallness = minTallness + Math.floor(Math.random() * (maxTallness - minTallness));
+
+    for(let i = 0; i < tallness; i++) {
       const filter = {
+        ...globalFilter,
         bottom: i === 0 || undefined,
-        middle: i > 0 && i < height - 1 || undefined,
-        top: i === height - 1 || undefined,
+        middle: i > 0 && i < tallness - 1 || undefined,
+        top: i === tallness - 1 || undefined,
       };
       myPieces.push(pickPiece(pieces, filter));
     }
@@ -72,6 +90,12 @@ export class Building extends GameObject {
   }
 }
 
+export interface ZoningRestrictions {
+  color?: string;
+  minTallness: number;
+  maxTallness: number;
+}
+
 async function loadPieces(pieces: BuildingPiece[]) {
   return Promise.all(pieces.map(async piece => {
     if('image' in piece) return Promise.resolve(piece);
@@ -83,6 +107,7 @@ async function loadPieces(pieces: BuildingPiece[]) {
 function pickPiece(pieces: BuildingPiece[], filters: BuildingFilters) {
   const legalPieces = pieces.filter(piece => {
     return Object.entries(filters).every(([key, value]) => {
+      if(value === "") return true;
       if(value === undefined) return true;
       return piece[key as keyof BuildingFilters] === value;
     });
@@ -94,36 +119,38 @@ function pickPiece(pieces: BuildingPiece[], filters: BuildingFilters) {
   return pickRandom(legalPieces);
 }
 
-type BuildingFilters = Partial<Pick<UnloadedBuildingPiece, 'top'|'middle'|'bottom'>>;
+type BuildingFilters = Partial<Pick<BuildingPiece, 'top'|'middle'|'bottom'|'color'>>;
 
 interface BuildingParameters extends SerializedObject {
   pieces: LoadedBuildingPiece[];
   grid: Grid;
 }
 
-type BuildingPiece = UnloadedBuildingPiece|LoadedBuildingPiece;
-
 interface BuildingSet {
   pieces: BuildingPiece[];
   grid: Grid;
 }
 
-interface UnloadedBuildingPiece {
+type BuildingPiece = UnloadedBuildingPiece | LoadedBuildingPiece;
+
+
+interface UnloadedBuildingPiece extends BuildingProps {
   imageUrl: string;
   offsetPX: {x: number, y: number};
   tallness: number;
-  bottom: boolean;
-  middle: boolean;
-  top: boolean;
 }
 
-interface LoadedBuildingPiece {
+interface LoadedBuildingPiece extends BuildingProps {
   image: HTMLImageElement;
   offsetPX: {x: number, y: number};
   tallness: number;
+}
+
+interface BuildingProps {
   bottom: boolean;
   middle: boolean;
   top: boolean;
+  color?: string;
 }
 
 async function loadBuildings(): Promise<BuildingSet> {

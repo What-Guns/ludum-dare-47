@@ -10,9 +10,30 @@
         "name": "Building",
         "properties": [
             {
-                "name": "height",
+                "name": "tallness",
                 "type": "int",
                 "value": 0
+            }
+        ]
+    },
+    {
+        "color": "#ffa0a0a4",
+        "name": "BuildingBlock",
+        "properties": [
+            {
+                "name": "color",
+                "type": "string",
+                "value": ""
+            },
+            {
+                "name": "maxTallness",
+                "type": "int",
+                "value": 7
+            },
+            {
+                "name": "minTallness",
+                "type": "int",
+                "value": 1
             }
         ]
     },
@@ -34,6 +55,17 @@
         ]
     },
     {
+        "color": "#ffa0a0a4",
+        "name": "Package",
+        "properties": [
+            {
+                "name": "direction",
+                "type": "float",
+                "value": 0
+            }
+        ]
+    },
+    {
         "color": "#ff0055ff",
         "name": "Portal",
         "properties": [
@@ -47,17 +79,6 @@
     {
         "color": "#ff00ff00",
         "name": "RespawnPoint",
-        "properties": [
-            {
-                "name": "direction",
-                "type": "float",
-                "value": 0
-            }
-        ]
-    },
-    {
-        "color": "#ffa0a0a4",
-        "name": "Package",
         "properties": [
             {
                 "name": "direction",

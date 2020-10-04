@@ -1524,12 +1524,6 @@
                  "id":29,
                  "name":"",
                  "point":true,
-                 "properties":[
-                        {
-                         "name":"height",
-                         "type":"int",
-                         "value":5
-                        }],
                  "rotation":0,
                  "type":"Building",
                  "visible":true,

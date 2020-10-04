@@ -1,9 +1,9 @@
 import {GameObject, BaseProps} from './GameObject.js';
-import {Cell} from './GameMap.js';
+import {DrawableCell} from './GameMap.js';
 
 /** Draws a tile, but is an object. This allows for tiles to have z-ordering. */
 export class TileProxy extends GameObject {
-  private readonly tile: Cell;
+  private readonly tile: DrawableCell;
 
   constructor({tile, ...baseProps}: TileProxyProps) {
     super(baseProps);
@@ -19,5 +19,5 @@ export class TileProxy extends GameObject {
 }
 
 interface TileProxyProps extends BaseProps {
-  tile: Cell;
+  tile: DrawableCell;
 }

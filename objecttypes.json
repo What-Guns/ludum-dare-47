@@ -6,6 +6,17 @@
         ]
     },
     {
+        "color": "#ffaaaa7f",
+        "name": "Building",
+        "properties": [
+            {
+                "name": "height",
+                "type": "int",
+                "value": 0
+            }
+        ]
+    },
+    {
         "color": "#ffa0a0a4",
         "name": "Car",
         "properties": [

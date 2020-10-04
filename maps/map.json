@@ -1212,34 +1212,6 @@
          "y":0
         }, 
         {
-         "chunks":[
-                {
-                 "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 127, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                 "height":8,
-                 "width":8,
-                 "x":0,
-                 "y":8
-                }, 
-                {
-                 "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 113, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                 "height":8,
-                 "width":8,
-                 "x":32,
-                 "y":40
-                }],
-         "height":48,
-         "id":6,
-         "name":"buildings",
-         "opacity":1,
-         "startx":0,
-         "starty":0,
-         "type":"tilelayer",
-         "visible":true,
-         "width":48,
-         "x":0,
-         "y":0
-        }, 
-        {
          "draworder":"topdown",
          "id":2,
          "name":"Object Layer 1",
@@ -1546,6 +1518,60 @@
                  "width":0,
                  "x":496,
                  "y":846.666666666667
+                }, 
+                {
+                 "height":0,
+                 "id":29,
+                 "name":"",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"height",
+                         "type":"int",
+                         "value":5
+                        }],
+                 "rotation":0,
+                 "type":"Building",
+                 "visible":true,
+                 "width":0,
+                 "x":400,
+                 "y":550
+                }, 
+                {
+                 "height":0,
+                 "id":30,
+                 "name":"",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"height",
+                         "type":"int",
+                         "value":3
+                        }],
+                 "rotation":0,
+                 "type":"Building",
+                 "visible":true,
+                 "width":0,
+                 "x":400,
+                 "y":500
+                }, 
+                {
+                 "height":0,
+                 "id":31,
+                 "name":"",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"height",
+                         "type":"int",
+                         "value":4
+                        }],
+                 "rotation":0,
+                 "type":"Building",
+                 "visible":true,
+                 "width":0,
+                 "x":400,
+                 "y":450
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1554,7 +1580,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":28,
+ "nextobjectid":33,
  "orientation":"isometric",
  "renderorder":"right-down",
  "tiledversion":"1.4.2",

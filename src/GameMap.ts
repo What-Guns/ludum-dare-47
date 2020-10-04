@@ -38,7 +38,7 @@ export class GameMap {
             this.add(new TileProxy({
               id: -1,
               map: this,
-              tile,
+              tile: tile as DrawableCell,
               x: tile.x,
               y: tile.y,
             }));
@@ -134,7 +134,7 @@ export class GameMap {
     for(const chunk of backgroundLayer.chunks) {
       if(!this.isChunkVisible(chunk, screenWidth, screenHeight)) continue;
       for(const tile of chunk.tiles) {
-        this.drawTile(ctx, tile);
+        if(tile.image) this.drawTile(ctx, tile as DrawableCell);
       }
 
       for(const obj of chunk.objects) {
@@ -172,8 +172,7 @@ export class GameMap {
     return tile?.terrain ?? 'void';
   }
 
-  drawTile(ctx: CanvasRenderingContext2D, {screenX, screenY, image, offsetPX}: Cell) {
-    if(!image) return;
+  drawTile(ctx: CanvasRenderingContext2D, {screenX, screenY, image, offsetPX}: DrawableCell) {
     ctx.drawImage(image,
       screenX - this.world.tilewidth + image.width / 2 + offsetPX.x,
       screenY + this.world.tileheight - image.height + offsetPX.y);
@@ -325,7 +324,7 @@ interface Tile {
   offset: {x: number; y: number};
 }
 
-export interface Cell {
+interface Cell {
   x: number;
   y: number;
   screenX: number;
@@ -334,6 +333,7 @@ export interface Cell {
   terrain: Terrain;
   offsetPX: Point;
 }
+export type DrawableCell = Required<Pick<Cell, 'screenX'|'screenY'|'image'|'offsetPX'>>
 
 function toLayer(layer: TileLayer, tileMap: Map<number, Tile>, tilewidth: number, tileheight: number): CellLayer {
   const chunks: TiledMapChunk[] = 'data' in layer ? [layer] : layer.chunks;

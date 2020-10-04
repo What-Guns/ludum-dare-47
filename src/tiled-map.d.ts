@@ -35,6 +35,7 @@ export interface Tile {
   imageheight: number;
   imagewidth: number;
   type: string;
+  properties?: Property[];
 }
 
 export type TileLayer = InlineTileLayer|ChunkedTileLayer;

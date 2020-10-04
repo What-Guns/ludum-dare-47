@@ -92,7 +92,7 @@ export class Car extends GameObject {
     super(serialized);
     this.direction = direction;
     (window as any).car = this;
-    Audio.play('engine', 0);
+    Audio.playSFX('engine', 0);
   }
 
   tick(dt: number) {
@@ -100,7 +100,7 @@ export class Car extends GameObject {
     let turning = false;
     if (this.timeInReverse > this.TIME_BEFORE_REVERSE_LIGHTS) {
       if (!this.isBeeping) {
-        Audio.play('beep', 0); // Backing up
+        Audio.playSFX('beep', 0); // Backing up
         this.isBeeping = true;
       }
     } else {
@@ -135,7 +135,7 @@ export class Car extends GameObject {
     this.terrain = this.map.getTerrain(this);
 
     if(this.terrain === 'water') {
-      Audio.play('splash');
+      Audio.playSFX('splash');
       Audio.stop('engine');
       this.map.remove(this);
 

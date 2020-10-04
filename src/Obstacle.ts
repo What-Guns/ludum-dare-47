@@ -51,4 +51,28 @@ export class Obstacle extends GameObject {
     if(typeof(data.height) !== 'number') throw new Error(`Invalid height ${data.height}`);
     return new Obstacle(data as SerializedObject&{width: number, height: number});
   }
+
+  pointToClosestEdge(x: number, y: number) {
+    const offsetX = (x - this.midpointX()) / (this.width / 2);
+    const offsetY = (y - this.midpointY()) / (this.height / 2);
+    const pt = {x, y};
+    if (Math.abs(offsetX) > Math.abs(offsetY)) {
+      pt.x = offsetX < 0 ? this.x : this.x + this.width;
+    } else {
+      pt.y = offsetY < 0 ? this.y : this.y + this.height;
+    }
+    return pt;
+  }
+
+  pointIsInside(x: number, y: number) {
+    return x > this.x && x < this.x + this.width && y > this.y && y < this.y + this.height;
+  }
+
+  midpointX() {
+    return this.x + this.width/2;
+  }
+
+  midpointY() {
+    return this.y + this.height/2;
+  }
 }

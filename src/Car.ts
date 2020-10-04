@@ -252,28 +252,29 @@ export class Car extends GameObject {
   }
 
   private collideWithObstacle(obstacle: Obstacle) {
-    const diffX = this.x - (obstacle.x + (obstacle.width / 2));
-    const diffY = this.y - (obstacle.y + (obstacle.height / 2));
+    const diffX = this.x - obstacle.midpointX();
+    const diffY = this.y - obstacle.midpointY();
 
     const clampedDiffX = clamp(diffX, -obstacle.width / 2, obstacle.width / 2);
     const clampedDiffY = clamp(diffY, -obstacle.height / 2, obstacle.height / 2);
 
     const collisionX = obstacle.x + obstacle.width / 2 + clampedDiffX;
     const collisionY = obstacle.y + obstacle.height / 2 + clampedDiffY;
-
+    let target;
+    if (obstacle.pointIsInside(this.x, this.y)) {
+      target = obstacle.pointToClosestEdge(this.x, this.y);
+    }
     const distSquared = Math.pow(collisionX - this.x, 2) + Math.pow(collisionY - this.y, 2);
 
     const collisionExists = distSquared <= this.radius * this.radius
     this.debug = (collisionExists).toString();
-    return collisionExists ? { x: collisionX, y: collisionY, dist: Math.sqrt(distSquared) } : null;
+    return collisionExists ? target : null;
   }
 
-  private processCollision(collision: {x: number, y: number, dist: number}) {
-    const directionToCollision = Math.atan2(collision.y - this.y, collision.x - this.x);
-    const directionAwayFromCollision = directionToCollision + Math.PI;
-    this.x = collision.x + (collision.dist * Math.cos(directionAwayFromCollision));
-    this.y = collision.y + (collision.dist * Math.sin(directionAwayFromCollision));
-    this.speed = 0;
+  private processCollision(target: {x: number, y: number}) {
+    this.x = target.x;
+    this.y = target.y;
+    //this.speed = 0;
   }
 }
 

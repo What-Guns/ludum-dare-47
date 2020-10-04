@@ -82,8 +82,8 @@ export interface ObjectGroup {
 }
 
 export interface TiledObject {
-  height: number;
   id: number;
+  height: number;
   name: string;
   point?: boolean;
   properties?: Property[];

@@ -1,9 +1,10 @@
 import {isKeyPressed} from './KeyboardListener.js';
 import {GameObject} from './GameObject.js';
-import {GameMap, SerializedObject, Terrain} from './Map.js';
+import {SerializedObject, Terrain} from './Map.js';
 import {Obstacle} from './Obstacle.js';
 import {Serializable} from './serialization.js';
 import {Audio} from './Audio.js';
+import {clamp} from './math.js';
 
 /* DIRECTIONS
 Direction 0 is +x in game space, down-right in screen space
@@ -23,6 +24,7 @@ const TERRAIN_SPEED: {[key in Terrain]: number} = {
 @Serializable()
 export class Car extends GameObject {
   readonly radius = 0.25;
+  direction: number;
 
   screenX!: number;
   screenY!: number;
@@ -82,17 +84,12 @@ export class Car extends GameObject {
     await this.load();
     const degrees = data.properties.direction as number|undefined ?? 0;
     const direction = -degrees / 180 * Math.PI;
-    return new Car(data.map, data.x, data.y, direction);
+    return new Car({...data, direction});
   }
 
-  constructor(
-    readonly map: GameMap,
-    x: number,
-    y: number,
-    /** Direction in radians */
-    public direction: number
-  ) {
-    super(map, x, y);
+  constructor({direction, ...serialized}: SerializedObject&{direction: number}) {
+    super(serialized);
+    this.direction = direction;
     (window as any).car = this;
     Audio.play('engine', 0);
   }
@@ -285,8 +282,4 @@ async function waitForImageToLoad(path: string) {
     img.addEventListener('error', reject);
   });
   return img;
-}
-
-function clamp(value: number, min: number, max: number) {
-  return Math.max(min, Math.min(max, value));
 }

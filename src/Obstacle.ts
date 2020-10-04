@@ -1,20 +1,25 @@
 import { GameObject } from './GameObject.js';
 import { Serializable } from './serialization.js';
-import { SerializedObject, GameMap, Chunk } from './Map.js';
+import { SerializedObject, Chunk } from './Map.js';
 import { computeScreenCoords, ScreenPoint } from './math.js';
 
 @Serializable()
 export class Obstacle extends GameObject {
   readonly chunks = new Set<Chunk>();
+  readonly height: number;
+  readonly width: number;
   screenX!: number;
   screenY!: number;
 
   /** All corners except the top, which is represented by screenX/Y. */
   private otherCorners: ScreenPoint[];
 
-  constructor(map: GameMap, x: number, y: number, readonly width: number, readonly height: number) {
-    super(map, x, y);
+  constructor(data: SerializedObject&{width: number, height: number}) {
+    super(data);
     (window as any).obstacle = this;
+    const {x, y, width, height, map} = data;
+    this.height = height;
+    this.width = width;
     this.otherCorners = [
       computeScreenCoords({}, {x: x + width, y}, map.world),
       computeScreenCoords({}, {x: x + width, y: y + height}, map.world),
@@ -41,9 +46,9 @@ export class Obstacle extends GameObject {
 
   tick() { }
 
-  static async deserialize({map, x, y, width, height}: SerializedObject) {
-    if(typeof(width) !== 'number') throw new Error(`Invalid width ${width}`);
-    if(typeof(height) !== 'number') throw new Error(`Invalid height ${height}`);
-    return new Obstacle(map, x, y, width, height);
+  static async deserialize(data: SerializedObject) {
+    if(typeof(data.width) !== 'number') throw new Error(`Invalid width ${data.width}`);
+    if(typeof(data.height) !== 'number') throw new Error(`Invalid height ${data.height}`);
+    return new Obstacle(data as SerializedObject&{width: number, height: number});
   }
 }

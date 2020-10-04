@@ -13,6 +13,7 @@ export type Terrain = 'void'|'grass'|'road'|'water'|'sand'|'dirt';
 @Serializable()
 export class GameMap {
   private readonly objects: GameObject[] = [];
+  private readonly objectsById = new Map<number, GameObject>();
 
   private readonly camera: ScreenPoint = {
     screenX: 0,
@@ -34,12 +35,17 @@ export class GameMap {
   add(obj: GameObject) {
     this.objects.push(obj);
     this.objectMoved(obj);
+    this.objectsById.set(obj.id, obj);
   }
 
   remove(obj: GameObject) {
     const index = this.objects.indexOf(obj);
     if(index === -1) return;
     this.objects.splice(index, 1);
+  }
+
+  find(id: number) {
+    return this.objectsById.get(id);
   }
 
   objectMoved(obj: GameObject) {
@@ -210,6 +216,7 @@ export interface GameMapData extends MapData {
 }
 
 export interface SerializedObject {
+  id: number;
   x: number;
   y: number;
   width?: number;
@@ -334,6 +341,7 @@ function toTiles(chunk: TiledMapChunk, tileMap: Map<number, Tile>, tilewidth: nu
 function toMapObjects(map: GameMap, group: ObjectGroup): SerializedObject[] {
   return group.objects.map(obj => {
     const mapObj: SerializedObject = {
+      id: obj.id,
       x: obj.x / map.world.tileheight, // NOT A TYPO. Tiles from tiled are squares.
       y: obj.y / map.world.tileheight,
       map,

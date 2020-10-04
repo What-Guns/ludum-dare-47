@@ -80,7 +80,7 @@ export class GameMap {
     for(const chunk of obj.chunks) removeFromArray(obj, chunk.objects);
     this.objectsById.delete(obj.id);
     removeFromArray(obj, this.objects);
-    if(obj instanceof Car) this.hud.minimap.removePoint(obj);
+    /* if(obj instanceof Car) */ this.hud.minimap.removePoint(obj);
   }
 
   find(id: number) {

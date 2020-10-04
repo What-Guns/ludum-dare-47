@@ -40,8 +40,6 @@ export class Car extends GameObject {
   speed = 0;
   timeInReverse = 0;
   isBeeping = false;
-  collisionX = 0;
-  collisionY = 0;
 
   readonly MAX_SPEED = 0.003;
   readonly ACCELERATION = 0.000005;
@@ -154,10 +152,6 @@ export class Car extends GameObject {
     const sprite = this.chooseSprite(this.snappedDirectionIndex);
     ctx.drawImage(sprite, this.screenX - sprite.width / 2, this.screenY - sprite.height / 2);
     ctx.fillText(this.debug, this.screenX + 30, this.screenY + 30);
-    const collision = computeScreenCoords({}, {x: this.collisionX, y: this.collisionY}, this.map.world)
-    ctx.beginPath()
-    ctx.arc(collision.screenX, collision.screenY, 13, 0, Math.PI * 2)
-    ctx.fill()
   }
 
   chooseSprite(index: number) {
@@ -264,14 +258,14 @@ export class Car extends GameObject {
     const clampedDiffX = clamp(diffX, -obstacle.width / 2, obstacle.width / 2);
     const clampedDiffY = clamp(diffY, -obstacle.height / 2, obstacle.height / 2);
 
-    this.collisionX = obstacle.x + obstacle.width / 2 + clampedDiffX;
-    this.collisionY = obstacle.y + obstacle.height / 2 + clampedDiffY;
-    const directionToPush = Math.atan2(this.collisionY - this.y, this.x - this.collisionX);
+    const collisionX = obstacle.x + obstacle.width / 2 + clampedDiffX;
+    const collisionY = obstacle.y + obstacle.height / 2 + clampedDiffY;
+    const directionToPush = Math.atan2(collisionY - this.y, this.x - collisionX);
     const target = {
-      x: this.collisionX + (Math.cos(directionToPush) * this.radius),
-      y: this.collisionY - (Math.sin(directionToPush) * this.radius),
+      x: collisionX + (Math.cos(directionToPush) * this.radius),
+      y: collisionY - (Math.sin(directionToPush) * this.radius),
     }
-    const distSquared = Math.pow(this.collisionX - this.x, 2) + Math.pow(this.collisionY - this.y, 2);
+    const distSquared = Math.pow(collisionX - this.x, 2) + Math.pow(collisionY - this.y, 2);
 
     const collisionExists = distSquared <= this.radius * this.radius
     this.debug = (collisionExists).toString();

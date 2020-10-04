@@ -9,6 +9,7 @@ export class Minimap {
   readonly mapOffsetY = -69;
 
   readonly mapScale = 1.3;
+  readonly mapAlpha = 0.85
 
   readonly blinkOnTime = 700;
   readonly blinkOffTime = 400;
@@ -32,7 +33,7 @@ export class Minimap {
     ctx.rotate(Math.PI / 4);
     ctx.strokeStyle = 'black 2px';
     ctx.strokeRect(this.mapOffsetX-1, this.mapOffsetY-1, this.mapImage.width * this.mapScale + 1, this.mapImage.height *this.mapScale + 1)
-    ctx.globalAlpha = 0.75;
+    ctx.globalAlpha = this.mapAlpha;
     ctx.drawImage(this.mapImage, this.mapOffsetX, this.mapOffsetY, this.mapImage.width * this.mapScale, this.mapImage.height * this.mapScale);
     ctx.globalAlpha = 1;
     ctx.translate(this.mapOffsetX, this.mapOffsetY)

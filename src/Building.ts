@@ -125,7 +125,7 @@ function pickPiece(pieces: BuildingPiece[], filters: BuildingFilters): BuildingP
 
   if(legalPieces.length === 0) {
     if(!filters.color) throw new Error(`No pieces match the filter ${JSON.stringify(filters)}`);
-    console.log(`Warning: no pieces match ${JSON.stringify(filters)}`);
+    console.warn(`Warning: no pieces match ${JSON.stringify(filters)}`);
     delete filters.color;
     return pickPiece(pieces, filters);
   }

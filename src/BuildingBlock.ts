@@ -23,7 +23,6 @@ export class BuildingBlock extends Obstacle {
         if(!fillInterior && isInterior(x, y, data.width, data.height)) continue;
         const direction = chooseDirection(x, y, data.width, data.height);
         const where = { x: data.x + x, y: data.y + y, };
-        console.log(direction);
         waitFor.push(Building.create(data.map, where, {...zoning, direction}));
       }
     }

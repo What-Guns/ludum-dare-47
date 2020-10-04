@@ -30,7 +30,7 @@
          "name":"Road",
          "tile":64
         }],
- "tilecount":88,
+ "tilecount":89,
  "tiledversion":"1.4.2",
  "tileheight":80,
  "tileoffset":
@@ -497,6 +497,7 @@
          "image":"tilesets\/roads\/roadES.png",
          "imageheight":65,
          "imagewidth":100,
+         "terrain":[-1, -1, 1, -1],
          "type":"road"
         }, 
         {
@@ -567,6 +568,7 @@
          "image":"tilesets\/roads\/roadNE.png",
          "imageheight":65,
          "imagewidth":100,
+         "terrain":[-1, -1, -1, 1],
          "type":"road"
         }, 
         {
@@ -581,6 +583,7 @@
          "image":"tilesets\/roads\/roadNW.png",
          "imageheight":65,
          "imagewidth":100,
+         "terrain":[-1, 1, -1, -1],
          "type":"road"
         }, 
         {
@@ -588,6 +591,7 @@
          "image":"tilesets\/roads\/roadSW.png",
          "imageheight":65,
          "imagewidth":100,
+         "terrain":[1, -1, -1, -1],
          "type":"road"
         }, 
         {
@@ -681,6 +685,18 @@
          "imageheight":58,
          "imagewidth":100,
          "type":"water"
+        }, 
+        {
+         "id":96,
+         "image":"tilesets\/roads\/concrete.png",
+         "imageheight":65,
+         "imagewidth":100,
+         "properties":[
+                {
+                 "name":"terrain",
+                 "type":"string",
+                 "value":"road"
+                }]
         }],
  "tilewidth":100,
  "type":"tileset",

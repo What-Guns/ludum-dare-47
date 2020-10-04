@@ -51,6 +51,7 @@ export class Car extends GameObject {
   readonly TIME_BEFORE_REVERSE = 600;
   readonly DECELERATION_FACTOR = 0.998;
   readonly MAX_ENGINE_PITCH = 1.3;
+  readonly ESSENTIALLY_STOPPED = 0.00004;
 
   static IMAGES: Array<HTMLImageElement>;
   static BACKUP_IMAGES: Array<HTMLImageElement>;
@@ -125,6 +126,8 @@ export class Car extends GameObject {
       this.brakeOrReverse(dt);
     }
     this.speed *= this.DECELERATION_FACTOR;
+    if (Math.abs(this.speed) < this.ESSENTIALLY_STOPPED) this.speed = 0;
+
     if (!turning) {
       this.snapTurnDirection();
     }

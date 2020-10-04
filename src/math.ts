@@ -1,3 +1,6 @@
+import '//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js'
+import {SeedRandom} from './seedrandom';
+
 export function computeScreenCoords<T extends Partial<ScreenPoint>>(out: T, {x, y}: Point, {tilewidth, tileheight}: TileDimensions) {
   out.screenX = ((x - y) * tilewidth/2);
   out.screenY = ((x + y) * tileheight/2);
@@ -30,4 +33,12 @@ export function removeFromArray<T>(obj: T, array: T[]) {
   const index = array.indexOf(obj);
   if(index === -1) return;
   array.splice(index, 1);
+}
+
+declare global {
+  interface Math {
+    seedrandom: {
+      new(seed: any): SeedRandom;
+    }
+  }
 }

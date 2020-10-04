@@ -29,6 +29,9 @@ export class GameMap {
 
   private readonly hud: HUD;
 
+  widthInTiles = 0;
+  heightInTiles = 0;
+
   constructor(
     readonly world: WorldInfo,
     private readonly layers: CellLayer[],
@@ -52,6 +55,8 @@ export class GameMap {
 
     (window as any).map = this;
 
+    this.widthInTiles = this.world.width;
+    this.heightInTiles = this.world.height;
     this.hud = new HUD(this);
 
     setInterval(() => this.checkConsistency, 1000);

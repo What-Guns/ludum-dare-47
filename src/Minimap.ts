@@ -6,7 +6,7 @@ export class Minimap {
   readonly points: Array<MinimapPoint>;
 
   readonly mapOffsetX = 60;
-  readonly mapOffsetY = -40;
+  readonly mapOffsetY = -50;
 
   readonly blinkOnTime = 700;
   readonly blinkOffTime = 400;
@@ -16,8 +16,9 @@ export class Minimap {
 
   constructor(readonly map: GameMap) {
     const canvas = document.createElement('canvas');
-    canvas.height = 200;
-    canvas.width = 200;
+    console.log(map.heightInTiles, map.widthInTiles)
+    canvas.height = map.heightInTiles;
+    canvas.width = map.widthInTiles;
     const ctx = canvas.getContext('2d')!;
     map.drawMinimap(ctx);
     this.mapImage = new Image();
@@ -27,8 +28,10 @@ export class Minimap {
 
   draw(ctx: CanvasRenderingContext2D) {
     ctx.save();
-    ctx.globalAlpha = 0.75;
     ctx.rotate(Math.PI / 4);
+    ctx.strokeStyle = 'black 2px';
+    ctx.strokeRect(this.mapOffsetX-1, this.mapOffsetY-1, this.mapImage.width + 2, this.mapImage.height + 2)
+    ctx.globalAlpha = 0.75;
     ctx.drawImage(this.mapImage, this.mapOffsetX, this.mapOffsetY);
     ctx.globalAlpha = 1;
     ctx.translate(this.mapOffsetX, this.mapOffsetY)

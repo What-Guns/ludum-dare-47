@@ -9,7 +9,7 @@ export class Minimap {
   readonly mapOffsetX = 70;
   readonly mapOffsetY = -69;
 
-  readonly mapScaleX = 1.4;
+  readonly mapScaleX = 2;
   readonly mapScaleY = 1.0;
   readonly mapAlpha = 0.85
 

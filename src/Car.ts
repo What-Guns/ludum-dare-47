@@ -6,6 +6,7 @@ import {Serializable} from './serialization.js';
 import {Audio} from './Audio.js';
 import {clamp} from './math.js';
 import {RespawnPoint} from './RespawnPoint.js';
+import { Package } from './Package.js';
 
 /* DIRECTIONS
 Direction 0 is +x in game space, down-right in screen space
@@ -80,6 +81,7 @@ export class Car extends GameObject {
     await Audio.load('audio/sfx/sinkWater1.ogg', 'splash');
     await Audio.load('audio/sfx/engine.ogg', 'engine');
     await Audio.load('audio/sfx/beep.ogg', 'beep');
+    await Audio.load('audio/sfx/pickup.wav', 'pickup');
   }
 
   static async deserialize(data: SerializedObject) {
@@ -143,11 +145,11 @@ export class Car extends GameObject {
       this.map.remove(this);
 
       this.map.expensivelyfindNearestOfType(RespawnPoint, this)?.startTimer();
-    } 
+    }
 
-    const currentCollision = this.collideWithObstacles();
-    if (currentCollision) {
-      this.processCollision(currentCollision);
+    const currentCollisions = this.collideWithObjects();
+    if (currentCollisions[0]) {
+      this.processCollision(currentCollisions[0]);
     }
   }
   
@@ -242,16 +244,21 @@ export class Car extends GameObject {
     this.direction = Math.PI / 4 * this.snappedDirectionIndex;
   }
 
-  private collideWithObstacles() {
+  private collideWithObjects() {
     this.debug = '';
     let currentCollision;
+    const collisionList = [];
     for(const chunk of this.chunks) {
       for(const obj of chunk.objects) {
-        if(obj instanceof Obstacle) currentCollision = this.collideWithObstacle(obj);
-        if (currentCollision) return currentCollision;
+        if(obj instanceof Obstacle) {
+          currentCollision = this.collideWithObstacle(obj);
+        } else if (obj instanceof Package) {
+          currentCollision = this.collideWithPackage(obj);
+        }
+        if (currentCollision) collisionList.push(currentCollision);
       }
     }
-    return null;
+    return collisionList;
   }
 
   private collideWithObstacle(obstacle: Obstacle) {
@@ -275,10 +282,21 @@ export class Car extends GameObject {
     return collisionExists ? target : null;
   }
 
+  private collideWithPackage(obj: Package) {
+    const distanceToPackageSquared = Math.pow(this.x - obj.x, 2) + Math.pow(this.y - obj.y, 2);
+    if (distanceToPackageSquared < this.radius) this.collectPackage(obj);
+    return null;
+  }
+
   private processCollision(target: {x: number, y: number}) {
     this.x = target.x;
     this.y = target.y;
     this.speed = 0;
+  }
+
+  collectPackage(pkg: Package) {
+    this.map.remove(pkg);
+    Audio.playSFX('pickup');
   }
 }
 

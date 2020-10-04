@@ -6,5 +6,5 @@
     "folders": [
         "maps"
     ],
-    "objectTypesFile": ""
+    "objectTypesFile": "objecttypes.json"
 }

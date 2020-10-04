@@ -1253,7 +1253,7 @@
                         {
                          "name":"destination",
                          "type":"object",
-                         "value":13
+                         "value":27
                         }],
                  "rotation":0,
                  "type":"Portal",
@@ -1263,15 +1263,21 @@
                  "y":625
                 }, 
                 {
-                 "height":50,
+                 "height":100,
                  "id":13,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"destination",
+                         "type":"object",
+                         "value":26
+                        }],
                  "rotation":0,
                  "type":"Portal",
                  "visible":true,
-                 "width":50,
-                 "x":475,
-                 "y":825
+                 "width":100,
+                 "x":750,
+                 "y":1150
                 }, 
                 {
                  "height":0,
@@ -1488,6 +1494,30 @@
                  "width":0,
                  "x":2772,
                  "y":969.333333333333
+                }, 
+                {
+                 "height":0,
+                 "id":26,
+                 "name":"",
+                 "point":true,
+                 "rotation":0,
+                 "type":"ArbitraryGameObject",
+                 "visible":true,
+                 "width":0,
+                 "x":3926,
+                 "y":1780.66666666667
+                }, 
+                {
+                 "height":0,
+                 "id":27,
+                 "name":"",
+                 "point":true,
+                 "rotation":0,
+                 "type":"ArbitraryGameObject",
+                 "visible":true,
+                 "width":0,
+                 "x":496,
+                 "y":846.666666666667
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1496,7 +1526,7 @@
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":26,
+ "nextobjectid":28,
  "orientation":"isometric",
  "renderorder":"right-down",
  "tiledversion":"1.4.2",

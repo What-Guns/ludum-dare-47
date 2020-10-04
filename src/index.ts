@@ -23,7 +23,7 @@ async function startTheGameAlready() {
 
   let lastTick = 0;
   function tick(timestamp: number) {
-    ctx.clearRect(0, 0, 800, 640)
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
 
     if(lastTick !== 0) {
       const dt = Math.min(timestamp - lastTick, BIG_TICK_ENERGY);
@@ -34,6 +34,15 @@ async function startTheGameAlready() {
     lastTick = timestamp;
     requestAnimationFrame(tick);
   }
+
+  addEventListener('resize', sizeCanvas);
+
+  sizeCanvas();
+
+  function sizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
 }
 
 async function loadAudio() {
@@ -41,3 +50,4 @@ async function loadAudio() {
   await Audio.load('audio/music/intro.ogg', 'intro');
   // (document.querySelector('#titleScreenMusicButton') as HTMLButtonElement).onclick = () => Audio.playMusic('intro', 13.640, 25.633);
 }
+

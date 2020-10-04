@@ -6,6 +6,7 @@ import {TileProxy} from './TileProxy.js';
 import {loadImage, loadJson} from './loader.js';
 import {Point, GeoLookup, computeScreenCoords, ScreenPoint, removeFromArray} from './math.js';
 import {Car} from './Car.js';
+import { HUD } from './HUD.js';
 
 const GRID_ALPHA = 0.25;
 
@@ -25,6 +26,8 @@ export class GameMap {
   private readonly grid: [ScreenPoint, ScreenPoint][];
 
   private readonly chunkLookup: GeoLookup<Chunk> = {};
+
+  private readonly hud: HUD;
 
   constructor(
     readonly world: WorldInfo,
@@ -49,6 +52,8 @@ export class GameMap {
 
     (window as any).map = this;
 
+    this.hud = new HUD(this);
+
     setInterval(() => this.checkConsistency, 1000);
   }
 
@@ -56,13 +61,17 @@ export class GameMap {
     this.objects.push(obj);
     this.objectMoved(obj);
     this.objectsById.set(obj.id, obj);
-    if(obj instanceof Car) this.camera.target = obj;
+    if(obj instanceof Car) {
+      this.camera.target = obj;
+      this.hud.minimap.addPoint('car', obj, 'red')
+    }
   }
 
   remove(obj: GameObject) {
     for(const chunk of obj.chunks) removeFromArray(obj, chunk.objects);
     this.objectsById.delete(obj.id);
     removeFromArray(obj, this.objects);
+    if(obj instanceof Car) this.hud.minimap.removePoint('car');
   }
 
   find(id: number) {
@@ -119,6 +128,7 @@ export class GameMap {
 
   tick(dt: number) {
     for(const obj of this.objects) obj.tick(dt);
+    this.hud.tick(dt);
     this.updateCamera();
   }
 
@@ -167,6 +177,24 @@ export class GameMap {
     }
 
     ctx.restore();
+
+    this.hud.draw(ctx);
+  }
+
+  drawMinimap(ctx: CanvasRenderingContext2D) {
+    ctx.save();
+    const backgroundLayer = this.layers[0];
+    for(const chunk of backgroundLayer.chunks) {
+      for(const tile of chunk.tiles) {
+        this.drawMinimapTile(ctx, tile);
+      }
+    }
+    ctx.restore();
+  }
+
+  drawMinimapTile(ctx: CanvasRenderingContext2D, {x, y, image}: Cell) {
+    if(!image) return;
+    ctx.drawImage(image, x, y, 1, 1);
   }
 
   getTerrain(obj: GameObject): Terrain {

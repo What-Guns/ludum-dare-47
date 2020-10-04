@@ -1,13 +1,16 @@
+import { GameMap } from "./GameMap.js";
 import { MessageBar } from "./MessageBar.js";
 import { Minimap } from "./Minimap.js";
 
 export class HUD {
-  readonly minimap: HUDElement;
-  readonly messageBar: HUDElement;
+  readonly minimap: Minimap;
+  readonly messageBar: MessageBar;
   readonly hudElementList: Array<HUDElement> = [];
-  constructor() {
-    this.minimap = this.addHUDElement(new Minimap());
-    this.messageBar = this.addHUDElement(new MessageBar());
+  constructor(map: GameMap) {
+    this.minimap = new Minimap(map);
+    this.messageBar = new MessageBar();
+    this.addHUDElement(this.minimap);
+    this.addHUDElement(this.messageBar);
   }
 
   addHUDElement(el: HUDElement) {

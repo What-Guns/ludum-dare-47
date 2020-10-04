@@ -142,7 +142,10 @@ export class Car extends GameObject {
       this.map.remove(this);
     } 
 
-    this.collideWithObstacles();
+    const currentCollision = this.collideWithObstacles();
+    if (currentCollision) {
+      this.processCollision(currentCollision);
+    }
   }
   
   draw(ctx: CanvasRenderingContext2D) {
@@ -238,11 +241,14 @@ export class Car extends GameObject {
 
   private collideWithObstacles() {
     this.debug = '';
+    let currentCollision;
     for(const chunk of this.chunks) {
       for(const obj of chunk.objects) {
-        if(obj instanceof Obstacle) this.collideWithObstacle(obj);
+        if(obj instanceof Obstacle) currentCollision = this.collideWithObstacle(obj);
+        if (currentCollision) return currentCollision;
       }
     }
+    return null;
   }
 
   private collideWithObstacle(obstacle: Obstacle) {
@@ -257,7 +263,17 @@ export class Car extends GameObject {
 
     const distSquared = Math.pow(collisionX - this.x, 2) + Math.pow(collisionY - this.y, 2);
 
-    this.debug = (distSquared <= this.radius * this.radius).toString();
+    const collisionExists = distSquared <= this.radius * this.radius
+    this.debug = (collisionExists).toString();
+    return collisionExists ? { x: collisionX, y: collisionY, dist: Math.sqrt(distSquared) } : null;
+  }
+
+  private processCollision(collision: {x: number, y: number, dist: number}) {
+    const directionToCollision = Math.atan2(collision.y - this.y, collision.x - this.x);
+    const directionAwayFromCollision = directionToCollision + Math.PI;
+    this.x = collision.x + (collision.dist * Math.cos(directionAwayFromCollision));
+    this.y = collision.y + (collision.dist * Math.sin(directionAwayFromCollision));
+    this.speed = 0;
   }
 }
 

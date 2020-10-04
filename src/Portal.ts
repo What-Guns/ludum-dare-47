@@ -1,6 +1,5 @@
 import {Serializable} from './serialization.js';
-import {GameObject} from './GameObject.js';
-import {SerializedObject} from './Map.js';
+import {GameObject, SerializedObject} from './GameObject.js';
 import {Car} from './Car.js';
 import {clamp, computeScreenCoords, ScreenPoint} from './math.js';
 

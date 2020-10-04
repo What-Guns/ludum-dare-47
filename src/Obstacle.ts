@@ -1,6 +1,6 @@
-import { GameObject } from './GameObject.js';
+import { GameObject, SerializedObject } from './GameObject.js';
 import { Serializable } from './serialization.js';
-import { SerializedObject, Chunk } from './Map.js';
+import { Chunk } from './Map.js';
 import { computeScreenCoords, ScreenPoint } from './math.js';
 
 @Serializable()

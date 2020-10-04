@@ -1,5 +1,4 @@
-import {SerializedObject} from './Map.js';
-import {GameObject} from './GameObject.js';
+import {GameObject, SerializedObject} from './GameObject.js';
 import {Serializable} from './serialization.js';
 import { Car } from './Car.js';
 

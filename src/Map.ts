@@ -1,9 +1,9 @@
 import type {MapData, TileLayer, ExternalTileset, Tileset, ObjectGroup, Property, TiledMapChunk} from './tiled-map';
 import {Game} from './Game.js';
-import {GameObject} from './GameObject.js';
+import {GameObject, SerializedObject} from './GameObject.js';
 import {Serializable, deserialize, Type} from './serialization.js';
 import {loadImage, loadJson} from './loader.js';
-import { Point, GeoLookup, computeScreenCoords, ScreenPoint } from './math.js';
+import {Point, GeoLookup, computeScreenCoords, ScreenPoint} from './math.js';
 import {Car} from './Car.js';
 
 const GRID_ALPHA = 0.25;
@@ -136,6 +136,18 @@ export class GameMap {
     ctx.restore();
   }
 
+  getTerrain(obj: GameObject): Terrain {
+    const chunk = this.getChunkContaining(obj.x, obj.y);
+    if(!chunk) return 'void';
+
+    const tileX = Math.floor(obj.x - chunk.x);
+    const tileY = Math.floor(obj.y - chunk.y);
+    const tileIndex = tileX + tileY * chunk.width;
+    const tile = chunk.tiles[tileIndex];
+
+    return tile?.terrain ?? 'void';
+  }
+
   private isChunkVisible(chunk: Chunk, screenWidth: number, screenHeight: number) {
     const leftEdgeOfChunk = chunk.screenX - chunk.screenWidth / 2;
     const rightEdgeOfChunk = chunk.screenX + (chunk.screenWidth / 2);
@@ -151,18 +163,6 @@ export class GameMap {
         && rightEdgeOfChunk > leftEdgeOfScreen
         && topEdgeOfChunk < bottomEdgeOfScreen
         && bottomEdgeOfChunk > topEdgeOfScreen;
-  }
-
-  getTerrain(obj: GameObject): Terrain {
-    const chunk = this.getChunkContaining(obj.x, obj.y);
-    if(!chunk) return 'void';
-
-    const tileX = Math.floor(obj.x - chunk.x);
-    const tileY = Math.floor(obj.y - chunk.y);
-    const tileIndex = tileX + tileY * chunk.width;
-    const tile = chunk.tiles[tileIndex];
-
-    return tile?.terrain ?? 'void';
   }
 
   private getChunkContaining(x: number, y: number) {
@@ -239,18 +239,6 @@ export class GameMap {
 
 export interface GameMapData extends MapData {
   game: Game;
-}
-
-export interface SerializedObject {
-  id: number;
-  x: number;
-  y: number;
-  width?: number;
-  height?: number;
-  map: GameMap;
-  name: string;
-  type: string;
-  properties: {[key: string]: Property['value']};
 }
 
 export interface WorldInfo {

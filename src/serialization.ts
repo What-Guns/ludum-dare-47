@@ -1,5 +1,3 @@
-const typeMap = new Map<string, SerializableType<any, any>>();
-
 export type Type<T> = {
   new(...args: any): T;
 };
@@ -33,3 +31,5 @@ type SerializableType<TData, T> = {
   new(...args: any[]): T;
   deserialize(data: TData): Promise<T>;
 };
+
+const typeMap = new Map<string, SerializableType<any, any>>();

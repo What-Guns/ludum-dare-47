@@ -1,3 +1,5 @@
+import {loadAudioAsync} from './loader.js';
+
 export class Audio {
   static readonly audioContext = new AudioContext();
   static soundLibrary: {[key in string]: AudioBuffer} = {};
@@ -22,7 +24,6 @@ export class Audio {
     }
     bufferSource.start(0);
     this.currentlyPlayingSounds[trackName] = bufferSource;
-    console.log('playing ' + trackName)
   }
 
   static stop(trackName: string) {
@@ -41,26 +42,3 @@ export class Audio {
   }
 }
 
-async function loadAudioAsync(url: string, audioContext: AudioContext) {
-  const response = await fetch(url);
-  console.log(`Parsing ${url}`);
-  if(response.status < 200 || response.status > 400) {
-    const msg = `Error parsing ${url}`
-    console.log(msg);
-    throw new Error(msg);
-  }
-  try {
-    const audio = await parseAudio(audioContext, await response.arrayBuffer());
-    console.log('finished parsing ' + url);
-    return audio;
-  } catch (e) {
-    console.log(e.message);
-    throw e;
-  }
-}
-
-function parseAudio(ctx: AudioContext, buffer: ArrayBuffer) {
-  return new Promise<AudioBuffer>((resolve, reject) => {
-    ctx.decodeAudioData(buffer, resolve, reject);
-  });
-}

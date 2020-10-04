@@ -1,5 +1,6 @@
-import {GameMap, Chunk, SerializedObject} from './Map.js';
+import {GameMap, Chunk} from './Map.js';
 import {Point, ScreenPoint} from './math.js';
+import {Property} from './tiled-map';
 
 export abstract class GameObject implements Point, ScreenPoint {
   readonly map: GameMap;
@@ -30,3 +31,15 @@ export abstract class GameObject implements Point, ScreenPoint {
 }
 
 export type BaseProps = Pick<SerializedObject, 'map'|'x'|'y'|'id'>;
+
+export interface SerializedObject {
+  id: number;
+  x: number;
+  y: number;
+  width?: number;
+  height?: number;
+  map: GameMap;
+  name: string;
+  type: string;
+  properties: {[key: string]: Property['value']};
+}

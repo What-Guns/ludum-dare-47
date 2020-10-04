@@ -4,7 +4,7 @@ import {SerializedObject, Terrain} from './Map.js';
 import {Obstacle} from './Obstacle.js';
 import {Serializable} from './serialization.js';
 import {Audio} from './Audio.js';
-import {clamp, computeScreenCoords} from './math.js';
+import {clamp} from './math.js';
 import {RespawnPoint} from './RespawnPoint.js';
 
 /* DIRECTIONS

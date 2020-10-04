@@ -1,4 +1,3 @@
-
 export function computeScreenCoords<T extends Partial<ScreenPoint>>(out: T, {x, y}: Point, {tilewidth, tileheight}: TileDimensions) {
   out.screenX = ((x - y) * tilewidth/2);
   out.screenY = ((x + y) * tileheight/2);
@@ -25,4 +24,10 @@ export type GeoLookup<T> = {
 
 export function clamp(value: number, min: number, max: number) {
   return Math.max(min, Math.min(max, value));
+}
+
+export function removeFromArray<T>(obj: T, array: T[]) {
+  const index = array.indexOf(obj);
+  if(index === -1) return;
+  array.splice(index, 1);
 }

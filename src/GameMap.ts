@@ -2,8 +2,9 @@ import type {MapData, TileLayer, ExternalTileset, Tileset, ObjectGroup, Property
 import {Game} from './Game.js';
 import {GameObject, SerializedObject} from './GameObject.js';
 import {Serializable, deserialize, Type} from './serialization.js';
+import {TileProxy} from './TileProxy.js';
 import {loadImage, loadJson} from './loader.js';
-import {Point, GeoLookup, computeScreenCoords, ScreenPoint} from './math.js';
+import {Point, GeoLookup, computeScreenCoords, ScreenPoint, removeFromArray} from './math.js';
 import {Car} from './Car.js';
 
 const GRID_ALPHA = 0.25;
@@ -30,7 +31,25 @@ export class GameMap {
     private readonly layers: CellLayer[],
   ) {
     this.grid = this.createGrid();
-    (window as any).firstChunk = layers[0].chunks[0];
+    for(const layer of layers.slice(1)) {
+      for(const chunk of layer.chunks) {
+        for(const tile of chunk.tiles) {
+          if(tile.image) {
+            this.add(new TileProxy({
+              id: -1,
+              map: this,
+              tile,
+              x: tile.x,
+              y: tile.y,
+            }));
+          }
+        }
+      }
+    }
+
+    (window as any).map = this;
+
+    setInterval(() => this.checkConsistency, 1000);
   }
 
   add(obj: GameObject) {
@@ -41,9 +60,9 @@ export class GameMap {
   }
 
   remove(obj: GameObject) {
-    const index = this.objects.indexOf(obj);
-    if(index === -1) return;
-    this.objects.splice(index, 1);
+    for(const chunk of obj.chunks) removeFromArray(obj, chunk.objects);
+    this.objectsById.delete(obj.id);
+    removeFromArray(obj, this.objects);
   }
 
   find(id: number) {
@@ -73,22 +92,22 @@ export class GameMap {
     const minX = obj.x - (obj.radius ?? 0);
     const minY = obj.y - (obj.radius ?? 0);
 
-    const width = obj.radius ? obj.radius * 2 : obj.width ?? 0;
-    const height = obj.radius ? obj.radius * 2 : obj.height ?? 0;
+    const width = obj.radius ? obj.radius * 2 : obj.width ?? 1;
+    const height = obj.radius ? obj.radius * 2 : obj.height ?? 1;
 
     const maxX = obj.x + width;
     const maxY = obj.y + height;
 
-    for(const chunk of obj.chunks) chunk.objects.delete(obj);
-    obj.chunks.clear();
+    for(const chunk of obj.chunks) removeFromArray(obj, chunk.objects);
+    obj.chunks.length = 0;
 
     // Add all of the chunks that the object is touching
     for(let x = minX; x < maxX; x += Math.min(width, firstChunk.width)) {
       for(let y = minY; y < maxY; y += Math.min(height, firstChunk.height)) {
         const chunk = this.getChunkContaining(x, y);
         if(chunk) {
-          obj.chunks.add(chunk);
-          chunk.objects.add(obj);
+          if(obj.chunks.indexOf(chunk) === -1) obj.chunks.push(chunk);
+          if(chunk.objects.indexOf(obj) === -1) chunk.objects.push(obj);
         }
       }
     }
@@ -99,6 +118,8 @@ export class GameMap {
     this.updateCamera();
   }
 
+  private readonly visibleObjects: GameObject[] = [];
+
   draw(ctx: CanvasRenderingContext2D) {
     const screenWidth = ctx.canvas.width;
     const screenHeight = ctx.canvas.height;
@@ -107,16 +128,17 @@ export class GameMap {
     ctx.translate(-this.camera.screenX, -this.camera.screenY);
     ctx.translate(screenWidth / 2, screenHeight / 2);
 
+    this.visibleObjects.length = 0;
 
-    for(const layer of this.layers) {
-      for(const chunk of layer.chunks) {
-        if(!this.isChunkVisible(chunk, screenWidth, screenHeight)) continue;
-        for(const tile of chunk.tilesSortedByY) {
-          const {screenX, screenY, image, offsetPX} = tile;
-          ctx.drawImage(image,
-            screenX - this.world.tilewidth + image.width / 2 + offsetPX.x,
-            screenY + this.world.tileheight - image.height + offsetPX.y);
-        }
+    const backgroundLayer = this.layers[0];
+    for(const chunk of backgroundLayer.chunks) {
+      if(!this.isChunkVisible(chunk, screenWidth, screenHeight)) continue;
+      for(const tile of chunk.tiles) {
+        this.drawTile(ctx, tile);
+      }
+
+      for(const obj of chunk.objects) {
+        if(this.visibleObjects.indexOf(obj) === -1) this.visibleObjects.push(obj);
       }
     }
 
@@ -129,7 +151,9 @@ export class GameMap {
     }
     ctx.globalAlpha = 1;
 
-    for(const obj of this.objects) {
+    this.visibleObjects.sort((l, r) => (l.screenY + l.screenYDepthOffset) - (r.screenY + r.screenYDepthOffset));
+
+    for(const obj of this.visibleObjects) {
       obj.draw(ctx);
     }
 
@@ -146,6 +170,13 @@ export class GameMap {
     const tile = chunk.tiles[tileIndex];
 
     return tile?.terrain ?? 'void';
+  }
+
+  drawTile(ctx: CanvasRenderingContext2D, {screenX, screenY, image, offsetPX}: Cell) {
+    if(!image) return;
+    ctx.drawImage(image,
+      screenX - this.world.tilewidth + image.width / 2 + offsetPX.x,
+      screenY + this.world.tileheight - image.height + offsetPX.y);
   }
 
   private isChunkVisible(chunk: Chunk, screenWidth: number, screenHeight: number) {
@@ -235,6 +266,24 @@ export class GameMap {
 
     return map;
   }
+
+  private checkConsistency() {
+    for(const chunk of this.layers[0].chunks) {
+      for(const obj of chunk.objects) {
+        if(obj.chunks.indexOf(chunk) === -1) {
+          throw new Error(`Chunk contains an object that doesn't think it's in that chunk.`);
+        }
+      }
+    }
+
+    for(const obj of this.objects) {
+      for(const chunk of obj.chunks) {
+        if(chunk.objects.indexOf(obj) === -1) {
+          throw new Error(`Object is contained in a chunk that doesn't think it contains that object.`);
+        }
+      }
+    }
+  }
 }
 
 export interface GameMapData extends MapData {
@@ -256,7 +305,7 @@ interface CellLayer {
 
 export interface Chunk {
   /** Objects that are in this chunk, even partially. */
-  readonly objects: Set<GameObject>;
+  readonly objects: GameObject[];
   readonly width: number;
   readonly height: number;
   readonly x: number;
@@ -271,17 +320,17 @@ export interface Chunk {
 }
 
 interface Tile {
-  image: HTMLImageElement;
-  type?: string;
+  image?: HTMLImageElement;
+  type: string;
   offset: {x: number; y: number};
 }
 
-interface Cell {
+export interface Cell {
   x: number;
   y: number;
   screenX: number;
   screenY: number;
-  image: HTMLImageElement;
+  image?: HTMLImageElement;
   terrain: Terrain;
   offsetPX: Point;
 }
@@ -313,7 +362,7 @@ function toLayer(layer: TileLayer, tileMap: Map<number, Tile>, tilewidth: number
         screenHeight,
         tiles,
         tilesSortedByY,
-        objects: new Set(),
+        objects: [],
       };
     })
   };
@@ -381,12 +430,8 @@ async function createTileMap(data: MapData) {
     .map(chunk => chunk.data)
     .reduce((l, r) => l.concat(r)));
 
-  const missingTileImage = new Image(100, 50);
-  // missingTileImage.src = 'images/missing-tile.png';
-
   const tileMap = new Map<number, Tile>();
   tileMap.set(0, {
-    image: missingTileImage,
     offset: {x: 0, y: 0},
     type: 'void',
   });
@@ -395,8 +440,7 @@ async function createTileMap(data: MapData) {
     await Promise.all(tileset.tiles
       .filter(tile => usedTileIds.has(tile.id + tileset.firstgid))
       .map(async (tile) => {
-      // HACK! Instead of resolving relative paths, I'm just stripping '..' off.
-      const image = await loadImage('maps/'+tile.image);
+      const image = tile.image ? await loadImage('maps/'+tile.image) : undefined;
       const offset = tileset.tileoffset ?? {x: 0, y: 0};
       tileMap.set(tile.id + tileset.firstgid, {
         image,

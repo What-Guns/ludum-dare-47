@@ -12,7 +12,9 @@ export abstract class GameObject implements Point, ScreenPoint {
   screenX!: number;
   screenY!: number;
 
-  readonly chunks = new Set<Chunk>();
+  screenYDepthOffset = 0;
+
+  readonly chunks: Chunk[] = [];
 
   radius?: number;
   width?: number;

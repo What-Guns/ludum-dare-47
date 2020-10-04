@@ -1,11 +1,9 @@
 import { GameObject, SerializedObject } from './GameObject.js';
 import { Serializable } from './serialization.js';
-import { Chunk } from './GameMap.js';
 import { computeScreenCoords, ScreenPoint } from './math.js';
 
 @Serializable()
 export class Obstacle extends GameObject {
-  readonly chunks = new Set<Chunk>();
   readonly height: number;
   readonly width: number;
   screenX!: number;

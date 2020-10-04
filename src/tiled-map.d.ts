@@ -31,10 +31,10 @@ export interface Grid {
 
 export interface Tile {
   id: number;
-  image: string;
+  image: string|null;
   imageheight: number;
   imagewidth: number;
-  type?: string;
+  type: string;
 }
 
 export type TileLayer = InlineTileLayer|ChunkedTileLayer;

@@ -9,9 +9,9 @@
     },
  "grid":
     {
-     "height":1,
-     "orientation":"orthogonal",
-     "width":1
+     "height":50,
+     "orientation":"isometric",
+     "width":100
     },
  "margin":0,
  "name":"buildings",
@@ -19,17 +19,22 @@
  "tilecount":128,
  "tiledversion":"1.4.2",
  "tileheight":98,
+ "tileoffset":
+    {
+     "x":0,
+     "y":25
+    },
  "tiles":[
         {
-         "id":0,
+         "id":129,
          "image":"tilesets\/buildings\/buildingTiles_000.png",
-         "imageheight":86,
-         "imagewidth":100,
+         "imageheight":64,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"middle",
@@ -37,13 +42,18 @@
                  "value":true
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":1,
+         "id":130,
          "image":"tilesets\/buildings\/buildingTiles_001.png",
          "imageheight":95,
          "imagewidth":100,
@@ -51,7 +61,7 @@
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -59,21 +69,26 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":2,
+         "id":131,
          "image":"tilesets\/buildings\/buildingTiles_002.png",
-         "imageheight":96,
-         "imagewidth":100,
+         "imageheight":95,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -81,21 +96,26 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":3,
+         "id":132,
          "image":"tilesets\/buildings\/buildingTiles_003.png",
-         "imageheight":96,
-         "imagewidth":100,
+         "imageheight":95,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -103,21 +123,26 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":4,
+         "id":133,
          "image":"tilesets\/buildings\/buildingTiles_004.png",
-         "imageheight":96,
-         "imagewidth":100,
+         "imageheight":95,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -125,16 +150,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":5,
+         "id":134,
          "image":"tilesets\/buildings\/buildingTiles_005.png",
-         "imageheight":55,
-         "imagewidth":100,
+         "imageheight":41,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -147,16 +177,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":6,
+         "id":135,
          "image":"tilesets\/buildings\/buildingTiles_006.png",
-         "imageheight":55,
-         "imagewidth":100,
+         "imageheight":41,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -169,21 +204,26 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":7,
+         "id":136,
          "image":"tilesets\/buildings\/buildingTiles_007.png",
-         "imageheight":86,
-         "imagewidth":100,
+         "imageheight":64,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"middle",
@@ -191,21 +231,26 @@
                  "value":true
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":8,
+         "id":137,
          "image":"tilesets\/buildings\/buildingTiles_008.png",
-         "imageheight":86,
-         "imagewidth":100,
+         "imageheight":64,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"middle",
@@ -213,21 +258,26 @@
                  "value":true
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":9,
+         "id":138,
          "image":"tilesets\/buildings\/buildingTiles_009.png",
-         "imageheight":96,
-         "imagewidth":100,
+         "imageheight":95,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -235,21 +285,26 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":10,
+         "id":139,
          "image":"tilesets\/buildings\/buildingTiles_010.png",
-         "imageheight":96,
-         "imagewidth":100,
+         "imageheight":95,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -257,21 +312,26 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":11,
+         "id":140,
          "image":"tilesets\/buildings\/buildingTiles_011.png",
-         "imageheight":97,
-         "imagewidth":100,
+         "imageheight":96,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -279,21 +339,26 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":12,
+         "id":141,
          "image":"tilesets\/buildings\/buildingTiles_012.png",
-         "imageheight":96,
-         "imagewidth":100,
+         "imageheight":95,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -301,26 +366,36 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":13,
+         "id":142,
          "image":"tilesets\/buildings\/buildingTiles_013.png",
-         "imageheight":55,
-         "imagewidth":100,
+         "imageheight":41,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"middle",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
                 }, 
                 {
                  "name":"top",
@@ -329,15 +404,15 @@
                 }]
         }, 
         {
-         "id":14,
+         "id":143,
          "image":"tilesets\/buildings\/buildingTiles_014.png",
-         "imageheight":96,
-         "imagewidth":100,
+         "imageheight":95,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -345,21 +420,26 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":15,
+         "id":144,
          "image":"tilesets\/buildings\/buildingTiles_015.png",
-         "imageheight":86,
-         "imagewidth":100,
+         "imageheight":64,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"middle",
@@ -367,21 +447,26 @@
                  "value":true
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":16,
+         "id":145,
          "image":"tilesets\/buildings\/buildingTiles_016.png",
-         "imageheight":86,
-         "imagewidth":100,
+         "imageheight":64,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"middle",
@@ -389,21 +474,26 @@
                  "value":true
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":17,
+         "id":146,
          "image":"tilesets\/buildings\/buildingTiles_017.png",
-         "imageheight":96,
-         "imagewidth":100,
+         "imageheight":95,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -411,21 +501,26 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":18,
+         "id":147,
          "image":"tilesets\/buildings\/buildingTiles_018.png",
-         "imageheight":96,
-         "imagewidth":100,
+         "imageheight":95,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -433,21 +528,26 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":19,
+         "id":148,
          "image":"tilesets\/buildings\/buildingTiles_019.png",
-         "imageheight":97,
-         "imagewidth":100,
+         "imageheight":96,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -455,21 +555,26 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":20,
+         "id":149,
          "image":"tilesets\/buildings\/buildingTiles_020.png",
-         "imageheight":96,
-         "imagewidth":100,
+         "imageheight":95,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -477,21 +582,26 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":21,
+         "id":150,
          "image":"tilesets\/buildings\/buildingTiles_021.png",
-         "imageheight":96,
-         "imagewidth":100,
+         "imageheight":95,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -499,13 +609,18 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":22,
+         "id":151,
          "image":"tilesets\/buildings\/buildingTiles_022.png",
          "imageheight":95,
          "imagewidth":100,
@@ -513,7 +628,7 @@
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -521,21 +636,26 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":23,
+         "id":152,
          "image":"tilesets\/buildings\/buildingTiles_023.png",
-         "imageheight":86,
-         "imagewidth":100,
+         "imageheight":64,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"middle",
@@ -543,21 +663,26 @@
                  "value":true
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":24,
+         "id":153,
          "image":"tilesets\/buildings\/buildingTiles_024.png",
-         "imageheight":86,
-         "imagewidth":100,
+         "imageheight":64,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"middle",
@@ -565,43 +690,26 @@
                  "value":true
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":25,
+         "id":154,
          "image":"tilesets\/buildings\/buildingTiles_025.png",
-         "imageheight":97,
-         "imagewidth":100,
-         "properties":[
-                {
-                 "name":"bottom",
-                 "type":"bool",
-                 "value":false
-                }, 
-                {
-                 "name":"middle",
-                 "type":"bool",
-                 "value":false
-                }, 
-                {
-                 "name":"top",
-                 "type":"bool",
-                 "value":true
-                }]
-        }, 
-        {
-         "id":26,
-         "image":"tilesets\/buildings\/buildingTiles_026.png",
          "imageheight":96,
-         "imagewidth":100,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -609,21 +717,53 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":27,
+         "id":155,
+         "image":"tilesets\/buildings\/buildingTiles_026.png",
+         "imageheight":95,
+         "imagewidth":99,
+         "properties":[
+                {
+                 "name":"bottom",
+                 "type":"bool",
+                 "value":true
+                }, 
+                {
+                 "name":"middle",
+                 "type":"bool",
+                 "value":false
+                }, 
+                {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
+                 "name":"top",
+                 "type":"bool",
+                 "value":false
+                }]
+        }, 
+        {
+         "id":156,
          "image":"tilesets\/buildings\/buildingTiles_027.png",
          "imageheight":98,
-         "imagewidth":100,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -631,21 +771,26 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":28,
+         "id":157,
          "image":"tilesets\/buildings\/buildingTiles_028.png",
-         "imageheight":96,
-         "imagewidth":100,
+         "imageheight":95,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -653,21 +798,26 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":29,
+         "id":158,
          "image":"tilesets\/buildings\/buildingTiles_029.png",
-         "imageheight":96,
-         "imagewidth":100,
+         "imageheight":95,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -675,13 +825,18 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":30,
+         "id":159,
          "image":"tilesets\/buildings\/buildingTiles_030.png",
          "imageheight":95,
          "imagewidth":100,
@@ -689,7 +844,7 @@
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -697,21 +852,26 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":31,
+         "id":160,
          "image":"tilesets\/buildings\/buildingTiles_031.png",
-         "imageheight":86,
-         "imagewidth":100,
+         "imageheight":64,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"middle",
@@ -719,21 +879,26 @@
                  "value":true
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":32,
+         "id":161,
          "image":"tilesets\/buildings\/buildingTiles_032.png",
-         "imageheight":86,
-         "imagewidth":100,
+         "imageheight":64,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"middle",
@@ -741,43 +906,26 @@
                  "value":true
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":33,
+         "id":162,
          "image":"tilesets\/buildings\/buildingTiles_033.png",
-         "imageheight":97,
-         "imagewidth":100,
-         "properties":[
-                {
-                 "name":"bottom",
-                 "type":"bool",
-                 "value":false
-                }, 
-                {
-                 "name":"middle",
-                 "type":"bool",
-                 "value":false
-                }, 
-                {
-                 "name":"top",
-                 "type":"bool",
-                 "value":true
-                }]
-        }, 
-        {
-         "id":34,
-         "image":"tilesets\/buildings\/buildingTiles_034.png",
          "imageheight":96,
-         "imagewidth":100,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -785,21 +933,53 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":35,
+         "id":163,
+         "image":"tilesets\/buildings\/buildingTiles_034.png",
+         "imageheight":95,
+         "imagewidth":99,
+         "properties":[
+                {
+                 "name":"bottom",
+                 "type":"bool",
+                 "value":true
+                }, 
+                {
+                 "name":"middle",
+                 "type":"bool",
+                 "value":false
+                }, 
+                {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
+                 "name":"top",
+                 "type":"bool",
+                 "value":false
+                }]
+        }, 
+        {
+         "id":164,
          "image":"tilesets\/buildings\/buildingTiles_035.png",
          "imageheight":98,
-         "imagewidth":100,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -807,13 +987,18 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":36,
+         "id":165,
          "image":"tilesets\/buildings\/buildingTiles_036.png",
          "imageheight":95,
          "imagewidth":100,
@@ -821,7 +1006,7 @@
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -829,13 +1014,18 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":37,
+         "id":166,
          "image":"tilesets\/buildings\/buildingTiles_037.png",
          "imageheight":95,
          "imagewidth":100,
@@ -843,7 +1033,7 @@
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -851,21 +1041,26 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":38,
+         "id":167,
          "image":"tilesets\/buildings\/buildingTiles_038.png",
-         "imageheight":85,
-         "imagewidth":100,
+         "imageheight":64,
+         "imagewidth":75,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"middle",
@@ -873,21 +1068,26 @@
                  "value":true
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":39,
+         "id":168,
          "image":"tilesets\/buildings\/buildingTiles_039.png",
-         "imageheight":86,
-         "imagewidth":100,
+         "imageheight":64,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"middle",
@@ -895,21 +1095,26 @@
                  "value":true
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":40,
+         "id":169,
          "image":"tilesets\/buildings\/buildingTiles_040.png",
          "imageheight":98,
-         "imagewidth":100,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -917,21 +1122,26 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":41,
+         "id":170,
          "image":"tilesets\/buildings\/buildingTiles_041.png",
-         "imageheight":96,
-         "imagewidth":100,
+         "imageheight":95,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -939,13 +1149,18 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":42,
+         "id":171,
          "image":"tilesets\/buildings\/buildingTiles_042.png",
          "imageheight":95,
          "imagewidth":100,
@@ -953,7 +1168,7 @@
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -961,21 +1176,26 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":43,
+         "id":172,
          "image":"tilesets\/buildings\/buildingTiles_043.png",
-         "imageheight":86,
-         "imagewidth":100,
+         "imageheight":64,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"middle",
@@ -983,21 +1203,26 @@
                  "value":true
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":44,
+         "id":173,
          "image":"tilesets\/buildings\/buildingTiles_044.png",
-         "imageheight":85,
-         "imagewidth":100,
+         "imageheight":64,
+         "imagewidth":75,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"middle",
@@ -1005,21 +1230,26 @@
                  "value":true
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":45,
+         "id":174,
          "image":"tilesets\/buildings\/buildingTiles_045.png",
-         "imageheight":86,
-         "imagewidth":100,
+         "imageheight":64,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"middle",
@@ -1027,21 +1257,26 @@
                  "value":true
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":46,
+         "id":175,
          "image":"tilesets\/buildings\/buildingTiles_046.png",
          "imageheight":98,
-         "imagewidth":100,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -1049,21 +1284,26 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":47,
+         "id":176,
          "image":"tilesets\/buildings\/buildingTiles_047.png",
-         "imageheight":85,
-         "imagewidth":100,
+         "imageheight":64,
+         "imagewidth":75,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"middle",
@@ -1071,21 +1311,26 @@
                  "value":true
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":48,
+         "id":177,
          "image":"tilesets\/buildings\/buildingTiles_048.png",
-         "imageheight":86,
-         "imagewidth":100,
+         "imageheight":64,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"middle",
@@ -1093,21 +1338,26 @@
                  "value":true
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":49,
+         "id":178,
          "image":"tilesets\/buildings\/buildingTiles_049.png",
-         "imageheight":85,
-         "imagewidth":100,
+         "imageheight":64,
+         "imagewidth":75,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"middle",
@@ -1115,21 +1365,26 @@
                  "value":true
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":50,
+         "id":179,
          "image":"tilesets\/buildings\/buildingTiles_050.png",
-         "imageheight":86,
-         "imagewidth":100,
+         "imageheight":64,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"middle",
@@ -1137,21 +1392,26 @@
                  "value":true
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":51,
+         "id":180,
          "image":"tilesets\/buildings\/buildingTiles_051.png",
-         "imageheight":85,
-         "imagewidth":100,
+         "imageheight":64,
+         "imagewidth":75,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"middle",
@@ -1159,21 +1419,26 @@
                  "value":true
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":52,
+         "id":181,
          "image":"tilesets\/buildings\/buildingTiles_052.png",
-         "imageheight":86,
-         "imagewidth":100,
+         "imageheight":64,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"middle",
@@ -1181,21 +1446,26 @@
                  "value":true
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":53,
+         "id":182,
          "image":"tilesets\/buildings\/buildingTiles_053.png",
-         "imageheight":85,
-         "imagewidth":100,
+         "imageheight":64,
+         "imagewidth":75,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"middle",
@@ -1203,21 +1473,26 @@
                  "value":true
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":54,
+         "id":183,
          "image":"tilesets\/buildings\/buildingTiles_054.png",
-         "imageheight":85,
-         "imagewidth":100,
+         "imageheight":64,
+         "imagewidth":75,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"middle",
@@ -1225,21 +1500,26 @@
                  "value":true
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":55,
+         "id":184,
          "image":"tilesets\/buildings\/buildingTiles_055.png",
-         "imageheight":86,
-         "imagewidth":100,
+         "imageheight":64,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"middle",
@@ -1247,21 +1527,26 @@
                  "value":true
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":56,
+         "id":185,
          "image":"tilesets\/buildings\/buildingTiles_056.png",
-         "imageheight":85,
-         "imagewidth":100,
+         "imageheight":64,
+         "imagewidth":75,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"middle",
@@ -1269,16 +1554,21 @@
                  "value":true
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":57,
+         "id":186,
          "image":"tilesets\/buildings\/buildingTiles_057.png",
-         "imageheight":61,
-         "imagewidth":100,
+         "imageheight":45,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -1291,16 +1581,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":58,
+         "id":187,
          "image":"tilesets\/buildings\/buildingTiles_058.png",
-         "imageheight":61,
-         "imagewidth":100,
+         "imageheight":45,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -1313,16 +1608,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":59,
+         "id":188,
          "image":"tilesets\/buildings\/buildingTiles_059.png",
-         "imageheight":61,
-         "imagewidth":100,
+         "imageheight":45,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -1335,16 +1635,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":60,
+         "id":189,
          "image":"tilesets\/buildings\/buildingTiles_060.png",
-         "imageheight":61,
-         "imagewidth":100,
+         "imageheight":45,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -1357,16 +1662,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":61,
+         "id":190,
          "image":"tilesets\/buildings\/buildingTiles_061.png",
-         "imageheight":61,
-         "imagewidth":100,
+         "imageheight":45,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -1379,16 +1689,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":62,
+         "id":191,
          "image":"tilesets\/buildings\/buildingTiles_062.png",
-         "imageheight":61,
-         "imagewidth":100,
+         "imageheight":45,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -1401,16 +1716,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":63,
+         "id":192,
          "image":"tilesets\/buildings\/buildingTiles_063.png",
-         "imageheight":61,
-         "imagewidth":100,
+         "imageheight":45,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -1423,16 +1743,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":64,
+         "id":193,
          "image":"tilesets\/buildings\/buildingTiles_064.png",
-         "imageheight":61,
-         "imagewidth":100,
+         "imageheight":45,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -1445,16 +1770,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":65,
+         "id":194,
          "image":"tilesets\/buildings\/buildingTiles_065.png",
-         "imageheight":62,
-         "imagewidth":100,
+         "imageheight":46,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -1467,16 +1797,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":66,
+         "id":195,
          "image":"tilesets\/buildings\/buildingTiles_066.png",
-         "imageheight":61,
-         "imagewidth":100,
+         "imageheight":45,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -1489,16 +1824,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":67,
+         "id":196,
          "image":"tilesets\/buildings\/buildingTiles_067.png",
-         "imageheight":60,
-         "imagewidth":100,
+         "imageheight":45,
+         "imagewidth":75,
          "properties":[
                 {
                  "name":"bottom",
@@ -1511,16 +1851,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":68,
+         "id":197,
          "image":"tilesets\/buildings\/buildingTiles_068.png",
-         "imageheight":61,
-         "imagewidth":100,
+         "imageheight":45,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -1533,16 +1878,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":69,
+         "id":198,
          "image":"tilesets\/buildings\/buildingTiles_069.png",
-         "imageheight":61,
-         "imagewidth":100,
+         "imageheight":45,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -1555,16 +1905,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":70,
+         "id":199,
          "image":"tilesets\/buildings\/buildingTiles_070.png",
-         "imageheight":62,
-         "imagewidth":100,
+         "imageheight":46,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -1577,16 +1932,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":71,
+         "id":200,
          "image":"tilesets\/buildings\/buildingTiles_071.png",
-         "imageheight":63,
-         "imagewidth":100,
+         "imageheight":47,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -1599,16 +1959,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":72,
+         "id":201,
          "image":"tilesets\/buildings\/buildingTiles_072.png",
-         "imageheight":60,
-         "imagewidth":100,
+         "imageheight":45,
+         "imagewidth":75,
          "properties":[
                 {
                  "name":"bottom",
@@ -1621,16 +1986,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":73,
+         "id":202,
          "image":"tilesets\/buildings\/buildingTiles_073.png",
-         "imageheight":61,
-         "imagewidth":100,
+         "imageheight":45,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -1643,16 +2013,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":74,
+         "id":203,
          "image":"tilesets\/buildings\/buildingTiles_074.png",
-         "imageheight":62,
-         "imagewidth":100,
+         "imageheight":46,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -1665,16 +2040,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":75,
+         "id":204,
          "image":"tilesets\/buildings\/buildingTiles_075.png",
-         "imageheight":61,
-         "imagewidth":100,
+         "imageheight":45,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -1687,16 +2067,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":76,
+         "id":205,
          "image":"tilesets\/buildings\/buildingTiles_076.png",
-         "imageheight":64,
-         "imagewidth":100,
+         "imageheight":47,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -1709,16 +2094,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":77,
+         "id":206,
          "image":"tilesets\/buildings\/buildingTiles_077.png",
-         "imageheight":63,
-         "imagewidth":100,
+         "imageheight":47,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -1731,16 +2121,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":79,
+         "id":208,
          "image":"tilesets\/buildings\/buildingTiles_079.png",
-         "imageheight":62,
-         "imagewidth":100,
+         "imageheight":47,
+         "imagewidth":75,
          "properties":[
                 {
                  "name":"bottom",
@@ -1753,16 +2148,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":80,
+         "id":209,
          "image":"tilesets\/buildings\/buildingTiles_080.png",
-         "imageheight":60,
-         "imagewidth":100,
+         "imageheight":45,
+         "imagewidth":75,
          "properties":[
                 {
                  "name":"bottom",
@@ -1775,16 +2175,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":81,
+         "id":210,
          "image":"tilesets\/buildings\/buildingTiles_081.png",
-         "imageheight":61,
-         "imagewidth":100,
+         "imageheight":45,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -1797,16 +2202,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":82,
+         "id":211,
          "image":"tilesets\/buildings\/buildingTiles_082.png",
-         "imageheight":62,
-         "imagewidth":100,
+         "imageheight":46,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -1819,16 +2229,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":83,
+         "id":212,
          "image":"tilesets\/buildings\/buildingTiles_083.png",
-         "imageheight":62,
-         "imagewidth":100,
+         "imageheight":46,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -1841,16 +2256,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":84,
+         "id":213,
          "image":"tilesets\/buildings\/buildingTiles_084.png",
-         "imageheight":64,
-         "imagewidth":100,
+         "imageheight":47,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -1863,13 +2283,18 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":85,
+         "id":214,
          "image":"tilesets\/buildings\/buildingTiles_085.png",
          "imageheight":95,
          "imagewidth":100,
@@ -1877,7 +2302,7 @@
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -1885,16 +2310,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":86,
+         "id":215,
          "image":"tilesets\/buildings\/buildingTiles_086.png",
-         "imageheight":55,
-         "imagewidth":100,
+         "imageheight":41,
+         "imagewidth":75,
          "properties":[
                 {
                  "name":"bottom",
@@ -1907,16 +2337,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":87,
+         "id":216,
          "image":"tilesets\/buildings\/buildingTiles_087.png",
-         "imageheight":62,
-         "imagewidth":100,
+         "imageheight":47,
+         "imagewidth":75,
          "properties":[
                 {
                  "name":"bottom",
@@ -1929,16 +2364,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":88,
+         "id":217,
          "image":"tilesets\/buildings\/buildingTiles_088.png",
-         "imageheight":62,
-         "imagewidth":100,
+         "imageheight":46,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -1951,16 +2391,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":89,
+         "id":218,
          "image":"tilesets\/buildings\/buildingTiles_089.png",
-         "imageheight":61,
-         "imagewidth":100,
+         "imageheight":45,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -1973,16 +2418,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":90,
+         "id":219,
          "image":"tilesets\/buildings\/buildingTiles_090.png",
-         "imageheight":64,
-         "imagewidth":100,
+         "imageheight":47,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -1995,16 +2445,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":91,
+         "id":220,
          "image":"tilesets\/buildings\/buildingTiles_091.png",
-         "imageheight":62,
-         "imagewidth":100,
+         "imageheight":46,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -2017,13 +2472,18 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":92,
+         "id":221,
          "image":"tilesets\/buildings\/buildingTiles_092.png",
          "imageheight":95,
          "imagewidth":100,
@@ -2031,7 +2491,7 @@
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -2039,21 +2499,26 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":93,
+         "id":222,
          "image":"tilesets\/buildings\/buildingTiles_093.png",
-         "imageheight":96,
-         "imagewidth":100,
+         "imageheight":95,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -2061,16 +2526,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":94,
+         "id":223,
          "image":"tilesets\/buildings\/buildingTiles_094.png",
-         "imageheight":55,
-         "imagewidth":100,
+         "imageheight":41,
+         "imagewidth":75,
          "properties":[
                 {
                  "name":"bottom",
@@ -2083,16 +2553,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":95,
+         "id":224,
          "image":"tilesets\/buildings\/buildingTiles_095.png",
-         "imageheight":55,
-         "imagewidth":100,
+         "imageheight":41,
+         "imagewidth":75,
          "properties":[
                 {
                  "name":"bottom",
@@ -2105,16 +2580,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":96,
+         "id":225,
          "image":"tilesets\/buildings\/buildingTiles_096.png",
-         "imageheight":62,
-         "imagewidth":100,
+         "imageheight":46,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -2127,16 +2607,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":97,
+         "id":226,
          "image":"tilesets\/buildings\/buildingTiles_097.png",
-         "imageheight":62,
-         "imagewidth":100,
+         "imageheight":46,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -2149,16 +2634,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":98,
+         "id":227,
          "image":"tilesets\/buildings\/buildingTiles_098.png",
-         "imageheight":64,
-         "imagewidth":100,
+         "imageheight":47,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -2171,13 +2661,18 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":99,
+         "id":228,
          "image":"tilesets\/buildings\/buildingTiles_099.png",
          "imageheight":95,
          "imagewidth":100,
@@ -2185,7 +2680,7 @@
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -2193,13 +2688,18 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":100,
+         "id":229,
          "image":"tilesets\/buildings\/buildingTiles_100.png",
          "imageheight":95,
          "imagewidth":100,
@@ -2207,7 +2707,7 @@
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -2215,21 +2715,26 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":101,
+         "id":230,
          "image":"tilesets\/buildings\/buildingTiles_101.png",
-         "imageheight":96,
-         "imagewidth":100,
+         "imageheight":95,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -2237,16 +2742,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":102,
+         "id":231,
          "image":"tilesets\/buildings\/buildingTiles_102.png",
-         "imageheight":55,
-         "imagewidth":100,
+         "imageheight":41,
+         "imagewidth":75,
          "properties":[
                 {
                  "name":"bottom",
@@ -2259,16 +2769,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":103,
+         "id":232,
          "image":"tilesets\/buildings\/buildingTiles_103.png",
-         "imageheight":56,
-         "imagewidth":100,
+         "imageheight":41,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -2281,16 +2796,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":104,
+         "id":233,
          "image":"tilesets\/buildings\/buildingTiles_104.png",
-         "imageheight":64,
-         "imagewidth":100,
+         "imageheight":47,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -2303,16 +2823,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":105,
+         "id":234,
          "image":"tilesets\/buildings\/buildingTiles_105.png",
-         "imageheight":62,
-         "imagewidth":100,
+         "imageheight":46,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -2325,13 +2850,18 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":106,
+         "id":235,
          "image":"tilesets\/buildings\/buildingTiles_106.png",
          "imageheight":95,
          "imagewidth":100,
@@ -2339,7 +2869,7 @@
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -2347,13 +2877,18 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":107,
+         "id":236,
          "image":"tilesets\/buildings\/buildingTiles_107.png",
          "imageheight":95,
          "imagewidth":100,
@@ -2361,7 +2896,7 @@
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -2369,21 +2904,26 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":108,
+         "id":237,
          "image":"tilesets\/buildings\/buildingTiles_108.png",
-         "imageheight":96,
-         "imagewidth":100,
+         "imageheight":95,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -2391,21 +2931,26 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":109,
+         "id":238,
          "image":"tilesets\/buildings\/buildingTiles_109.png",
-         "imageheight":96,
-         "imagewidth":100,
+         "imageheight":95,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -2413,16 +2958,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":110,
+         "id":239,
          "image":"tilesets\/buildings\/buildingTiles_110.png",
-         "imageheight":55,
-         "imagewidth":100,
+         "imageheight":41,
+         "imagewidth":75,
          "properties":[
                 {
                  "name":"bottom",
@@ -2435,16 +2985,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":111,
+         "id":240,
          "image":"tilesets\/buildings\/buildingTiles_111.png",
-         "imageheight":56,
-         "imagewidth":100,
+         "imageheight":41,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -2457,16 +3012,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":112,
+         "id":241,
          "image":"tilesets\/buildings\/buildingTiles_112.png",
-         "imageheight":64,
-         "imagewidth":100,
+         "imageheight":47,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -2479,21 +3039,26 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":113,
+         "id":242,
          "image":"tilesets\/buildings\/buildingTiles_113.png",
-         "imageheight":96,
-         "imagewidth":100,
+         "imageheight":95,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -2501,13 +3066,18 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":114,
+         "id":243,
          "image":"tilesets\/buildings\/buildingTiles_114.png",
          "imageheight":95,
          "imagewidth":100,
@@ -2515,7 +3085,7 @@
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -2523,13 +3093,18 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":115,
+         "id":244,
          "image":"tilesets\/buildings\/buildingTiles_115.png",
          "imageheight":95,
          "imagewidth":100,
@@ -2537,7 +3112,7 @@
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -2545,21 +3120,26 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":116,
+         "id":245,
          "image":"tilesets\/buildings\/buildingTiles_116.png",
-         "imageheight":96,
-         "imagewidth":100,
+         "imageheight":95,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -2567,21 +3147,26 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":117,
+         "id":246,
          "image":"tilesets\/buildings\/buildingTiles_117.png",
-         "imageheight":96,
-         "imagewidth":100,
+         "imageheight":95,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -2589,16 +3174,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":118,
+         "id":247,
          "image":"tilesets\/buildings\/buildingTiles_118.png",
-         "imageheight":55,
-         "imagewidth":100,
+         "imageheight":41,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -2611,16 +3201,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":119,
+         "id":248,
          "image":"tilesets\/buildings\/buildingTiles_119.png",
-         "imageheight":55,
-         "imagewidth":100,
+         "imageheight":41,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -2633,16 +3228,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":120,
+         "id":249,
          "image":"tilesets\/buildings\/buildingTiles_120.png",
-         "imageheight":57,
-         "imagewidth":100,
+         "imageheight":42,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -2655,16 +3255,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":121,
+         "id":250,
          "image":"tilesets\/buildings\/buildingTiles_121.png",
-         "imageheight":55,
-         "imagewidth":100,
+         "imageheight":41,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -2677,13 +3282,18 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":122,
+         "id":251,
          "image":"tilesets\/buildings\/buildingTiles_122.png",
          "imageheight":95,
          "imagewidth":100,
@@ -2691,7 +3301,7 @@
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -2699,21 +3309,26 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":123,
+         "id":252,
          "image":"tilesets\/buildings\/buildingTiles_123.png",
-         "imageheight":96,
-         "imagewidth":100,
+         "imageheight":95,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -2721,21 +3336,26 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":124,
+         "id":253,
          "image":"tilesets\/buildings\/buildingTiles_124.png",
-         "imageheight":96,
-         "imagewidth":100,
+         "imageheight":95,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -2743,21 +3363,26 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":125,
+         "id":254,
          "image":"tilesets\/buildings\/buildingTiles_125.png",
-         "imageheight":96,
-         "imagewidth":100,
+         "imageheight":95,
+         "imagewidth":99,
          "properties":[
                 {
                  "name":"bottom",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"middle",
@@ -2765,16 +3390,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":58
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
-         "id":126,
+         "id":255,
          "image":"tilesets\/buildings\/buildingTiles_126.png",
-         "imageheight":55,
-         "imagewidth":100,
+         "imageheight":41,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -2787,16 +3417,21 @@
                  "value":false
                 }, 
                 {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
+                }, 
+                {
                  "name":"top",
                  "type":"bool",
                  "value":true
                 }]
         }, 
         {
-         "id":127,
+         "id":256,
          "image":"tilesets\/buildings\/buildingTiles_127.png",
-         "imageheight":55,
-         "imagewidth":100,
+         "imageheight":41,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -2807,6 +3442,11 @@
                  "name":"middle",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
                 }, 
                 {
                  "name":"top",
@@ -2815,10 +3455,10 @@
                 }]
         }, 
         {
-         "id":128,
+         "id":257,
          "image":"tilesets\/buildings\/buildingTiles_128.png",
-         "imageheight":55,
-         "imagewidth":100,
+         "imageheight":41,
+         "imagewidth":74,
          "properties":[
                 {
                  "name":"bottom",
@@ -2829,6 +3469,11 @@
                  "name":"middle",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"tallness",
+                 "type":"int",
+                 "value":25
                 }, 
                 {
                  "name":"top",

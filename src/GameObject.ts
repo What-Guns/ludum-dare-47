@@ -45,5 +45,13 @@ export interface SerializedObject {
   map: GameMap;
   name: string;
   type: string;
-  properties: {[key: string]: Property['value']};
+  properties: Properties;
+}
+
+export type Properties = {[key: string]: Property['value']};
+
+export function reduceProperties(properties: Property[]) {
+  return (properties ?? []).reduce<Properties>((collection, prop) => {
+    return {...collection, [prop.name]: prop.value};
+  }, {});
 }

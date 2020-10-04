@@ -16,6 +16,9 @@ export interface Tileset {
   name: string;
   tiles: Tile[];
   tileoffset?: { x: number, y: number };
+  tilewidth: number;
+  tileheight: number;
+  properties?: Property[];
 }
 
 export interface ExternalTileset {

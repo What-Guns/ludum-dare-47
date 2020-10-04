@@ -108,7 +108,7 @@
                  "y":0
                 }, 
                 {
-                 "data":[84, 11, 1, 67, 67, 35, 35, 35, 84, 11, 1, 67, 67, 35, 35, 35, 84, 11, 1, 67, 67, 35, 35, 35, 84, 11, 1, 67, 67, 35, 35, 35, 84, 11, 1, 67, 67, 35, 35, 48, 84, 11, 1, 67, 67, 26, 35, 49, 84, 11, 1, 67, 67, 26, 26, 26, 84, 11, 1, 67, 67, 26, 26, 26],
+                 "data":[84, 11, 1, 67, 67, 35, 35, 35, 84, 11, 1, 67, 67, 35, 35, 35, 84, 11, 1, 67, 67, 35, 35, 227, 84, 11, 1, 67, 67, 35, 35, 35, 84, 11, 1, 67, 67, 35, 35, 48, 84, 11, 1, 67, 67, 26, 35, 49, 84, 11, 1, 67, 67, 26, 26, 26, 84, 11, 1, 67, 67, 26, 26, 26],
                  "height":8,
                  "width":8,
                  "x":0,
@@ -1534,62 +1534,8 @@
                  "type":"Building",
                  "visible":true,
                  "width":0,
-                 "x":400,
-                 "y":550
-                }, 
-                {
-                 "height":0,
-                 "id":30,
-                 "name":"",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"height",
-                         "type":"int",
-                         "value":3
-                        }],
-                 "rotation":0,
-                 "type":"Building",
-                 "visible":true,
-                 "width":0,
-                 "x":400,
-                 "y":500
-                }, 
-                {
-                 "height":0,
-                 "id":31,
-                 "name":"",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"height",
-                         "type":"int",
-                         "value":4
-                        }],
-                 "rotation":0,
-                 "type":"Building",
-                 "visible":true,
-                 "width":0,
-                 "x":400,
-                 "y":450
-                }, 
-                {
-                 "height":0,
-                 "id":33,
-                 "name":"",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"height",
-                         "type":"int",
-                         "value":54
-                        }],
-                 "rotation":0,
-                 "type":"Building",
-                 "visible":true,
-                 "width":0,
-                 "x":2100,
-                 "y":2200
+                 "x":250,
+                 "y":600
                 }],
          "opacity":1,
          "type":"objectgroup",

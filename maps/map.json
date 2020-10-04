@@ -1201,13 +1201,41 @@
                 }],
          "height":112,
          "id":1,
-         "name":"Tile Layer 1",
+         "name":"background",
          "opacity":1,
          "startx":0,
          "starty":0,
          "type":"tilelayer",
          "visible":true,
          "width":112,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "chunks":[
+                {
+                 "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 127, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                 "height":8,
+                 "width":8,
+                 "x":0,
+                 "y":8
+                }, 
+                {
+                 "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 113, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                 "height":8,
+                 "width":8,
+                 "x":32,
+                 "y":40
+                }],
+         "height":48,
+         "id":6,
+         "name":"buildings",
+         "opacity":1,
+         "startx":0,
+         "starty":0,
+         "type":"tilelayer",
+         "visible":true,
+         "width":48,
          "x":0,
          "y":0
         }, 
@@ -1525,7 +1553,7 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":5,
+ "nextlayerid":7,
  "nextobjectid":28,
  "orientation":"isometric",
  "renderorder":"right-down",
@@ -1535,6 +1563,10 @@
         {
          "firstgid":1,
          "source":"terrain.json"
+        }, 
+        {
+         "firstgid":97,
+         "source":"buildings.json"
         }],
  "tilewidth":100,
  "type":"map",

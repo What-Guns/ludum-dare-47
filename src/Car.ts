@@ -1,11 +1,13 @@
 import {isKeyPressed} from './KeyboardListener.js';
 import {GameObject} from './GameObject.js';
+import {loadImage} from './loader.js';
 import {SerializedObject, Terrain} from './Map.js';
 import {Obstacle} from './Obstacle.js';
 import {Serializable} from './serialization.js';
 import {Audio} from './Audio.js';
 import {clamp} from './math.js';
 import {RespawnPoint} from './RespawnPoint.js';
+import {drawZBuffer} from './rendering.js';
 
 /* DIRECTIONS
 Direction 0 is +x in game space, down-right in screen space
@@ -65,7 +67,7 @@ export class Car extends GameObject {
       'images/car/carBlue6_009.png',
       'images/car/carBlue6_010.png',
       'images/car/carBlue6_015.png',
-    ].map(waitForImageToLoad));
+    ].map(loadImage));
     Car.BACKUP_IMAGES = await Promise.all([
       'images/car/carBlue6_011.png',
       'images/car/carBlue6_012_backup.png',
@@ -75,7 +77,7 @@ export class Car extends GameObject {
       'images/car/carBlue6_009_backup.png',
       'images/car/carBlue6_010.png',
       'images/car/carBlue6_015.png',
-    ].map(waitForImageToLoad));
+    ].map(loadImage));
     await Audio.load('audio/sfx/sinkWater1.ogg', 'splash');
     await Audio.load('audio/sfx/engine.ogg', 'engine');
     await Audio.load('audio/sfx/beep.ogg', 'beep');
@@ -150,8 +152,12 @@ export class Car extends GameObject {
   
   draw(ctx: CanvasRenderingContext2D) {
     const sprite = this.chooseSprite(this.snappedDirectionIndex);
-    ctx.drawImage(sprite, this.screenX - sprite.width / 2, this.screenY - sprite.height / 2);
-    ctx.fillText(this.debug, this.screenX + 30, this.screenY + 30);
+
+    const z = (this.screenY - this.map.camera.screenY + ctx.canvas.height / 2) / ctx.canvas.height;
+
+    drawZBuffer(ctx, sprite, this.screenX - sprite.width / 2, this.screenY - sprite.height / 2, z);
+
+    ctx.fillText(z.toString(), this.screenX + 30, this.screenY + 30);
   }
 
   chooseSprite(index: number) {
@@ -276,14 +282,4 @@ export class Car extends GameObject {
     this.y = target.y;
     //this.speed = 0;
   }
-}
-
-async function waitForImageToLoad(path: string) {
-  const img = new Image();
-  img.src = path;
-  await new Promise((resolve, reject) => {
-    img.addEventListener('load', resolve);
-    img.addEventListener('error', reject);
-  });
-  return img;
 }

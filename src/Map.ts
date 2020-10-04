@@ -5,6 +5,7 @@ import {Serializable, deserialize, Type} from './serialization.js';
 import {loadImage, loadJson} from './loader.js';
 import { Point, GeoLookup, computeScreenCoords, ScreenPoint } from './math.js';
 import {Car} from './Car.js';
+import {drawZBuffer, translateZBuffer} from './rendering.js';
 
 const GRID_ALPHA = 0.25;
 
@@ -106,16 +107,20 @@ export class GameMap {
     ctx.save();
     ctx.translate(-this.camera.screenX, -this.camera.screenY);
     ctx.translate(screenWidth / 2, screenHeight / 2);
-
+    translateZBuffer(-this.camera.screenX, -this.camera.screenY);
+    translateZBuffer(screenWidth / 2, screenHeight / 2);
 
     for(const layer of this.layers) {
       for(const chunk of layer.chunks) {
         if(!this.isChunkVisible(chunk, screenWidth, screenHeight)) continue;
         for(const tile of chunk.tilesSortedByY) {
           const {screenX, screenY, image, offsetPX} = tile;
-          ctx.drawImage(image,
+          const z = (tile.screenY - this.camera.screenY + ctx.canvas.height / 2) / ctx.canvas.height;
+          drawZBuffer(ctx, image,
             screenX - this.world.tilewidth + image.width / 2 + offsetPX.x,
-            screenY + this.world.tileheight - image.height + offsetPX.y);
+            screenY + this.world.tileheight - image.height + offsetPX.y,
+            z
+          );
         }
       }
     }
@@ -130,7 +135,7 @@ export class GameMap {
     ctx.globalAlpha = 1;
 
     for(const obj of this.objects) {
-      obj.draw(ctx);
+      if(obj instanceof Car) obj.draw(ctx);
     }
 
     ctx.restore();

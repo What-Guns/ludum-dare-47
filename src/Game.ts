@@ -1,5 +1,6 @@
 import {GameMap, GameMapData} from './Map.js';
 import {Serializable, deserialize} from './serialization.js';
+import {clearZBuffer} from './rendering.js';
 
 @Serializable()
 export class Game {
@@ -13,6 +14,7 @@ export class Game {
   }
 
   draw(){
+    clearZBuffer(this.ctx.canvas.width, this.ctx.canvas.height);
     this.map.draw(this.ctx);
   }
 

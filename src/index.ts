@@ -28,10 +28,6 @@ async function startTheGameAlready() {
       const dt = Math.min(timestamp - lastTick, BIG_TICK_ENERGY);
       game.tick(dt);
       game.draw(timestamp);
-      ctx.fillStyle = "black";
-      ctx.textAlign = 'left';
-      ctx.font = '12px sans-serif';
-      ctx.fillText(String((1000 / dt).toFixed(0)), 0, 30);
     }
 
     lastTick = timestamp;

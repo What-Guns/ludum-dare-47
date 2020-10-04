@@ -16,7 +16,6 @@ export class Minimap {
 
   constructor(readonly map: GameMap) {
     const canvas = document.createElement('canvas');
-    console.log(map.heightInTiles, map.widthInTiles)
     canvas.height = map.heightInTiles;
     canvas.width = map.widthInTiles;
     const ctx = canvas.getContext('2d')!;

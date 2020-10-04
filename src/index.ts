@@ -17,6 +17,7 @@ async function startTheGameAlready() {
   await loadAudio();
 
   const game = await deserialize('Game', { ctx, mapData });
+  Audio.playMusic('truckin', 2.097)
 
   requestAnimationFrame(tick);
 
@@ -38,6 +39,5 @@ async function startTheGameAlready() {
 async function loadAudio() {
   await Audio.load('audio/music/truckin.ogg', 'truckin');
   await Audio.load('audio/music/intro.ogg', 'intro');
-  (document.querySelector('#audioButton') as HTMLButtonElement).onclick = () => Audio.playMusic('truckin', 2.097);
-  (document.querySelector('#titleScreenMusicButton') as HTMLButtonElement).onclick = () => Audio.playMusic('intro', 13.640, 25.633);
+  // (document.querySelector('#titleScreenMusicButton') as HTMLButtonElement).onclick = () => Audio.playMusic('intro', 13.640, 25.633);
 }

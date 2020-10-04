@@ -11,6 +11,8 @@ export class AudioControls implements HUDElement {
     this.loadImage('AUDIO_OFF', 'images/ui/audioOff.png');
     this.loadImage('MUSIC_ON', 'images/ui/musicOn.png');
     this.loadImage('MUSIC_OFF', 'images/ui/musicOff.png');
+    Audio.setSFXGain(!this.sfxIsMuted ? 1 : 0);
+    Audio.setMusicGain(!this.musicIsMuted ? 1 : 0);
 
     document.querySelector('canvas')!.addEventListener('click', ev => {
       if (ev.offsetX > 30 && ev.offsetX < 55 && ev.offsetY > 10 && ev.offsetY < 35) this.sfxIsMuted = Audio.setSFXGain(this.sfxIsMuted ? 1 : 0);

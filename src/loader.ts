@@ -1,11 +1,18 @@
+const images = new Map<string, Promise<HTMLImageElement>>();
+
 export async function loadImage(src: string) {
-  const image = new Image();
-  image.src = src;
-  await new Promise((resolve, reject) => {
-    image.addEventListener('load', resolve);
-    image.addEventListener('error', reject);
+  if(images.has(src)) return images.get(src)!;
+
+  const req = new Promise<HTMLImageElement>((resolve, reject) => {
+    const image = new Image();
+    image.src = src;
+    image.addEventListener('load', () => resolve(image));
+    image.addEventListener('error', (error) => reject(error));
   });
-  return image;
+
+  images.set(src, req);
+
+  return req;
 }
 
 export async function loadJson(path: string) {

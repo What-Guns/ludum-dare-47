@@ -1,3 +1,4 @@
+import { AudioControls } from "./AudioControls.js";
 import { GameMap } from "./GameMap.js";
 import { MessageBar } from "./MessageBar.js";
 import { Minimap } from "./Minimap.js";
@@ -6,14 +7,17 @@ export class HUD {
   readonly minimap: Minimap;
   readonly messageBar: MessageBar;
   readonly fpsCounter: FPSCounter;
+  readonly audioControls: AudioControls;
   readonly hudElementList: Array<HUDElement> = [];
   constructor(map: GameMap) {
     this.minimap = new Minimap(map);
     this.messageBar = new MessageBar();
     this.fpsCounter = new FPSCounter();
+    this.audioControls = new AudioControls();
     this.addHUDElement(this.minimap);
     this.addHUDElement(this.messageBar);
     this.addHUDElement(this.fpsCounter);
+    this.addHUDElement(this.audioControls);
   }
 
   addHUDElement(el: HUDElement) {

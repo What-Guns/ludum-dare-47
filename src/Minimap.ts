@@ -1,3 +1,4 @@
+import { Car } from "./Car.js";
 import { GameMap } from "./GameMap.js";
 import { GameObject } from "./GameObject.js";
 
@@ -49,17 +50,26 @@ export class Minimap {
     this.drawPoints = this.blinkTime < this.blinkOnTime;
   }
 
-  addPoint(name: string, obj: GameObject, color = '#F00') {
-    this.points.push(new MinimapPoint(name, obj, color))
+  addPoint(obj: GameObject, color = '#F00') {
+    if(obj instanceof Car) {
+      this.points.push(new MinimapPoint(obj, color)); // Cars are very important
+    } else {
+      this.points.unshift(new MinimapPoint(obj, color));
+    }
   }
 
-  removePoint(name: string) {
-    this.points.splice(this.points.findIndex(p => p.name === name), 1);
+  removePoint(obj: GameObject) {
+    const i = this.points.findIndex(p => p.obj === obj);
+    if (i > -1) {
+      this.points.splice(i, 1);
+    } else {
+      console.error('Tried to remove something from the minimap that was not there', obj)
+    }
   }
 }
 
 class MinimapPoint{
-  constructor(readonly name: string, readonly obj: GameObject, readonly color: string) {}
+  constructor(readonly obj: GameObject, readonly color: string) {}
 
   draw(ctx:CanvasRenderingContext2D) {
     ctx.fillStyle = this.color;

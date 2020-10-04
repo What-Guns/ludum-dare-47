@@ -7,6 +7,7 @@ import {loadImage, loadJson} from './loader.js';
 import {Point, GeoLookup, computeScreenCoords, ScreenPoint, removeFromArray} from './math.js';
 import {Car} from './Car.js';
 import { HUD } from './HUD.js';
+import { Package } from './Package.js';
 
 const GRID_ALPHA = 0.25;
 
@@ -68,7 +69,10 @@ export class GameMap {
     this.objectsById.set(obj.id, obj);
     if(obj instanceof Car) {
       this.camera.target = obj;
-      this.hud.minimap.addPoint('car', obj, 'red')
+      this.hud.minimap.addPoint(obj, 'red')
+    }
+    if(obj instanceof Package) {
+      this.hud.minimap.addPoint(obj, 'blue')
     }
   }
 
@@ -76,7 +80,7 @@ export class GameMap {
     for(const chunk of obj.chunks) removeFromArray(obj, chunk.objects);
     this.objectsById.delete(obj.id);
     removeFromArray(obj, this.objects);
-    if(obj instanceof Car) this.hud.minimap.removePoint('car');
+    if(obj instanceof Car) this.hud.minimap.removePoint(obj);
   }
 
   find(id: number) {

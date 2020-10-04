@@ -2,3 +2,4 @@ dist
 unused
 .vscode
 *.tiled-session
+.DS_Store

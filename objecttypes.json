@@ -54,5 +54,16 @@
                 "value": 0
             }
         ]
+    },
+    {
+        "color": "#ffa0a0a4",
+        "name": "Package",
+        "properties": [
+            {
+                "name": "direction",
+                "type": "float",
+                "value": 0
+            }
+        ]
     }
 ]

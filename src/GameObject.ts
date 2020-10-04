@@ -20,6 +20,8 @@ export abstract class GameObject implements Point, ScreenPoint {
   width?: number;
   height?: number;
 
+  tallness?: number;
+
   constructor({map, x, y, id}: BaseProps) {
     this.map = map;
     this.id = id;

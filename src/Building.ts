@@ -12,7 +12,7 @@ export class Building extends GameObject {
   tick() {}
 
   readonly cells: DrawableCell[];
-  readonly height: number;
+  readonly tallness: number;
 
   constructor({images, ...base}: BuildingParameters) {
     super(base);
@@ -29,7 +29,7 @@ export class Building extends GameObject {
       offset -= 34;
       return cell;
     });
-    this.height = images.length;
+    this.tallness = images.length * (34/50)
   }
 
   draw(ctx: CanvasRenderingContext2D) {

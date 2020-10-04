@@ -105,10 +105,14 @@ export class GameMap {
     for(let x = minX; x < maxX; x += Math.min(width, firstChunk.width)) {
       for(let y = minY; y < maxY; y += Math.min(height, firstChunk.height)) {
         const chunk = this.getChunkContaining(x, y);
-        if(chunk) {
-          if(obj.chunks.indexOf(chunk) === -1) obj.chunks.push(chunk);
-          if(chunk.objects.indexOf(obj) === -1) chunk.objects.push(obj);
-        }
+        if(chunk) this.addObjectToChunk(obj, chunk);
+      }
+    }
+
+    if(obj.tallness) {
+      for(let z = 0; z < obj.tallness; z++) {
+        const chunk = this.getChunkContaining(minX - z, minY - z);
+        if(chunk) this.addObjectToChunk(obj, chunk);
       }
     }
   }
@@ -116,6 +120,11 @@ export class GameMap {
   tick(dt: number) {
     for(const obj of this.objects) obj.tick(dt);
     this.updateCamera();
+  }
+
+  private addObjectToChunk(obj: GameObject, chunk: Chunk) {
+    if(obj.chunks.indexOf(chunk) === -1) obj.chunks.push(chunk);
+    if(chunk.objects.indexOf(obj) === -1) chunk.objects.push(obj);
   }
 
   private readonly visibleObjects: GameObject[] = [];

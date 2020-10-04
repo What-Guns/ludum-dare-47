@@ -1572,6 +1572,24 @@
                  "width":0,
                  "x":400,
                  "y":450
+                }, 
+                {
+                 "height":0,
+                 "id":33,
+                 "name":"",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"height",
+                         "type":"int",
+                         "value":54
+                        }],
+                 "rotation":0,
+                 "type":"Building",
+                 "visible":true,
+                 "width":0,
+                 "x":2100,
+                 "y":2200
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1580,7 +1598,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":33,
+ "nextobjectid":34,
  "orientation":"isometric",
  "renderorder":"right-down",
  "tiledversion":"1.4.2",

@@ -3,3 +3,4 @@ unused
 .vscode
 *.tiled-session
 .DS_Store
+/*.zip

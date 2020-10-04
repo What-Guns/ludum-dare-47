@@ -4,16 +4,24 @@ export class Package extends GameObject {
   screenX!: number;
   screenY!: number;
   debug = "";
+
+  bob = Math.random() * 1000;
+  readonly bobSpeed = .006;
+  readonly bobAmplitude = 3;
+
+  spriteIndex: number;
   static IMAGES: Array<HTMLImageElement>;
 
   private static async load() {
     Package.IMAGES = await Promise.all([
-      'images/items/package.png'
+      'images/items/package.png',
+      'images/items/box1.png',
+      'images/items/box2.png',
     ].map(waitForImageToLoad));
   }
 
-  tick() {
-    
+  tick(dt: number) {
+    this.bob += dt;
   }
 
   static async deserialize(data: SerializedObject) {
@@ -24,11 +32,13 @@ export class Package extends GameObject {
   constructor({...serialized}: SerializedObject&{}) {
     super(serialized);
     (window as any).package = this;
+    this.spriteIndex = Math.floor(1 + Math.random() * 2)
   }
 
   draw(ctx: CanvasRenderingContext2D) {
-    const sprite = this.chooseSprite(0);
-    ctx.drawImage(sprite, this.screenX - sprite.width / 2, this.screenY - sprite.height / 2);
+    const sprite = this.chooseSprite(this.spriteIndex);
+    const bobOffset = Math.sin(this.bob * this.bobSpeed) * this.bobAmplitude;
+    ctx.drawImage(sprite, this.screenX - sprite.width / 2, bobOffset + this.screenY - sprite.height / 2);
     ctx.fillText(this.debug, this.screenX + 30, this.screenY + 30);
   }
 

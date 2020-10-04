@@ -70,6 +70,10 @@ export class Building extends GameObject {
 
     const tallness = fixedTallness ?? minTallness + Math.floor(Math.random() * (maxTallness - minTallness));
 
+    if(!globalFilter.color && Math.random() > 0.6) {
+      globalFilter.color = pickRandom(['red', 'yellow', 'white', 'brown']);
+    }
+
     for(let i = 0; i < tallness; i++) {
       const filter = {
         ...globalFilter,
@@ -92,6 +96,7 @@ export class Building extends GameObject {
 
 export interface ZoningRestrictions {
   color?: string;
+  direction?: string;
   minTallness: number;
   maxTallness: number;
 }

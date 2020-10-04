@@ -37,6 +37,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"brown"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":true
@@ -141,6 +146,11 @@
                  "name":"color",
                  "type":"string",
                  "value":"white"
+                }, 
+                {
+                 "name":"direction",
+                 "type":"string",
+                 "value":"east"
                 }, 
                 {
                  "name":"middle",
@@ -261,6 +271,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"color",
+                 "type":"string",
+                 "value":"brown"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":true
@@ -290,7 +305,7 @@
                 {
                  "name":"color",
                  "type":"string",
-                 "value":"white"
+                 "value":"yellow"
                 }, 
                 {
                  "name":"middle",
@@ -951,6 +966,11 @@
                  "value":"white"
                 }, 
                 {
+                 "name":"direction",
+                 "type":"string",
+                 "value":"west"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -981,6 +1001,11 @@
                  "name":"color",
                  "type":"string",
                  "value":"white"
+                }, 
+                {
+                 "name":"direction",
+                 "type":"string",
+                 "value":"east"
                 }, 
                 {
                  "name":"middle",
@@ -1082,6 +1107,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -1484,6 +1514,11 @@
                  "name":"color",
                  "type":"string",
                  "value":"white"
+                }, 
+                {
+                 "name":"direction",
+                 "type":"string",
+                 "value":"east"
                 }, 
                 {
                  "name":"middle",
@@ -1923,6 +1958,11 @@
                  "name":"color",
                  "type":"string",
                  "value":"red"
+                }, 
+                {
+                 "name":"direction",
+                 "type":"string",
+                 "value":"east"
                 }, 
                 {
                  "name":"middle",
@@ -2655,6 +2695,11 @@
                  "value":"red"
                 }, 
                 {
+                 "name":"direction",
+                 "type":"string",
+                 "value":"south"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -2722,6 +2767,11 @@
                  "name":"color",
                  "type":"string",
                  "value":"brown"
+                }, 
+                {
+                 "name":"direction",
+                 "type":"string",
+                 "value":"south"
                 }, 
                 {
                  "name":"middle",
@@ -3010,6 +3060,11 @@
                  "value":"white"
                 }, 
                 {
+                 "name":"direction",
+                 "type":"string",
+                 "value":"west"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -3109,6 +3164,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"direction",
+                 "type":"string",
+                 "value":"south"
                 }, 
                 {
                  "name":"middle",
@@ -3249,6 +3309,11 @@
                  "value":"red"
                 }, 
                 {
+                 "name":"direction",
+                 "type":"string",
+                 "value":"north"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -3318,6 +3383,11 @@
                  "value":"white"
                 }, 
                 {
+                 "name":"direction",
+                 "type":"string",
+                 "value":"east"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -3382,6 +3452,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"direction",
+                 "type":"string",
+                 "value":"east"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -3407,6 +3482,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"direction",
+                 "type":"string",
+                 "value":"west"
                 }, 
                 {
                  "name":"middle",
@@ -3439,6 +3519,11 @@
                  "name":"color",
                  "type":"string",
                  "value":"red"
+                }, 
+                {
+                 "name":"direction",
+                 "type":"string",
+                 "value":"south"
                 }, 
                 {
                  "name":"middle",
@@ -3547,6 +3632,11 @@
                  "value":"white"
                 }, 
                 {
+                 "name":"direction",
+                 "type":"string",
+                 "value":"south"
+                }, 
+                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -3574,9 +3664,9 @@
                  "value":false
                 }, 
                 {
-                 "name":"color",
+                 "name":"direction",
                  "type":"string",
-                 "value":"white"
+                 "value":"south"
                 }, 
                 {
                  "name":"middle",
@@ -3604,11 +3694,6 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
-                }, 
-                {
-                 "name":"color",
-                 "type":"string",
-                 "value":"white"
                 }, 
                 {
                  "name":"direction",
@@ -3641,6 +3726,11 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"direction",
+                 "type":"string",
+                 "value":"south"
                 }, 
                 {
                  "name":"middle",
@@ -3705,6 +3795,11 @@
                  "name":"color",
                  "type":"string",
                  "value":"red"
+                }, 
+                {
+                 "name":"direction",
+                 "type":"string",
+                 "value":"west"
                 }, 
                 {
                  "name":"middle",
@@ -3845,11 +3940,6 @@
                  "value":false
                 }, 
                 {
-                 "name":"color",
-                 "type":"string",
-                 "value":"white"
-                }, 
-                {
                  "name":"middle",
                  "type":"bool",
                  "value":false
@@ -3875,11 +3965,6 @@
                  "name":"bottom",
                  "type":"bool",
                  "value":false
-                }, 
-                {
-                 "name":"color",
-                 "type":"string",
-                 "value":"white"
                 }, 
                 {
                  "name":"middle",
@@ -3981,6 +4066,11 @@
                  "name":"color",
                  "type":"string",
                  "value":"white"
+                }, 
+                {
+                 "name":"direction",
+                 "type":"string",
+                 "value":"north"
                 }, 
                 {
                  "name":"middle",
@@ -4087,6 +4177,11 @@
                  "name":"color",
                  "type":"string",
                  "value":"white"
+                }, 
+                {
+                 "name":"direction",
+                 "type":"string",
+                 "value":"south"
                 }, 
                 {
                  "name":"middle",

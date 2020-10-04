@@ -41,6 +41,11 @@
                 "value": ""
             },
             {
+                "name": "fillInterior",
+                "type": "bool",
+                "value": false
+            },
+            {
                 "name": "maxTallness",
                 "type": "int",
                 "value": 7

@@ -3,6 +3,7 @@ import { Serializable } from './serialization.js';
 import { computeScreenCoords, ScreenPoint } from './math.js';
 
 export interface ObstacleProps extends SerializedObject {
+  visible?: boolean;
   width: number;
   height: number;
 }
@@ -14,13 +15,14 @@ export class Obstacle extends GameObject {
   screenX!: number;
   screenY!: number;
 
-  color?: string;
+  visible: boolean;
 
   /** All corners except the top, which is represented by screenX/Y. */
   private otherCorners: ScreenPoint[];
 
   constructor(data: ObstacleProps) {
     super(data);
+    this.visible = data.visible ?? true;
     (window as any).obstacle = this;
     const {x, y, width, height, map} = data;
     this.height = height;
@@ -33,10 +35,11 @@ export class Obstacle extends GameObject {
   }
 
   draw(ctx: CanvasRenderingContext2D) {
+    if(!this.visible) return;
     ctx.save();
 
-    ctx.fillStyle = this.color ?? 'rgba(255, 0, 0, 0.5)';
-    ctx.strokeStyle = this.color ?? 'red';
+    ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
+    ctx.strokeStyle = 'red';
     ctx.lineWidth = 2;
 
     ctx.beginPath();

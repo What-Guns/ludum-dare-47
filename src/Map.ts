@@ -96,7 +96,7 @@ export class GameMap {
 
   tick(dt: number) {
     for(const obj of this.objects) obj.tick(dt);
-    if(this.camera.target) computeScreenCoords(this.camera, this.camera.target, this.world);
+    this.updateCamera();
   }
 
   draw(ctx: CanvasRenderingContext2D) {
@@ -196,6 +196,18 @@ export class GameMap {
     }
 
     return grid;
+  }
+
+  private updateCamera() {
+    const target = this.camera.target;
+    if(!target) return;
+    const oldX = this.camera.screenX;
+    const oldY = this.camera.screenY;
+    
+    computeScreenCoords(this.camera, target, this.world);
+
+    this.camera.screenX = (this.camera.screenX + oldX * 10)/11;
+    this.camera.screenY = (this.camera.screenY + oldY * 10)/11;
   }
 
   static async deserialize(data: MapData) {

@@ -10,7 +10,7 @@ import { HUD } from './HUD.js';
 import { Package } from './Package.js';
 import { GameInfo } from './GameInfo';
 
-const GRID_ALPHA = 0.25;
+const GRID_ALPHA = 0;
 
 export type Terrain = 'void'|'grass'|'road'|'water'|'sand'|'dirt';
 
@@ -176,14 +176,16 @@ export class GameMap {
       }
     }
 
-    ctx.globalAlpha = GRID_ALPHA;
-    for(const line of this.grid) {
-      ctx.beginPath();
-      ctx.moveTo(line[0].screenX, line[0].screenY);
-      ctx.lineTo(line[1].screenX, line[1].screenY);
-      ctx.stroke();
+    if(GRID_ALPHA) {
+      ctx.globalAlpha = GRID_ALPHA;
+      for(const line of this.grid) {
+        ctx.beginPath();
+        ctx.moveTo(line[0].screenX, line[0].screenY);
+        ctx.lineTo(line[1].screenX, line[1].screenY);
+        ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
     }
-    ctx.globalAlpha = 1;
 
     this.visibleObjects.sort((l, r) => (l.screenY + l.screenYDepthOffset) - (r.screenY + r.screenYDepthOffset));
 

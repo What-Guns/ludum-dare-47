@@ -213,7 +213,7 @@
                  "y":16
                 }, 
                 {
-                 "data":[35, 35, 67, 67, 35, 35, 67, 35, 35, 35, 67, 21, 77, 77, 20, 77, 35, 35, 67, 67, 35, 35, 35, 35, 35, 35, 67, 67, 35, 35, 35, 35, 35, 35, 67, 67, 35, 35, 35, 35, 35, 35, 67, 67, 35, 35, 35, 35, 35, 35, 67, 67, 35, 35, 35, 35, 77, 77, 22, 22, 77, 77, 22, 77],
+                 "data":[35, 35, 67, 67, 35, 35, 67, 35, 35, 35, 67, 21, 77, 77, 22, 77, 35, 35, 67, 67, 35, 35, 35, 35, 35, 35, 67, 67, 35, 35, 35, 35, 35, 35, 67, 67, 35, 35, 35, 35, 35, 35, 67, 67, 35, 35, 35, 35, 35, 35, 67, 67, 35, 35, 35, 35, 77, 77, 22, 22, 77, 77, 77, 77],
                  "height":8,
                  "width":8,
                  "x":24,
@@ -633,14 +633,14 @@
                  "y":48
                 }, 
                 {
-                 "data":[35, 35, 35, 7, 13, 13, 13, 13, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 12, 6, 10, 35, 35, 35, 35, 35, 8, 84, 2, 10, 35, 35, 35, 35, 8, 84, 84, 11, 35, 35, 35, 35, 7, 13, 13, 9, 35, 35, 35, 35, 6, 6, 6, 10, 35, 35, 35, 35],
+                 "data":[35, 35, 35, 7, 13, 13, 13, 13, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 12, 6, 10, 35, 35, 48, 45, 45, 8, 84, 2, 10, 35, 47, 97, 97, 8, 84, 84, 11, 35, 47, 97, 97, 7, 13, 13, 9, 35, 47, 97, 97, 6, 6, 6, 10, 35, 49, 52, 52],
                  "height":8,
                  "width":8,
                  "x":88,
                  "y":48
                 }, 
                 {
-                 "data":[13, 4, 84, 84, 84, 11, 35, 35, 35, 8, 84, 84, 84, 11, 35, 35, 35, 7, 4, 84, 84, 11, 35, 35, 35, 35, 7, 13, 13, 9, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 12, 6, 6],
+                 "data":[13, 4, 84, 84, 84, 11, 35, 35, 35, 8, 84, 84, 84, 11, 35, 35, 35, 7, 4, 84, 84, 11, 35, 35, 45, 46, 7, 13, 13, 9, 35, 35, 97, 50, 35, 35, 35, 35, 35, 35, 97, 50, 35, 35, 35, 35, 35, 35, 97, 50, 35, 35, 35, 35, 35, 35, 52, 51, 35, 35, 35, 12, 6, 6],
                  "height":8,
                  "width":8,
                  "x":96,
@@ -871,7 +871,7 @@
                  "y":72
                 }, 
                 {
-                 "data":[20, 77, 77, 77, 77, 77, 22, 77, 67, 35, 35, 35, 35, 35, 35, 35, 67, 35, 35, 35, 35, 35, 35, 35, 67, 35, 35, 35, 35, 35, 35, 35, 67, 35, 35, 35, 35, 35, 35, 35, 67, 35, 35, 35, 35, 35, 35, 35, 67, 35, 35, 35, 35, 35, 35, 35, 67, 35, 35, 35, 35, 35, 35, 35],
+                 "data":[20, 77, 77, 77, 77, 77, 22, 77, 67, 35, 35, 35, 35, 35, 35, 35, 67, 35, 35, 35, 35, 35, 35, 35, 67, 35, 35, 35, 35, 35, 35, 35, 67, 35, 35, 35, 35, 35, 35, 35, 21, 77, 77, 77, 77, 28, 35, 35, 67, 35, 35, 35, 35, 35, 35, 35, 67, 35, 35, 35, 35, 35, 35, 35],
                  "height":8,
                  "width":8,
                  "x":48,
@@ -2170,12 +2170,12 @@
                         {
                          "name":"maxTallness",
                          "type":"int",
-                         "value":15
+                         "value":20
                         }, 
                         {
                          "name":"minTallness",
                          "type":"int",
-                         "value":12
+                         "value":18
                         }],
                  "rotation":0,
                  "type":"BuildingBlock",
@@ -2313,7 +2313,7 @@
                         {
                          "name":"destination",
                          "type":"object",
-                         "value":629
+                         "value":680
                         }],
                  "rotation":0,
                  "type":"Portal",
@@ -2442,38 +2442,351 @@
                  "y":1750
                 }, 
                 {
-                 "height":50,
-                 "id":658,
+                 "height":100,
+                 "id":660,
+                 "name":"",
+                 "rotation":0,
+                 "type":"DeliveryZone",
+                 "visible":true,
+                 "width":50,
+                 "x":2350,
+                 "y":4500
+                }, 
+                {
+                 "height":100,
+                 "id":661,
+                 "name":"",
+                 "rotation":0,
+                 "type":"PackageSpawn",
+                 "visible":true,
+                 "width":50,
+                 "x":2400,
+                 "y":4500
+                }, 
+                {
+                 "height":150,
+                 "id":662,
                  "name":"",
                  "properties":[
                         {
-                         "name":"destination",
-                         "type":"object",
-                         "value":659
+                         "name":"maxTallness",
+                         "type":"int",
+                         "value":12
+                        }, 
+                        {
+                         "name":"minTallness",
+                         "type":"int",
+                         "value":8
                         }],
                  "rotation":0,
-                 "type":"Portal",
+                 "type":"BuildingBlock",
                  "visible":true,
-                 "width":50,
+                 "width":150,
                  "x":2500,
-                 "y":1900
+                 "y":3700
                 }, 
                 {
                  "height":50,
-                 "id":659,
+                 "id":663,
+                 "name":"",
+                 "rotation":0,
+                 "type":"PackageSpawn",
+                 "visible":true,
+                 "width":100,
+                 "x":2600,
+                 "y":3850
+                }, 
+                {
+                 "height":50,
+                 "id":664,
+                 "name":"",
+                 "rotation":0,
+                 "type":"DeliveryZone",
+                 "visible":true,
+                 "width":100,
+                 "x":2500,
+                 "y":3850
+                }, 
+                {
+                 "height":150,
+                 "id":665,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"fillInterior",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"maxTallness",
+                         "type":"int",
+                         "value":9
+                        }, 
+                        {
+                         "name":"minTallness",
+                         "type":"int",
+                         "value":3
+                        }],
+                 "rotation":0,
+                 "type":"BuildingBlock",
+                 "visible":true,
+                 "width":150,
+                 "x":1450,
+                 "y":950
+                }, 
+                {
+                 "height":150,
+                 "id":666,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"maxTallness",
+                         "type":"int",
+                         "value":3
+                        }, 
+                        {
+                         "name":"minTallness",
+                         "type":"int",
+                         "value":2
+                        }],
+                 "rotation":0,
+                 "type":"BuildingBlock",
+                 "visible":true,
+                 "width":50,
+                 "x":550,
+                 "y":400
+                }, 
+                {
+                 "height":50,
+                 "id":667,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"color",
+                         "type":"string",
+                         "value":"red"
+                        }, 
+                        {
+                         "name":"direction",
+                         "type":"string",
+                         "value":"south"
+                        }],
+                 "rotation":0,
+                 "type":"BuildingBlock",
+                 "visible":true,
+                 "width":250,
+                 "x":900,
+                 "y":1050
+                }, 
+                {
+                 "height":0,
+                 "id":668,
+                 "name":"",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"direction",
+                         "type":"float",
+                         "value":270
+                        }],
+                 "rotation":0,
+                 "type":"RespawnPoint",
+                 "visible":true,
+                 "width":0,
+                 "x":2375,
+                 "y":3075
+                }, 
+                {
+                 "height":0,
+                 "id":669,
+                 "name":"",
+                 "point":true,
+                 "rotation":0,
+                 "type":"RespawnPoint",
+                 "visible":true,
+                 "width":0,
+                 "x":2025,
+                 "y":2725
+                }, 
+                {
+                 "height":0,
+                 "id":670,
+                 "name":"",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"direction",
+                         "type":"float",
+                         "value":180
+                        }],
+                 "rotation":0,
+                 "type":"RespawnPoint",
+                 "visible":true,
+                 "width":0,
+                 "x":2075,
+                 "y":3325
+                }, 
+                {
+                 "height":0,
+                 "id":671,
+                 "name":"",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"direction",
+                         "type":"float",
+                         "value":90
+                        }],
+                 "rotation":0,
+                 "type":"RespawnPoint",
+                 "visible":true,
+                 "width":0,
+                 "x":2425,
+                 "y":4425
+                }, 
+                {
+                 "height":0,
+                 "id":673,
+                 "name":"",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"direction",
+                         "type":"float",
+                         "value":180
+                        }],
+                 "rotation":0,
+                 "type":"RespawnPoint",
+                 "visible":true,
+                 "width":0,
+                 "x":4250,
+                 "y":4300
+                }, 
+                {
+                 "height":0,
+                 "id":674,
+                 "name":"",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"direction",
+                         "type":"float",
+                         "value":180
+                        }],
+                 "rotation":0,
+                 "type":"RespawnPoint",
+                 "visible":true,
+                 "width":0,
+                 "x":4825,
+                 "y":4275
+                }, 
+                {
+                 "height":0,
+                 "id":675,
+                 "name":"",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"direction",
+                         "type":"float",
+                         "value":180
+                        }],
+                 "rotation":0,
+                 "type":"RespawnPoint",
+                 "visible":true,
+                 "width":0,
+                 "x":4775,
+                 "y":2075
+                }, 
+                {
+                 "height":150,
+                 "id":678,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"fillInterior",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"minTallness",
+                         "type":"int",
+                         "value":3
+                        }],
+                 "rotation":0,
+                 "type":"BuildingBlock",
+                 "visible":true,
+                 "width":150,
+                 "x":4700,
+                 "y":2600
+                }, 
+                {
+                 "height":50,
+                 "id":679,
                  "name":"",
                  "properties":[
                         {
                          "name":"destination",
                          "type":"object",
-                         "value":658
+                         "value":22
                         }],
                  "rotation":0,
                  "type":"Portal",
                  "visible":true,
                  "width":50,
-                 "x":2450,
-                 "y":2100
+                 "x":4650,
+                 "y":2650
+                }, 
+                {
+                 "height":50,
+                 "id":680,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"destination",
+                         "type":"object",
+                         "value":648
+                        }],
+                 "rotation":0,
+                 "type":"Portal",
+                 "visible":true,
+                 "width":50,
+                 "x":4750,
+                 "y":2550
+                }, 
+                {
+                 "height":50,
+                 "id":682,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"destination",
+                         "type":"object",
+                         "value":683
+                        }],
+                 "rotation":0,
+                 "type":"Portal",
+                 "visible":true,
+                 "width":50,
+                 "x":2300,
+                 "y":4600
+                }, 
+                {
+                 "height":50,
+                 "id":683,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"destination",
+                         "type":"object",
+                         "value":682
+                        }],
+                 "rotation":0,
+                 "type":"Portal",
+                 "visible":true,
+                 "width":50,
+                 "x":1300,
+                 "y":4350
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -2482,7 +2795,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":660,
+ "nextobjectid":684,
  "orientation":"isometric",
  "properties":[
         {

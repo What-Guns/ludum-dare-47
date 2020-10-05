@@ -358,6 +358,7 @@ export class Car extends GameObject {
       return this.denyPackage();
     }
     Audio.playSFX('pickup');
+    pkg.addDestinationPoint();
     game.gameInfo.incrementPackages();
     const node = { item: pkg, next: null };
     if(this.packages) {

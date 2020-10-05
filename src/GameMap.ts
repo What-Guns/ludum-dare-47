@@ -91,6 +91,7 @@ export class GameMap {
     removeFromArray(obj, this.objects);
     if (obj === this.car) this.car = undefined;
     /* if(obj instanceof Car) */ game.hud.minimap.removePoint(obj);
+    if(obj instanceof Package) { game.hud.minimap.removePoint(obj.deliveryZone);}
   }
 
   find(id: number) {

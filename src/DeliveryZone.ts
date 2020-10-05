@@ -23,8 +23,8 @@ export class DeliveryZone extends GameObject {
   draw(ctx: CanvasRenderingContext2D, noReally = false) {
     if(!game.debugmode && !noReally) return;
     ctx.save();
-    ctx.fillStyle = `rgba(0, 0, 255, 0.25)`;
-    ctx.strokeStyle = 'blue';
+    ctx.fillStyle = 'rgba(248, 131, 121, 0.25)';
+    ctx.strokeStyle = '#F88379';
     makeRectanglePath(ctx, this, this);
     ctx.stroke();
     ctx.fill();

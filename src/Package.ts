@@ -79,10 +79,10 @@ export class Package extends GameObject {
       ctx.translate(this.screenX, this.screenY);
       ctx.scale(1, 0.5);
       ctx.rotate(direction + Math.PI / 4);
-      ctx.strokeStyle = 'blue';
+      ctx.strokeStyle = '#F88379';
       ctx.lineCap = 'round';
       ctx.lineWidth = 3;
-      ctx.fillStyle = 'rgba(0, 0, 255, 0.25)';
+      ctx.fillStyle = 'rgba(248, 131, 121, 0.25)';
       ctx.beginPath();
       ctx.arc(0, 0, 32, - Math.PI / 8, Math.PI / 8, false);
       ctx.lineTo(50, 0);
@@ -94,6 +94,10 @@ export class Package extends GameObject {
     } else {
       if(this.job && this.job.packages[0] === this) this.drawJob(ctx);
     }
+  }
+
+  addDestinationPoint() {
+    game.hud.minimap.addPoint(this.deliveryZone, 'cyan')
   }
 
   private isHeld() {

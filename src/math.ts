@@ -52,6 +52,10 @@ export function pointIsInside({x, y}: Point, box: Box) {
   return x > box.x && x < box.x + box.width && y > box.y && y < box.y + box.height;
 }
 
+export function distanceSquared(a: Point, b: Point) {
+  return Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2);
+}
+
 let scratchPoint: Point&ScreenPoint = {
   x: 0,
   y: 0,

@@ -2,14 +2,19 @@ import { DeliveryZone } from "./DeliveryZone.js";
 import { Package } from "./Package.js";
 import { PackageSpawn } from "./PackageSpawn.js";
 
-export type JobManifest = Array<{spawnerId: number, destinationId: number}>;
+export type JobManifest = {
+  deliveries: Delivery[];
+  description: string;
+}
+
+export interface Delivery {
+  spawnerId: number;
+  destinationId: number;
+}
 
 export class Job {
-  readonly description: string;
-
-  constructor(readonly packages: Array<Package>, readonly onComplete: Function) {
+  constructor(readonly packages: Array<Package>, readonly onComplete: Function, readonly description: string) {
     packages.forEach(p => p.job = this);
-    this.description = `Deliver ${packages.length} packages`;
   }
 
   deliverPackage(pkg: Package) {
@@ -19,7 +24,7 @@ export class Job {
 
   static fromManifest(manifest: JobManifest, onComplete: Function) {
     const pkgs: Array<Package> = [];
-    manifest.forEach(item => {
+    for(const item of manifest.deliveries) {
       const spawner = this.findById(item.spawnerId);
       if (spawner instanceof PackageSpawn) {
         const deliveryZone = this.findById(item.destinationId);
@@ -31,9 +36,9 @@ export class Job {
       } else {
         console.error('Could not spawn package: invalid spawner:', spawner);
       }
-    });
+    };
     
-    return new Job(pkgs, onComplete);
+    return new Job(pkgs, onComplete, manifest.description);
   }
 
   static findById(id: number) {

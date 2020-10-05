@@ -17,14 +17,16 @@ export class Game {
   constructor(readonly mainCtx: CanvasRenderingContext2D, readonly bufferCtx: CanvasRenderingContext2D) {
     window.game = this;
 
-    const manifests = [
-        [
+    this.gameInfo = new StaticGameInfo([
+      {
+        deliveries: [
           { spawnerId: 31, destinationId: 34 },
           { spawnerId: 31, destinationId: 35 },
           { spawnerId: 31, destinationId: 36 },
-        ]
-      ];
-    this.gameInfo = new StaticGameInfo(manifests, 6000);
+        ],
+        description: "Deliver 3 packages"
+      }
+    ], 6000);
   }
 
   tick(dt: number){

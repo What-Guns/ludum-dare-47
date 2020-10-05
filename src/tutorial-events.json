@@ -17,9 +17,9 @@
     },
     {
       "type": "createJob",
-      "jobManifest": [
+      "jobManifest": { "deliveries": [
         { "spawnerId": 31, "destinationId": 34 }
-      ],
+      ]},
       "onComplete": "firstJobComplete",
       "messageText": "Pick up the package outside and drive it to the destination",
       "delay": 4000
@@ -33,16 +33,16 @@
     },
     {
       "type": "sendMessage",
-      "messageText": "It honestly doesn't get too much more complicated that that",
+      "messageText": "It honestly doesn't get too much more complicated than that",
       "delay": 4000
     },
     {
       "type": "createJob",
-      "jobManifest": [
+      "jobManifest":  { "deliveries": [
         { "spawnerId": 31, "destinationId": 34 },
         { "spawnerId": 31, "destinationId": 35 },
         { "spawnerId": 31, "destinationId": 36 }
-      ],
+      ]},
       "onComplete": "secondJobComplete",
       "messageText": "Come on back, there are a few more packages to deliver",
       "delay": 4000
@@ -66,9 +66,9 @@
     },
     {
       "type": "createJob",
-      "jobManifest": [
+      "jobManifest":  { "deliveries": [
         { "spawnerId": 31, "destinationId": 15 }
-      ],
+      ]},
       "onComplete": "thirdJobComplete",
       "messageText": "Actually, I won't spoil it, try exploring the right side of the island above this one!",
       "delay": 4000

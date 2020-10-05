@@ -7,6 +7,7 @@ import { removeFromArray, distanceSquared } from './math.js';
 import { Car } from './Car.js';
 import { GhostCar } from './RespawnPoint.js';
 import { DeliveryZone } from './DeliveryZone.js';
+import { generateTutorialEvents } from "./TutorialEvents.js";
 
 export abstract class GameInfo {
   currentlyHeldPackages = 0;
@@ -52,7 +53,8 @@ export abstract class GameInfo {
 export class StaticGameInfo extends GameInfo {
   constructor(private readonly manifests: JobManifest[], delay: number) {
     super();
-    setTimeout(() => this.popJob(), delay);
+    generateTutorialEvents(delay);
+    //setTimeout(() => this.popJob(), delay);
   }
 
   tick() {

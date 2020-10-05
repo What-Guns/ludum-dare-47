@@ -92,6 +92,7 @@ export class Car extends GameObject {
     await Audio.load('audio/sfx/beep.ogg', 'beep');
     await Audio.load('audio/sfx/pickup.wav', 'pickup');
     await Audio.load('audio/sfx/brake.ogg', 'brake');
+    await Audio.load('audio/sfx/congratulations.ogg', 'congratulations');
   }
 
   static async deserialize(data: SerializedObject) {
@@ -154,6 +155,16 @@ export class Car extends GameObject {
 
     if(this.terrain === 'water') {
       Audio.playSFX('splash');
+      Audio.stop('engine');
+      game.gameInfo.fallInWater();
+      game.map.remove(this);
+
+      const sprite = this.chooseSprite(this.snappedDirectionIndex);
+      game.map.expensivelyFindNearestOfType(RespawnPoint, this)?.spawnGhost(this, sprite);
+    }
+
+    if(this.terrain === 'void') {
+      Audio.playSFX('congratulations');
       Audio.stop('engine');
       game.gameInfo.fallInWater();
       game.map.remove(this);

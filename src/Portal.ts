@@ -3,6 +3,7 @@ import {GameObject, SerializedObject} from './GameObject.js';
 import {Car} from './Car.js';
 import {clamp, computeScreenCoords, ScreenPoint} from './math.js';
 import {Audio} from './Audio.js';
+import {loadImage} from './loader.js';
 
 @Serializable()
 export class Portal extends GameObject {
@@ -103,17 +104,6 @@ export class Portal extends GameObject {
       'images/items/portal2.png',
       'images/items/portal3.png',
       'images/items/portal4.png',
-    ].map(waitForImageToLoad));
+    ].map(loadImage));
   }
 }
-
-async function waitForImageToLoad(path: string) {
-  const img = new Image();
-  img.src = path;
-  await new Promise((resolve, reject) => {
-    img.addEventListener('load', resolve);
-    img.addEventListener('error', reject);
-  });
-  return img;
-}
-

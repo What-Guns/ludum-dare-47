@@ -1,8 +1,8 @@
 import { GameObject, SerializedObject } from './GameObject.js';
 import { Serializable } from './serialization.js';
-import { computeScreenCoords, ScreenPoint } from './math.js';
 import {Package} from './Package.js';
 import {DeliveryZone} from './DeliveryZone.js';
+import {makeRectanglePath} from './math.js';
 
 export interface PackageSpawnProp extends SerializedObject {
   visible?: boolean;
@@ -21,21 +21,12 @@ export class PackageSpawn extends GameObject {
   
   visible: boolean;
 
-  /** All corners except the top, which is represented by screenX/Y. */
-  private otherCorners: ScreenPoint[];
-
   constructor(data: PackageSpawnProp) {
     super(data);
     this.visible = data.visible ?? true;
-    const {x, y, width, height} = data;
-    this.height = height;
-    this.width = width;
+    this.height = data.height;
+    this.width = data.width;
     this.hasPackage = data.hasPackage ?? false;
-    this.otherCorners = [
-      computeScreenCoords({}, {x: x + width, y}),
-      computeScreenCoords({}, {x: x + width, y: y + height}),
-      computeScreenCoords({}, {x, y: y + height}),
-    ];
   }
 
   draw(ctx: CanvasRenderingContext2D) {
@@ -46,60 +37,20 @@ export class PackageSpawn extends GameObject {
     ctx.strokeStyle = 'green';
     ctx.lineWidth = 2;
 
-    ctx.beginPath();
-    ctx.moveTo(this.screenX, this.screenY);
-    for(const corner of this.otherCorners) ctx.lineTo(corner.screenX, corner.screenY);
-    ctx.closePath();
+    makeRectanglePath(ctx, this, this);
     ctx.fill();
     ctx.stroke();
 
     ctx.restore();
   }
 
-  tick() { 
-    if (game.gameInfo.currentlyHeldPackages == 0){
-      //this.getsPackage
-    }
-  }
+  tick() {}
 
   static async deserialize(data: SerializedObject) {
     if(typeof(data.width) !== 'number') throw new Error(`Invalid width ${data.width}`);
     if(typeof(data.height) !== 'number') throw new Error(`Invalid height ${data.height}`);
     await Package.load();
     return new PackageSpawn(data as PackageSpawnProp);
-  }
-
-  pointToClosestEdge(x: number, y: number) {
-    const offsetX = (x - this.midpointX()) / (this.width / 2);
-    const offsetY = (y - this.midpointY()) / (this.height / 2);
-    const pt = {x, y};
-    if (Math.abs(offsetX) > Math.abs(offsetY)) {
-      pt.x = offsetX < 0 ? this.x : this.x + this.width;
-    } else {
-      pt.y = offsetY < 0 ? this.y : this.y + this.height;
-    }
-    return pt;
-  }
-
-  getsPackage(){
-     const randomNum = Math.random();
-     if (!this.hasPackage){
-       if (randomNum < .5){
-        this.spawnPackage(undefined)
-      } else {
-        this.visible = false;
-        }
-      }
-    }
-    
-
-  pointIsInside(x: number, y: number) {
-    return x > this.x && x < this.x + this.width && y > this.y && y < this.y + this.height;
-  }
-
-  randomPointInsidePackageSpawn (){
-    return [Math.random() * (this.x + this.width - this.x) + this.x, Math.random() * (this.y + this.height - this.y) + this.y]
-    
   }
 
   spawnPackage(dz?: DeliveryZone){
@@ -116,8 +67,8 @@ export class PackageSpawn extends GameObject {
 
     const apackage = new Package({
       id: Math.floor(Math.random() * 100000),
-      x: this.randomPointInsidePackageSpawn()[0],
-      y: this.randomPointInsidePackageSpawn()[1],
+      x: this.x + Math.random() * this.width,
+      y: this.y + Math.random() * this.height,
       name: 'bob',
       type: Package.name,
       properties: {},
@@ -125,15 +76,5 @@ export class PackageSpawn extends GameObject {
     });
     game.map.add(apackage);
     return apackage;
-  }
-
-  
-
-  midpointX() {
-    return this.x + this.width/2;
-  }
-
-  midpointY() {
-    return this.y + this.height/2;
   }
 }

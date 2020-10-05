@@ -65,7 +65,7 @@ function closeOverlays() {
 const BIG_TICK_ENERGY = 500;
 
 
-async function startTheGameAlready(mapPath: string) {
+export async function startTheGameAlready(mapPath: string) {
 
   await loadAudio();
   await loadMap(mapPath);

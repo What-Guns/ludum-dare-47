@@ -1,5 +1,6 @@
 import { Job, JobManifest } from './Job.js';
 import { loadJson } from './loader.js';
+import { startTheGameAlready } from './index.js';
 
 let te: {[key in string]: Array<EventItem | JobEventItem>};
 
@@ -11,10 +12,11 @@ export async function runTutorialEvents(delay: number) {
 
 function runEvent(e: Array<EventItem | JobEventItem>) {
   if (!e) {
-    return (window as any).loadMain();
+    startTheGameAlready('maps/map.json');
+    return;
   }
   e.reverse().reduce((prev, cv) => {
-    return () => window.setTimeout(() => {runEventItem(cv, prev)}, cv.delay / 100)
+    return () => window.setTimeout(() => {runEventItem(cv, prev)}, game.debugmode ? cv.delay / 100 : cv.delay)
   }, () => {})()
 }
 

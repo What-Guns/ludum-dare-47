@@ -443,6 +443,12 @@
  "nextlayerid":3,
  "nextobjectid":38,
  "orientation":"isometric",
+ "properties":[
+        {
+         "name":"mode",
+         "type":"string",
+         "value":"static"
+        }],
  "renderorder":"right-down",
  "tiledversion":"1.4.2",
  "tileheight":50,

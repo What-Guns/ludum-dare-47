@@ -132,6 +132,7 @@ export class DynamicGameInfo extends GameInfo {
 
   private chooseSources() {
     let sources = game.map.expensivelyFindObjectsOfType(PackageSpawn);
+    if(!sources.length) throw new Error(`No package sources, can't start a new job!`);
 
     const car = game.map.expensivelyFindObjectsOfType(Car)[0] ?? game.map.expensivelyFindObjectsOfType(GhostCar)[0];
     if(car) {

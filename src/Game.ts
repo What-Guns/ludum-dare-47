@@ -1,7 +1,9 @@
-import { GameInfo, StaticGameInfo } from './GameInfo.js';
+import { GameInfo, StaticGameInfo, DynamicGameInfo } from './GameInfo.js';
 import {GameMap, GameMapData} from './GameMap.js';
 import {Serializable, deserialize} from './serialization.js';
 import { HUD } from './HUD.js';
+
+type Mode = 'static' | 'dynamic';
 
 @Serializable()
 export class Game {
@@ -14,10 +16,19 @@ export class Game {
 
   over = false;
 
-  constructor(readonly mainCtx: CanvasRenderingContext2D, readonly bufferCtx: CanvasRenderingContext2D) {
+  constructor(readonly mainCtx: CanvasRenderingContext2D, readonly bufferCtx: CanvasRenderingContext2D, mode: Mode) {
     window.game = this;
 
-    this.gameInfo = new StaticGameInfo(4000);
+    switch(mode) {
+      case 'static':
+        this.gameInfo = new StaticGameInfo(4000);
+        break;
+      case 'dynamic':
+        this.gameInfo = new DynamicGameInfo();
+        break;
+      default:
+        throw new Error(`Unrecognized game mode ${mode}`);
+    }
   }
 
   tick(dt: number){
@@ -32,7 +43,11 @@ export class Game {
   }
 
   static async deserialize({mainCtx, bufferCtx, mapData}: GameData) {
-    const game = new Game(mainCtx, bufferCtx);
+    const mode = mapData.properties?.find(p => p.name === 'mode')?.value as 'static'|'dynamic';
+
+    if(!mode) alert(`No mode in map, using dynamic`);
+
+    const game = new Game(mainCtx, bufferCtx, mode ?? 'dynamic');
     // HACK: game needs to exist before map, but has a readonly map.
     (game as any).map = await deserialize(GameMap, mapData)
     return game;

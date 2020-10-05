@@ -6,6 +6,7 @@ export interface MapData {
   tilewidth: number;
   tileheight: number;
   tilesets: Array<Tileset|ExternalTileset>;
+  properties?: Property[]
 }
 
 export interface Tileset {

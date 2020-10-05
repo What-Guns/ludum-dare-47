@@ -43,10 +43,10 @@ export class Car extends GameObject {
   timeInReverse = 0;
   isBeeping = false;
 
+
   timeSpentBraking = 0;
   isSquealing = false;
 
-  gameInfo: GameInfo | null = null;
 
   readonly MAX_SPEED = 0.003;
   readonly ACCELERATION = 0.000005;
@@ -60,6 +60,7 @@ export class Car extends GameObject {
   readonly DECELERATION_FACTOR = 0.998;
   readonly MAX_ENGINE_PITCH = 1.3;
   readonly ESSENTIALLY_STOPPED = 0.00004;
+  readonly PACKAGE_CAPACITY = 7;
 
   static IMAGES: Array<HTMLImageElement>;
   static BACKUP_IMAGES: Array<HTMLImageElement>;
@@ -305,8 +306,12 @@ export class Car extends GameObject {
   }
 
   private collideWithPackage(obj: Package) {
-    const distanceToPackageSquared = Math.pow(this.x - obj.x, 2) + Math.pow(this.y - obj.y, 2);
-    if (distanceToPackageSquared < this.radius) this.collectPackage(obj);
+    if (this.map.gameInfo!.currentlyHeldPackages < this.PACKAGE_CAPACITY){
+      const distanceToPackageSquared = Math.pow(this.x - obj.x, 2) + Math.pow(this.y - obj.y, 2);
+      if (distanceToPackageSquared < this.radius) this.collectPackage(obj);
+    } else {
+      this.denyPackage()
+    }
     return null;
   }
 
@@ -319,11 +324,15 @@ export class Car extends GameObject {
   collectPackage(pkg: Package) {
     this.map.remove(pkg);
     Audio.playSFX('pickup');
-    this.gameInfo!.incrementPackages();
+    this.map.gameInfo!.incrementPackages();
   }
 
+  denyPackage(){
+    this.map.gameInfo!.messageBar?.setNewMessage("You require more car capacity. Drop off packages at post office to carry more");
+    }
+
   setGameInfo(info: GameInfo) {
-    this.gameInfo = info;
+    this.map.gameInfo! = info;
   }
 }
 

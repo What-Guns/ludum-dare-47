@@ -3,7 +3,7 @@ import { Job, JobManifest } from "./Job.js";
 import { MessageBar } from "./MessageBar.js";
 import { Package } from "./Package.js";
 import { PackageSpawn } from "./PackageSpawn.js";
-import { removeFromArray, distanceSquared } from './math.js';
+import { removeFromArray, distanceSquared, Point} from './math.js';
 import { Car } from './Car.js';
 import { GhostCar } from './RespawnPoint.js';
 import { DeliveryZone } from './DeliveryZone.js';
@@ -67,6 +67,7 @@ export class StaticGameInfo extends GameInfo {
 }
 
 export class DynamicGameInfo extends GameInfo {
+  readonly TIME_UNTIL_MAX_DIFFICULTY = 5 * 60 * 1000;
   private readonly jobs: Job[] = [];
 
   timeUntilNextJob = 60_000;
@@ -76,10 +77,8 @@ export class DynamicGameInfo extends GameInfo {
   minDeliveriesPerJob = 1;
   maxDeliveriesPerJob = 3;
 
-  // When crating jobs, pick the n closest spawn points.
-  numClosestSpawnersToChooseFrom = 3;
-
   timeRemaining = 90_000;
+  totalTime = 0;
 
   constructor() {
     super();
@@ -87,6 +86,7 @@ export class DynamicGameInfo extends GameInfo {
   }
 
   tick(dt: number) {
+    this.totalTime += dt;
     if(!this.jobs.length) this.createNewJob();
 
     this.timeUntilNextJob -= dt;
@@ -95,6 +95,10 @@ export class DynamicGameInfo extends GameInfo {
 
     this.timeRemaining -= dt;
     if(this.timeRemaining <= 0) game.over = true;
+  }
+
+  get difficulty() {
+    return Math.min(1, this.totalTime / this.TIME_UNTIL_MAX_DIFFICULTY);
   }
 
   private createNewJob() {
@@ -143,19 +147,28 @@ export class DynamicGameInfo extends GameInfo {
     let sources = game.map.expensivelyFindObjectsOfType(PackageSpawn);
     if(!sources.length) throw new Error(`No package sources, can't start a new job!`);
 
-    const car = game.map.expensivelyFindObjectsOfType(Car)[0] ?? game.map.expensivelyFindObjectsOfType(GhostCar)[0];
-    if(car) {
-      sources.sort((l, r) => distanceSquared(l, car) - distanceSquared(r, car));
-      sources = sources.slice(0, 3);
-    }
+    this.sortByDistanceToCar(sources);
+    sources = sources.slice(0, ilerp(this.difficulty, 2, 5));
 
     return sources[randomBetween(0, sources.length)];
   }
 
   private chooseDestinations() {
-    // TODO: pick them less arbitrarily?
-    return game.map.expensivelyFindObjectsOfType(DeliveryZone);
+    const destinations = game.map.expensivelyFindObjectsOfType(DeliveryZone);
+    this.sortByDistanceToCar(destinations);
+    return destinations.slice(0, ilerp(this.difficulty, 1, destinations.length));
   }
+
+  private sortByDistanceToCar<T extends Point>(items: T[]) {
+    const car = game.map.expensivelyFindObjectsOfType(Car)[0] ?? game.map.expensivelyFindObjectsOfType(GhostCar)[0];
+    if(car) {
+      items.sort((l, r) => distanceSquared(l, car) - distanceSquared(r, car));
+    }
+  }
+}
+
+function ilerp(fact: number, min: number, max: number) {
+  return Math.floor(min + (max - min) * fact);
 }
 
 function randomBetween(min: number, max: number) {

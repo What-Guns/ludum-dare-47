@@ -127,9 +127,13 @@ export class DynamicGameInfo extends GameInfo {
         destinationId: d.destination.id!,
       })),
       description: 'do a job',
-      timeAdd: 15_000,
+      timeAdd: ilerp(this.difficulty, 30_000, 10_000),
       score: Math.floor(score * 100)/100,
     };
+
+    if(game.debugmode) {
+      console.table(manifest);
+    }
 
     const job = Job.fromManifest(manifest, () => {
       removeFromArray(job, this.jobs);
@@ -173,8 +177,8 @@ export class DynamicGameInfo extends GameInfo {
   }
 }
 
-function ilerp(fact: number, min: number, max: number) {
-  return Math.floor(min + (max - min) * fact);
+function ilerp(fact: number, nFrom: number, nTo: number) {
+  return Math.floor(fact * nTo + (1-fact) * nFrom)
 }
 
 function randomBetween(min: number, max: number) {

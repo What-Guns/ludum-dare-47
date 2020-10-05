@@ -1677,22 +1677,6 @@
                  "width":0,
                  "x":224.666666666666,
                  "y":1050
-                }, 
-                {
-                 "height":18.84375,
-                 "id":278,
-                 "name":"",
-                 "rotation":0,
-                 "text":
-                    {
-                     "text":"You can't drive on water! You will Regret thi",
-                     "wrap":true
-                    },
-                 "type":"",
-                 "visible":true,
-                 "width":89.546875,
-                 "x":50,
-                 "y":200
                 }],
          "opacity":1,
          "type":"objectgroup",

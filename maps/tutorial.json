@@ -415,6 +415,24 @@
                  "width":0,
                  "x":1587,
                  "y":17
+                }, 
+                {
+                 "height":0,
+                 "id":38,
+                 "name":"",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"direction",
+                         "type":"float",
+                         "value":180
+                        }],
+                 "rotation":0,
+                 "type":"RespawnPoint",
+                 "visible":true,
+                 "width":0,
+                 "x":829.5,
+                 "y":1426.5
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -423,7 +441,7 @@
          "y":0
         }],
  "nextlayerid":3,
- "nextobjectid":38,
+ "nextobjectid":39,
  "orientation":"isometric",
  "properties":[
         {

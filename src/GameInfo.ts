@@ -40,12 +40,18 @@ export abstract class GameInfo {
   startNewJob() {
     game.hud.messageBar.setNewMessage('New job should start now')
   }
+
+  abstract tick(dt: number): void;
 }
 
 export class StaticGameInfo extends GameInfo {
   constructor(private readonly manifests: JobManifest[], delay: number) {
     super();
     setTimeout(() => this.popJob(), delay);
+  }
+
+  tick() {
+    // do nothing because this uses setTimeout. It probably shouldn't, but w/e.
   }
 
   private popJob() {
@@ -62,6 +68,8 @@ export class StaticGameInfo extends GameInfo {
 }
 
 export class DynamicGameInfo extends GameInfo {
-
+  tick() {
+    // TODO: everything
+  }
 }
 

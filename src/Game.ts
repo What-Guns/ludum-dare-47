@@ -29,6 +29,7 @@ export class Game {
 
   tick(dt: number){
     game.map.tick(dt);
+    this.gameInfo.tick(dt);
     this.hud.tick(dt);
   }
 

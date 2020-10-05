@@ -9,3 +9,8 @@ canvas {
   right: 0;
   bottom: 0;
 }
+
+@font-face {
+  font-family: 'KenneyMini';
+  src: url('fonts/Kenney\ Mini.ttf');
+}

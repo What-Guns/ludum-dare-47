@@ -37,7 +37,12 @@ export abstract class GameInfo {
       game.hud.messageBar.setNewMessage(`You delivered a ${noun}!`)
       pkg.deliver();
       this.currentlyHeldPackages--;
-      this.checkForJobComplete();
+      const jc = this.checkForJobComplete();
+      if (jc) {
+        Audio.playSFX('jobComplete');
+      } else [
+        Audio.playSFX('dropoff')
+      ]
     } else {
       console.error('Tried to deliver something that wasn\'t a package', pkg)
     }
@@ -46,6 +51,7 @@ export abstract class GameInfo {
   checkForJobComplete() {
     if (!game.map.objects.find(o => o instanceof Package)) {
       game.hud.messageBar.setNewMessage('Job complete!')
+      return true;
     }
   }
 
@@ -176,3 +182,6 @@ function randomBetween(min: number, max: number) {
 }
 
 loadJson('./data/package-contents.json').then(ls => GameInfo.listOfNouns = ls);
+Audio.load('audio/sfx/jingles_PIZZA10.ogg', 'jobComplete')
+Audio.load('audio/sfx/jingles_PIZZA16.ogg', 'dropoff')
+// jobComplete, dropoff

@@ -85,8 +85,10 @@ async function loadMap(path: string) {
   function tick(timestamp: number) {
     if(game.over) {
       Audio.stfu();
-      Audio.playSFX('timeOver');
-      showGameOver();
+      if(game.gameInfo.timeRemaining <= 0) {
+        Audio.playSFX('timeOver');
+        showGameOver();
+      }
       return;
     }
     if(lastTick !== 0) {

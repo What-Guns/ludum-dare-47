@@ -108,6 +108,12 @@
  "nextlayerid":3,
  "nextobjectid":8,
  "orientation":"isometric",
+ "properties":[
+        {
+         "name":"mode",
+         "type":"string",
+         "value":"dynamic"
+        }],
  "renderorder":"right-down",
  "tiledversion":"1.4.2",
  "tileheight":50,

@@ -19,7 +19,7 @@ export class Portal extends GameObject {
     this.width = width!;
     this.height = height!;
 
-    this.center = computeScreenCoords({}, {x: this.x + this.width / 2, y: this.y + this.height / 2}, this.map.world);
+    this.center = computeScreenCoords({}, {x: this.x + this.width / 2, y: this.y + this.height / 2});
   }
 
   tick() {
@@ -31,10 +31,10 @@ export class Portal extends GameObject {
     ctx.lineWidth = 4;
     ctx.strokeStyle = 'blue';
 
-    makeRectanglePath(ctx, this, this, this.map.world);
+    makeRectanglePath(ctx, this, this);
     ctx.stroke();
 
-    const dest = this.destination && this.map.find(this.destination);
+    const dest = this.destination && game.map.find(this.destination);
     if(dest) {
       ctx.beginPath();
       ctx.moveTo(this.center.screenX, this.center.screenY);
@@ -54,7 +54,7 @@ export class Portal extends GameObject {
   }
 
   private warpCar(car: Car) {
-    const destObj = this.destination && this.map.find(this.destination);
+    const destObj = this.destination && game.map.find(this.destination);
     if(!destObj) return;
     const diffX = car.x - (this.x + (this.width / 2));
     const diffY = car.y - (this.y + (this.height / 2));
@@ -73,7 +73,7 @@ export class Portal extends GameObject {
       car.x = destObj.x + (destObj.width ?? 0)/2;
       car.y = destObj.y + (destObj.height ?? 0)/2;
       Audio.playSFX('warp');
-      this.map.objectMoved(car);
+      game.map.objectMoved(car);
     }
   }
 

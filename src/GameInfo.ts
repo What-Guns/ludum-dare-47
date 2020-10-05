@@ -1,29 +1,25 @@
-import { GameMap } from "./GameMap.js";
 import { GameObject } from "./GameObject.js";
-import { MessageBar } from "./MessageBar.js";
 import { Package } from "./Package.js";
 
 export class GameInfo {
   currentlyHeldPackages = 0;
-  messageBar?: MessageBar;
-  map?: GameMap;
 
   incrementPackages(num = 1) {
     this.currentlyHeldPackages += num;
-    this.getMessageBar().setNewMessage(`You have collected ${this.currentlyHeldPackages} so far!`);
+    game.hud.messageBar.setNewMessage(`You have collected ${this.currentlyHeldPackages} so far!`);
   }
 
   fallInWater() {
     if (this.currentlyHeldPackages > 0) {
       this.currentlyHeldPackages = 0;
-      this.getMessageBar().setNewMessage(`Splash! You lost all of your packages!`);
-    } else this.getMessageBar().setNewMessage(`Splash!`);
+      game.hud.messageBar.setNewMessage(`Splash! You lost all of your packages!`);
+    } else game.hud.messageBar.setNewMessage(`Splash!`);
   }
 
   deliverPackage(pkg: GameObject) {
     if (pkg instanceof Package) {
-      this.getMessageBar().setNewMessage(`You delivered package number ${pkg.id.toString()}!`)
-      pkg.map.remove(pkg);
+      game.hud.messageBar.setNewMessage(`You delivered package number ${pkg.id}!`)
+      game.map.remove(pkg);
       this.currentlyHeldPackages--;
       this.checkForJobComplete();
     } else {
@@ -32,18 +28,13 @@ export class GameInfo {
   }
 
   checkForJobComplete() {
-    if (!this.getMap().objects.find(o => o instanceof Package)) {
-      this.getMessageBar().setNewMessage('Job complete!')
+    if (!game.map.objects.find(o => o instanceof Package)) {
+      game.hud.messageBar.setNewMessage('Job complete!')
       window.setTimeout(() => this.startNewJob(), 2000);
     }
   }
 
   startNewJob() {
-    this.getMessageBar().setNewMessage('New job should start now')
+    game.hud.messageBar.setNewMessage('New job should start now')
   }
-
-  getMessageBar() { return this.messageBar || new MessageBar() }
-  getMap() { return this.map || new GameMap({width: 1, height: 1, tilewidth: 1, tileheight: 1}, []) }
-
-
 }

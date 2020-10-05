@@ -26,11 +26,11 @@ export class BuildingBlock extends Obstacle {
         if(!fillInterior && isInterior(x, y, data.width, data.height)) continue;
         const direction = chooseDirection(rnd, x, y, data.width, data.height);
         const where = { x: data.x + x, y: data.y + y, };
-        waitFor.push(Building.create(data.map, where, {...zoning, direction}, rnd.int32().toString()));
+        waitFor.push(Building.create(where, {...zoning, direction}, rnd.int32().toString()));
       }
     }
 
-    for(const b of await Promise.all(waitFor)) data.map.add(b);
+    for(const b of await Promise.all(waitFor)) game.map.add(b);
 
     return new Obstacle({visible: false, ...data as ObstacleProps});
   }

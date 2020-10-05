@@ -27,15 +27,14 @@ export class PackageSpawn extends GameObject {
   constructor(data: PackageSpawnProp) {
     super(data);
     this.visible = data.visible ?? true;
-    (window as any).obstacle = this;
-    const {x, y, width, height, map} = data;
+    const {x, y, width, height} = data;
     this.height = height;
     this.width = width;
     this.hasPackage = data.hasPackage ?? false;
     this.otherCorners = [
-      computeScreenCoords({}, {x: x + width, y}, map.world),
-      computeScreenCoords({}, {x: x + width, y: y + height}, map.world),
-      computeScreenCoords({}, {x, y: y + height}, map.world),
+      computeScreenCoords({}, {x: x + width, y}),
+      computeScreenCoords({}, {x: x + width, y: y + height}),
+      computeScreenCoords({}, {x, y: y + height}),
     ];
   }
 
@@ -58,7 +57,7 @@ export class PackageSpawn extends GameObject {
   }
 
   tick() { 
-    if (this.map.gameInfo?.currentlyHeldPackages == 0){
+    if (game.gameInfo.currentlyHeldPackages == 0){
     this.getsPackage
   }
   }
@@ -104,12 +103,11 @@ export class PackageSpawn extends GameObject {
     this.hasPackage = true;
     this.visible = true;
 
-    const deliveryZones = this.map.expensivelyFindObjectsOfType(DeliveryZone);
+    const deliveryZones = game.map.expensivelyFindObjectsOfType(DeliveryZone);
     const deliveryZone = deliveryZones[Math.floor(Math.random() * deliveryZones.length)];
 
     const apackage = new Package({
       id: Math.floor(Math.random() * 100000),
-      map: this.map,
       x: this.randomPointInsidePackageSpawn()[0],
       y: this.randomPointInsidePackageSpawn()[1],
       name: 'bob',
@@ -117,7 +115,7 @@ export class PackageSpawn extends GameObject {
       properties: {},
       deliveryZone,
     });
-    this.map.add(apackage);
+    game.map.add(apackage);
   }
 
   

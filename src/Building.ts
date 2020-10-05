@@ -1,7 +1,6 @@
 import {GameObject, SerializedObject, reduceProperties} from './GameObject.js';
 import {SeedRandom} from './seedrandom';
 import {Point} from './math.js';
-import {GameMap} from './GameMap.js';
 import {Serializable} from './serialization.js';
 import {loadJson, loadImage} from './loader.js';
 import {Tileset, Grid} from './tiled-map';
@@ -20,7 +19,7 @@ export class Building extends GameObject {
     super({...base});
     this.pieces = pieces;
     this.grid = grid;
-    this.screenYDepthOffset = this.map.world.tileheight / 2;
+    this.screenYDepthOffset = game.map.world.tileheight / 2;
     this.tallness = pieces.map(p => p.tallness).reduce((a, b) => a+b);
   }
 
@@ -54,19 +53,18 @@ export class Building extends GameObject {
   }
 
   isCarObscured() {
-    const carX = this.map.car?.x;
-    const carY = this.map.car?.y;
+    const carX = game.map.car?.x;
+    const carY = game.map.car?.y;
     return carX && carY && (carX < this.x || carY < this.y) && ((Math.pow(carX - this.x, 2) + Math.pow(carY - this.y, 2)) < Math.pow(this.tallness / 50, 2));
   }
 
-  static async create(map: GameMap, {x, y}: Point, zoning: ZoningRestrictions, seed: string) {
+  static async create({x, y}: Point, zoning: ZoningRestrictions, seed: string) {
     return this.deserialize({
       id: -1,
       name: '',
       type: Building.name,
       x,
       y,
-      map,
       properties: zoning as any,
     }, seed);
   }

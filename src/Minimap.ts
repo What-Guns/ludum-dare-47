@@ -1,5 +1,4 @@
 import { Car } from "./Car.js";
-import { GameMap } from "./GameMap.js";
 import { GameObject } from "./GameObject.js";
 
 export class Minimap {
@@ -19,12 +18,12 @@ export class Minimap {
   blinkTime = 0;
   drawPoints = true;
 
-  constructor(readonly map: GameMap) {
+  constructor() {
     const canvas = document.createElement('canvas');
-    canvas.height = map.heightInTiles;
-    canvas.width = map.widthInTiles;
+    canvas.height = game.map.heightInTiles;
+    canvas.width = game.map.widthInTiles;
     const ctx = canvas.getContext('2d')!;
-    map.drawMinimap(ctx);
+    game.map.drawMinimap(ctx);
     this.mapImage = new Image();
     this.mapImage.src = ctx.canvas.toDataURL();
     this.points = [];

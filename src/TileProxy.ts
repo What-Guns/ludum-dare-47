@@ -8,13 +8,13 @@ export class TileProxy extends GameObject {
   constructor({tile, ...baseProps}: TileProxyProps) {
     super(baseProps);
     this.tile = tile;
-    this.screenYDepthOffset = this.map.world.tileheight / 2;
+    this.screenYDepthOffset = game.map.world.tileheight / 2;
   }
 
   tick() {}
 
   draw(ctx: CanvasRenderingContext2D) {
-    this.map.drawTile(ctx, this.tile);
+    game.map.drawTile(ctx, this.tile);
   }
 }
 

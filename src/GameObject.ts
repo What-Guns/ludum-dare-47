@@ -1,13 +1,11 @@
-import { GameInfo } from './GameInfo.js';
-import {GameMap, Chunk} from './GameMap.js';
+import {Chunk} from './GameMap.js';
 import {Point, ScreenPoint} from './math.js';
 import {Property} from './tiled-map';
 
 export abstract class GameObject implements Point, ScreenPoint {
-  readonly map: GameMap;
   x: number;
   y: number;
-  id: number;
+  id?: number;
 
   // note: these are set by map!
   screenX!: number;
@@ -23,8 +21,7 @@ export abstract class GameObject implements Point, ScreenPoint {
 
   tallness?: number;
 
-  constructor({map, x, y, id}: BaseProps) {
-    this.map = map;
+  constructor({x, y, id}: BaseProps) {
     this.id = id;
     this.x = x;
     this.y = y;
@@ -33,18 +30,16 @@ export abstract class GameObject implements Point, ScreenPoint {
 
   abstract tick(dt: number): void;
   abstract draw(ctx: CanvasRenderingContext2D): void;
-  getGameInfo() { return this.map.gameInfo || new GameInfo() }
 }
 
-export type BaseProps = Pick<SerializedObject, 'map'|'x'|'y'|'id'>;
+export type BaseProps = Pick<SerializedObject, 'x'|'y'|'id'>;
 
 export interface SerializedObject {
-  id: number;
+  id?: number;
   x: number;
   y: number;
   width?: number;
   height?: number;
-  map: GameMap;
   name: string;
   type: string;
   properties: Properties;

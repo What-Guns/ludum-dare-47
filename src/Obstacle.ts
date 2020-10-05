@@ -20,7 +20,6 @@ export class Obstacle extends GameObject {
   constructor(data: ObstacleProps) {
     super(data);
     this.visible = data.visible ?? true;
-    (window as any).obstacle = this;
     const {width, height} = data;
     this.height = height;
     this.width = width;
@@ -34,7 +33,7 @@ export class Obstacle extends GameObject {
     ctx.strokeStyle = 'red';
     ctx.lineWidth = 2;
 
-    makeRectanglePath(ctx, this, this, this.map.world);
+    makeRectanglePath(ctx, this, this);
     ctx.fill();
     ctx.stroke();
 

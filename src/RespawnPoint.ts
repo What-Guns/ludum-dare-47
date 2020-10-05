@@ -30,26 +30,24 @@ export class RespawnPoint extends GameObject {
 
   spawnGhost(car: Car, carImage: HTMLImageElement) {
     const ghostProps = {
-      map: this.map,
       x: car.x,
       y: car.y,
       id: -1,
     };
-    this.map.add(new GhostCar(ghostProps, carImage, this));
+    game.map.add(new GhostCar(ghostProps, carImage, this));
   }
 
   spawnCar() {
     const car = new Car({
       direction: this.direction,
       id: Math.floor(Math.random() * 100000),
-      map: this.map,
       x: this.x,
       y: this.y,
       name: 'bob',
       type: Car.name,
       properties: {},
     });
-    this.map.add(car);
+    game.map.add(car);
   }
 
   static async deserialize(data: SerializedObject) {
@@ -88,13 +86,13 @@ export class GhostCar extends GameObject {
         const direction = Math.atan2(dy, dx);
         this.x += Math.cos(direction) * this.speed;
         this.y += Math.sin(direction) * this.speed;
-        this.map.objectMoved(this);
+        game.map.objectMoved(this);
       }
     }
   }
 
   private respawn() {
-    this.map.remove(this);
+    game.map.remove(this);
     this.destination.spawnCar();
   }
 }

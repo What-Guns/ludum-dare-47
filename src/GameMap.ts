@@ -4,12 +4,11 @@ import {GameObject, SerializedObject} from './GameObject.js';
 import {Serializable, deserialize, Type} from './serialization.js';
 import {TileProxy} from './TileProxy.js';
 import {loadImage, loadJson} from './loader.js';
-import {Point, GeoLookup, computeScreenCoords, ScreenPoint, removeFromArray} from './math.js';
+import {Point, GeoLookup, computeScreenCoords, ScreenPoint, removeFromArray, TileSize} from './math.js';
 import {GhostCar} from './RespawnPoint.js';
 import {Car} from './Car.js';
 import { HUD } from './HUD.js';
 import { Package } from './Package.js';
-import { GameInfo } from './GameInfo';
 
 const GRID_ALPHA = 0;
 
@@ -26,13 +25,11 @@ export class GameMap {
   readonly objects: GameObject[] = [];
   private readonly objectsById = new Map<number, GameObject>();
 
-  private readonly grid: [ScreenPoint, ScreenPoint][];
+  private readonly gridLines: [ScreenPoint, ScreenPoint][];
 
   private readonly chunkLookup: GeoLookup<Chunk> = {};
 
-  private readonly hud: HUD;
   car?: Car;
-  gameInfo?: GameInfo = undefined;
 
   widthInTiles = 0;
   heightInTiles = 0;
@@ -41,14 +38,13 @@ export class GameMap {
     readonly world: WorldInfo,
     private readonly layers: CellLayer[],
   ) {
-    this.grid = this.createGrid();
+    this.gridLines = this.createGrid();
     for(const layer of layers.slice(1)) {
       for(const chunk of layer.chunks) {
         for(const tile of chunk.tiles) {
           if(tile.image) {
             this.add(new TileProxy({
               id: -1,
-              map: this,
               tile: tile as DrawableCell,
               x: tile.x,
               y: tile.y,
@@ -58,11 +54,8 @@ export class GameMap {
       }
     }
 
-    (window as any).map = this;
-
     this.widthInTiles = this.world.width;
     this.heightInTiles = this.world.height;
-    this.hud = new HUD(this);
 
     setInterval(() => this.checkConsistency, 1000);
   }
@@ -70,15 +63,14 @@ export class GameMap {
   add(obj: GameObject) {
     this.objects.push(obj);
     this.objectMoved(obj);
-    this.objectsById.set(obj.id, obj);
+    if(obj.id) this.objectsById.set(obj.id, obj);
     if(obj instanceof Car) {
       this.car = obj;
       this.camera.target = obj;
-      this.hud.minimap.addPoint(obj, 'red')
-      obj.setGameInfo(this.gameInfo as GameInfo)
+      game.hud.minimap.addPoint(obj, 'red')
     }
     if(obj instanceof Package) {
-      this.hud.minimap.addPoint(obj, 'blue')
+      game.hud.minimap.addPoint(obj, 'blue')
     }
     if(obj instanceof GhostCar) {
       this.camera.target = obj;
@@ -87,10 +79,10 @@ export class GameMap {
 
   remove(obj: GameObject) {
     for(const chunk of obj.chunks) removeFromArray(obj, chunk.objects);
-    this.objectsById.delete(obj.id);
+    if(obj.id) this.objectsById.delete(obj.id);
     removeFromArray(obj, this.objects);
     if (obj === this.car) this.car = undefined;
-    /* if(obj instanceof Car) */ this.hud.minimap.removePoint(obj);
+    /* if(obj instanceof Car) */ game.hud.minimap.removePoint(obj);
   }
 
   find(id: number) {
@@ -115,7 +107,7 @@ export class GameMap {
   }
 
   objectMoved(obj: GameObject) {
-    computeScreenCoords(obj, obj, this.world);
+    computeScreenCoords(obj, obj);
 
     const firstChunk = this.layers[0].chunks[0];
 
@@ -150,7 +142,6 @@ export class GameMap {
 
   tick(dt: number) {
     for(const obj of this.objects) obj.tick(dt);
-    this.hud.tick(dt);
     this.updateCamera();
   }
 
@@ -185,7 +176,7 @@ export class GameMap {
 
     if(GRID_ALPHA) {
       ctx.globalAlpha = GRID_ALPHA;
-      for(const line of this.grid) {
+      for(const line of this.gridLines) {
         ctx.beginPath();
         ctx.moveTo(line[0].screenX, line[0].screenY);
         ctx.lineTo(line[1].screenX, line[1].screenY);
@@ -201,8 +192,6 @@ export class GameMap {
     }
 
     ctx.restore();
-
-    this.hud.draw(ctx);
   }
 
   drawMinimap(ctx: CanvasRenderingContext2D) {
@@ -295,7 +284,7 @@ export class GameMap {
     const oldX = this.camera.screenX;
     const oldY = this.camera.screenY;
     
-    computeScreenCoords(this.camera, target, this.world);
+    computeScreenCoords(this.camera, target);
 
     this.camera.screenX = (this.camera.screenX + oldX * 10)/11;
     this.camera.screenY = (this.camera.screenY + oldY * 10)/11;
@@ -304,9 +293,11 @@ export class GameMap {
   static async deserialize(data: MapData) {
     const tileMap = await createTileMap(data);
 
+    const tileSize = {tilewidth: data.tilewidth, tileheight: data.tileheight};
+
     const backgroundLayers = data.layers
       .filter((layer): layer is TileLayer => layer.type === 'tilelayer')
-      .map(layer => toLayer(layer, tileMap, data.tilewidth, data.tileheight));
+      .map(layer => toLayer(layer, tileMap, tileSize));
 
     const {width, height, tilewidth, tileheight} = data;
 
@@ -314,10 +305,15 @@ export class GameMap {
       width, height, tilewidth, tileheight,
     }, backgroundLayers);
 
+    // HACK: things depend on game.map, but map hasn't been constructed yet.
+    (game as any).map = map;
+    (game as any).hud = new HUD();
+
     const mapObjects = data.layers
       .filter((layer): layer is ObjectGroup => layer.type === 'objectgroup')
       .map(layer => toMapObjects(map, layer))
       .reduce((l, r) => l.concat(r));
+
 
     for(const obj of mapObjects) {
       const instance = await deserialize(obj.type, obj);
@@ -343,12 +339,6 @@ export class GameMap {
         }
       }
     }
-  }
-
-  setGameInfo(info: GameInfo) {
-    this.gameInfo = info;
-    this.hud.setGameInfo(info);
-    this.car?.setGameInfo(info);
   }
 }
 
@@ -402,7 +392,7 @@ interface Cell {
 }
 export type DrawableCell = Required<Pick<Cell, 'screenX'|'screenY'|'image'|'offsetPX'>>
 
-function toLayer(layer: TileLayer, tileMap: Map<number, Tile>, tilewidth: number, tileheight: number): CellLayer {
+function toLayer(layer: TileLayer, tileMap: Map<number, Tile>, tilesize: TileSize): CellLayer {
   const chunks: TiledMapChunk[] = 'data' in layer ? [layer] : layer.chunks;
 
   if((layer.startx ?? 0) !== 0 || (layer.starty ?? 0) !== 0) {
@@ -413,10 +403,10 @@ function toLayer(layer: TileLayer, tileMap: Map<number, Tile>, tilewidth: number
     height: layer.height,
     width: layer.width,
     chunks: chunks.map<Chunk>(c =>  {
-      const screenPoint = computeScreenCoords({}, c, {tilewidth, tileheight});
-      const screenWidth = computeScreenCoords({}, {x: c.width, y: 0}, {tilewidth, tileheight}).screenX * 2;
-      const screenHeight = computeScreenCoords({}, {x: c.width, y: c.height}, {tilewidth, tileheight}).screenY;
-      const tiles = toTiles(c, tileMap, tilewidth, tileheight);
+      const screenPoint = computeScreenCoords({}, c, tilesize);
+      const screenWidth = computeScreenCoords({}, {x: c.width, y: 0}, tilesize).screenX * 2;
+      const screenHeight = computeScreenCoords({}, {x: c.width, y: c.height}, tilesize).screenY;
+      const tiles = toTiles(c, tileMap, tilesize);
       const tilesSortedByY = tiles.slice(0);
       tilesSortedByY.sort((a, b) => a.screenY - b.screenY)
       return {
@@ -443,7 +433,7 @@ function toLayer(layer: TileLayer, tileMap: Map<number, Tile>, tilewidth: number
   return gameLayer;
 }
 
-function toTiles(chunk: TiledMapChunk, tileMap: Map<number, Tile>, tilewidth: number, tileheight: number) {
+function toTiles(chunk: TiledMapChunk, tileMap: Map<number, Tile>, tilesize: TileSize) {
   const tiles: Cell[] = [];
   for(let i = 0; i < chunk.data.length; i++) {
     const tileId = chunk.data[i];
@@ -451,7 +441,7 @@ function toTiles(chunk: TiledMapChunk, tileMap: Map<number, Tile>, tilewidth: nu
       x: chunk.x + i % chunk.width,
       y: chunk.y +  Math.floor(i / chunk.width),
     };
-    const screenPoint = computeScreenCoords({}, point, {tilewidth, tileheight});
+    const screenPoint = computeScreenCoords({}, point, tilesize);
     const tileImage = tileMap.get(tileId);
     if(!tileImage) throw new Error(`No image for tile ${tileId}`);
     const terrain = tileImage.type ?? 'void';
@@ -474,7 +464,6 @@ function toMapObjects(map: GameMap, group: ObjectGroup): SerializedObject[] {
       id: obj.id,
       x: obj.x / map.world.tileheight, // NOT A TYPO. Tiles from tiled are squares.
       y: obj.y / map.world.tileheight,
-      map,
       name: obj.name,
       type: obj.type,
       properties: (obj.properties ?? []).reduce<{[key: string]: Property['value']}>((collection, prop) => {

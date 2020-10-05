@@ -17,7 +17,7 @@ export class DeliveryZone extends GameObject {
       x: this.x + width / 2, y: this.y + height/2,
       screenX: 0, screenY:0,
     };
-    computeScreenCoords(this.center, this.center, this.map.world);
+    computeScreenCoords(this.center, this.center);
   }
 
   draw(ctx: CanvasRenderingContext2D, potentialScore = 0) {
@@ -31,7 +31,7 @@ export class DeliveryZone extends GameObject {
       ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
       ctx.strokeStyle = 'black';
     }
-    makeRectanglePath(ctx, this, this, this.map.world);
+    makeRectanglePath(ctx, this, this);
     ctx.fill();
     ctx.stroke();
     ctx.restore();

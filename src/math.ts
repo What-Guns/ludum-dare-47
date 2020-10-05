@@ -1,7 +1,10 @@
 import '//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js'
 import {SeedRandom} from './seedrandom';
 
-export function computeScreenCoords<T extends Partial<ScreenPoint>>(out: T, {x, y}: Point, {tilewidth, tileheight}: TileDimensions) {
+export function computeScreenCoords<T extends Partial<ScreenPoint>>(
+    out: T, {x, y}: Point,
+    {tilewidth, tileheight}: TileSize = game.map.world
+) {
   out.screenX = ((x - y) * tilewidth/2);
   out.screenY = ((x + y) * tileheight/2);
   return out as T&ScreenPoint;
@@ -22,9 +25,12 @@ export interface Size {
   height: number;
 }
 
-export type Box = Point&Size;
+export interface TileSize {
+  tilewidth: number;
+  tileheight: number;
+}
 
-type TileDimensions = {tilewidth: number, tileheight: number}
+export type Box = Point&Size;
 
 export type GeoLookup<T> = {
   [x: number]: {
@@ -56,24 +62,23 @@ export function makeRectanglePath(
   ctx: CanvasRenderingContext2D,
   topLeft: Point,
   {width, height}: Size,
-  tileDimensions: TileDimensions
 ) {
   ctx.beginPath();
   scratchPoint.x = topLeft.x;
   scratchPoint.y = topLeft.y;
-  computeScreenCoords(scratchPoint, scratchPoint, tileDimensions);
+  computeScreenCoords(scratchPoint, scratchPoint);
   ctx.lineTo(scratchPoint.screenX, scratchPoint.screenY);
 
   scratchPoint.x += width;
-  computeScreenCoords(scratchPoint, scratchPoint, tileDimensions);
+  computeScreenCoords(scratchPoint, scratchPoint);
   ctx.lineTo(scratchPoint.screenX, scratchPoint.screenY);
 
   scratchPoint.y += height;
-  computeScreenCoords(scratchPoint, scratchPoint, tileDimensions);
+  computeScreenCoords(scratchPoint, scratchPoint);
   ctx.lineTo(scratchPoint.screenX, scratchPoint.screenY);
 
   scratchPoint.x = topLeft.x;
-  computeScreenCoords(scratchPoint, scratchPoint, tileDimensions);
+  computeScreenCoords(scratchPoint, scratchPoint);
   ctx.lineTo(scratchPoint.screenX, scratchPoint.screenY);
 
   ctx.closePath();

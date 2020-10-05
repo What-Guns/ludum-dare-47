@@ -7,7 +7,6 @@ import {Audio} from './Audio.js';
 import {clamp, Point, pointIsInside} from './math.js';
 import {RespawnPoint} from './RespawnPoint.js';
 import { Package } from './Package.js';
-import { GameInfo } from './GameInfo.js';
 
 /* DIRECTIONS
 Direction 0 is +x in game space, down-right in screen space
@@ -105,7 +104,6 @@ export class Car extends GameObject {
   constructor({direction, ...serialized}: SerializedObject&{direction: number}) {
     super(serialized);
     this.direction = direction;
-    (window as any).car = this;
     Audio.playSFX('engine', 0);
   }
 
@@ -150,18 +148,18 @@ export class Car extends GameObject {
     }
     this.x += Math.cos(this.direction) * this.speed * dt; // cos(0) = 1 is to the right, so positive x 
     this.y -= Math.sin(this.direction) * this.speed * dt; // sin(pi / 2) = 1 is down, so negative y
-    this.map.objectMoved(this);
+    game.map.objectMoved(this);
 
-    this.terrain = this.map.getTerrain(this);
+    this.terrain = game.map.getTerrain(this);
 
     if(this.terrain === 'water') {
       Audio.playSFX('splash');
       Audio.stop('engine');
-      this.getGameInfo().fallInWater();
-      this.map.remove(this);
+      game.gameInfo.fallInWater();
+      game.map.remove(this);
 
       const sprite = this.chooseSprite(this.snappedDirectionIndex);
-      this.map.expensivelyFindNearestOfType(RespawnPoint, this)?.spawnGhost(this, sprite);
+      game.map.expensivelyFindNearestOfType(RespawnPoint, this)?.spawnGhost(this, sprite);
     }
 
     const currentCollisions = this.collideWithObjects();
@@ -287,7 +285,7 @@ export class Car extends GameObject {
     if(!head) return null;
     head.next = this.deliverPackages(head.next);
     if(pointIsInside(head.item, head.item.deliveryZone)) {
-      this.getGameInfo().deliverPackage(head.item);
+      game.gameInfo.deliverPackage(head.item);
       return head.next;
     }
     return head;
@@ -351,11 +349,11 @@ export class Car extends GameObject {
   }
 
   collectPackage(pkg: Package) {
-    if (this.getGameInfo().currentlyHeldPackages >= this.PACKAGE_CAPACITY) {
+    if (game.gameInfo.currentlyHeldPackages >= this.PACKAGE_CAPACITY) {
       return this.denyPackage();
     }
     Audio.playSFX('pickup');
-    this.map.gameInfo!.incrementPackages();
+    game.gameInfo.incrementPackages();
     const node = { item: pkg, next: null };
     if(this.packages) {
       let pkg = this.packages;
@@ -367,11 +365,7 @@ export class Car extends GameObject {
   }
 
   denyPackage(){
-    this.map.gameInfo!.messageBar?.setNewMessage("You require more car capacity. Drop off packages at post office to carry more");
-  }
-
-  setGameInfo(info: GameInfo) {
-    this.map.gameInfo! = info;
+    game.hud.messageBar.setNewMessage("You require more car capacity. Drop off packages at post office to carry more");
   }
 }
 

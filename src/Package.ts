@@ -27,7 +27,7 @@ export class Package extends GameObject {
     this.bob += dt;
     if(!this.deliveryZone) {
       console.error(`Package had no delivery zone! Picking closest one.`);
-      (this as any).deliveryZone = this.map.expensivelyFindNearestOfType(DeliveryZone, this);
+      (this as any).deliveryZone = game.map.expensivelyFindNearestOfType(DeliveryZone, this);
       if(!this.deliveryZone) throw new Error(`No delivery zone found`);
     }
   }
@@ -42,7 +42,7 @@ export class Package extends GameObject {
     // const speed = Math.min(dist, TERRAIN_SPEED.road * dt);
     this.x += Math.cos(direction) * dist;
     this.y += Math.sin(direction) * dist;
-    this.map.objectMoved(this);
+    game.map.objectMoved(this);
   }
 
   static async deserialize(data: SerializedObject&{deliveryZone: DeliveryZone}) {
@@ -52,7 +52,6 @@ export class Package extends GameObject {
 
   constructor({deliveryZone, ...serialized}: SerializedObject&{deliveryZone: DeliveryZone}) {
     super(serialized);
-    (window as any).package = this;
     this.spriteIndex = Math.floor(1 + Math.random() * 2);
     this.deliveryZone = deliveryZone;
   }
@@ -61,7 +60,7 @@ export class Package extends GameObject {
     const sprite = this.chooseSprite(this.spriteIndex);
     const bobOffset = Math.sin(this.bob * this.bobSpeed) * this.bobAmplitude;
     ctx.drawImage(sprite, this.screenX - sprite.width / 2, bobOffset + this.screenY - sprite.height / 2);
-    ctx.fillText(this.id.toString(), this.screenX + 30, this.screenY + 30);
+    ctx.fillText(this.id?.toString() ?? 'PACKAGE WITH NO ID', this.screenX + 30, this.screenY + 30);
 
     const dest = this.deliveryZone;
     if(!dest) return;

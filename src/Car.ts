@@ -221,7 +221,7 @@ export class Car extends GameObject {
   accelerate(dt: number) {
     this.timeInReverse = 0;
     this.speed += this.ACCELERATION * dt;
-    if(game.debugmode) this.terrain = 'meringue';
+    if(game.goreallyfast) this.terrain = 'meringue';
     if (this.speed >= TERRAIN_SPEED[this.terrain]) {
       this.speed = TERRAIN_SPEED[this.terrain]
     }

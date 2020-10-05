@@ -22,6 +22,7 @@ addEventListener('load', () => {
 
   document.getElementById('quit')!.addEventListener('click', () => {
     game.over = true;
+    showMenu();
   });
 });
 

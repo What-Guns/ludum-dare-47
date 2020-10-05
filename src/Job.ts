@@ -38,7 +38,7 @@ export class Job {
       }
     };
     const job = new Job(pkgs, onComplete, manifest.description);
-    if (!pkgs.length) {
+    if (!manifest.deliveries.length) {
       job.onComplete(); 
     }
     return job;

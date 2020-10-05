@@ -10,9 +10,11 @@ export async function generateTutorialEvents(delay: number) {
 }
 
 function runEvent(e: Array<EventItem | JobEventItem>) {
-  console.log(e)
+  if (!e) {
+    return (window as any).loadMain();
+  }
   e.reverse().reduce((prev, cv) => {
-    return () => window.setTimeout(() => {runEventItem(cv, prev)}, cv.delay)
+    return () => window.setTimeout(() => {runEventItem(cv, prev)}, cv.delay / 100)
   }, () => {})()
 }
 

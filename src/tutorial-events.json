@@ -73,5 +73,24 @@
       "messageText": "Actually, I won't spoil it, try exploring the right side of the island above this one!",
       "delay": 4000
     }
+  ],
+  "thirdJobComplete": [
+    {
+      "type": "sendMessage",
+      "messageText": "You're doing great! Remember to make use of those wormholes!",
+      "delay": 0
+    },
+    {
+      "type": "sendMessage",
+      "messageText": "They exist in Loop City, which is where you're headed next!",
+      "delay": 4000
+    },
+    {
+      "type": "createJob",
+      "jobManifest":  { "deliveries": [] },
+      "onComplete": "nope",
+      "messageText": "Good luck!",
+      "delay": 4000
+    }
   ]
 }

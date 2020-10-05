@@ -37,8 +37,11 @@ export class Job {
         console.error('Could not spawn package: invalid spawner:', spawner);
       }
     };
-    
-    return new Job(pkgs, onComplete, manifest.description);
+    const job = new Job(pkgs, onComplete, manifest.description);
+    if (!pkgs.length) {
+      job.onComplete(); 
+    }
+    return job;
   }
 
   static findById(id: number) {

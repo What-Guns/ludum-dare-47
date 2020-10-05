@@ -133,7 +133,6 @@ export class DynamicGameInfo extends GameInfo {
 
     const job = Job.fromManifest(manifest, () => {
       removeFromArray(job, this.jobs);
-      console.log(`it's done now`);
     });
 
     this.jobs.push(job);

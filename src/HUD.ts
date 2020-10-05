@@ -35,6 +35,7 @@ export class HUD {
   }
 
   draw(ctx: CanvasRenderingContext2D) {
+    ctx.filter = 'none'
     this.hudElementList.forEach(el => el.draw(ctx));
   }
 

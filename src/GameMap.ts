@@ -165,9 +165,14 @@ export class GameMap {
     const screenWidth = ctx.canvas.width;
     const screenHeight = ctx.canvas.height;
 
-    ctx.save();
-    ctx.translate(-this.camera.screenX, -this.camera.screenY);
-    ctx.translate(screenWidth / 2, screenHeight / 2);
+    const blurCanvas = document.createElement('canvas')
+    blurCanvas.width = screenWidth;
+    blurCanvas.height = screenWidth;
+    const ctx2 = blurCanvas.getContext('2d')!;
+
+    ctx2.save();
+    ctx2.translate(-this.camera.screenX, -this.camera.screenY);
+    ctx2.translate(screenWidth / 2, screenHeight / 2);
 
     this.visibleObjects.length = 0;
 
@@ -175,7 +180,7 @@ export class GameMap {
     for(const chunk of backgroundLayer.chunks) {
       if(!this.isChunkVisible(chunk, screenWidth, screenHeight)) continue;
       for(const tile of chunk.tiles) {
-        if(tile.image) this.drawTile(ctx, tile as DrawableCell);
+        if(tile.image) this.drawTile(ctx2, tile as DrawableCell);
       }
 
       for(const obj of chunk.objects) {
@@ -184,23 +189,29 @@ export class GameMap {
     }
 
     if(GRID_ALPHA) {
-      ctx.globalAlpha = GRID_ALPHA;
+      ctx2.globalAlpha = GRID_ALPHA;
       for(const line of this.grid) {
-        ctx.beginPath();
-        ctx.moveTo(line[0].screenX, line[0].screenY);
-        ctx.lineTo(line[1].screenX, line[1].screenY);
-        ctx.stroke();
+        ctx2.beginPath();
+        ctx2.moveTo(line[0].screenX, line[0].screenY);
+        ctx2.lineTo(line[1].screenX, line[1].screenY);
+        ctx2.stroke();
       }
-      ctx.globalAlpha = 1;
+      ctx2.globalAlpha = 1;
     }
 
     this.visibleObjects.sort((l, r) => (l.screenY + l.screenYDepthOffset) - (r.screenY + r.screenYDepthOffset));
 
     for(const obj of this.visibleObjects) {
-      obj.draw(ctx);
+      obj.draw(ctx2);
     }
 
     ctx.restore();
+    //const img = new Image();
+    //ctx2.canvas.toDataURL();
+    //img.src = ctx2.canvas;
+    ctx.filter ='blur(2px)';
+    ctx.drawImage(ctx2.canvas, 0, 0);
+    ctx.filter ='none';
 
     this.hud.draw(ctx);
   }

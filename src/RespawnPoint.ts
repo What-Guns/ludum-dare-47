@@ -52,7 +52,7 @@ export class RespawnPoint extends GameObject {
   }
 
   static async deserialize(data: SerializedObject) {
-    const degrees = data.properties.direction;
+    const degrees = data.properties.direction ?? 0;
     if(typeof(degrees) !== 'number') throw new Error(`RespawnPoint requires a direction`);
     return new RespawnPoint(data, - degrees / 180 * Math.PI);
   }

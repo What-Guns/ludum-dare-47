@@ -27,14 +27,15 @@ export class Building extends GameObject {
   draw(ctx: CanvasRenderingContext2D) {
     let bottomY = this.screenY + this.grid.height;
     let isBase = true;
+    let isObscuringCar = false;
     for(const piece of this.pieces) {
       ctx.save();
       if(isBase) this.clipBase(ctx);
       const topLeftX = this.screenX - piece.image.width / 2;
       const topLeftY = bottomY - piece.image.height + piece.offsetPX.y;
-      if(this.isCarObscured()) ctx.globalAlpha = 0.25;
+      if(isBase && this.isCarObscured()) isObscuringCar = true;
+      if(isObscuringCar) ctx.globalAlpha = 0.25;
       ctx.drawImage(piece.image, topLeftX, topLeftY);
-      ctx.globalAlpha = 1;
       bottomY -= piece.tallness;
       ctx.restore();
       isBase = false;
@@ -55,7 +56,7 @@ export class Building extends GameObject {
   isCarObscured() {
     const carX = this.map.car?.x;
     const carY = this.map.car?.y;
-    return carX && carY && (carX < this.x || carY < this.y) && ((Math.pow(carX - this.x, 2) + Math.pow(carY - this.y, 2)) < 9);
+    return carX && carY && (carX < this.x || carY < this.y) && ((Math.pow(carX - this.x, 2) + Math.pow(carY - this.y, 2)) < Math.pow(this.tallness / 50, 2));
   }
 
   static async create(map: GameMap, {x, y}: Point, zoning: ZoningRestrictions, seed: string) {

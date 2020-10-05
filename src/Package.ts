@@ -1,5 +1,5 @@
 import {GameObject, SerializedObject} from './GameObject.js';
-import {Point, distanceSquared} from './math.js';
+import {Point} from './math.js';
 import {DeliveryZone} from './DeliveryZone.js';
 import { Job } from './Job.js';
 
@@ -79,12 +79,15 @@ export class Package extends GameObject {
       ctx.translate(this.screenX, this.screenY);
       ctx.scale(1, 0.5);
       ctx.rotate(direction + Math.PI / 4);
-      ctx.lineCap = 'round';
       ctx.strokeStyle = 'blue';
-      ctx.lineWidth = 8;
+      ctx.lineCap = 'round';
+      ctx.lineWidth = 3;
+      ctx.fillStyle = 'rgba(0, 0, 255, 0.25)';
       ctx.beginPath();
-      const angle = Math.max(Math.PI / 8, Math.atan(1 / Math.sqrt(distanceSquared(this, dest))));
-      ctx.arc(0, 0, 32, - angle, angle, false)
+      ctx.arc(0, 0, 32, - Math.PI / 8, Math.PI / 8, false);
+      ctx.lineTo(50, 0);
+      ctx.closePath();
+      ctx.fill();
       ctx.stroke();
       ctx.restore();
       dest.draw(ctx, 0.5);

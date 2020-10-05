@@ -20,21 +20,14 @@ export class DeliveryZone extends GameObject {
     computeScreenCoords(this.center, this.center);
   }
 
-  draw(ctx: CanvasRenderingContext2D, potentialScore = 0) {
-    if(!potentialScore) return;
+  draw(ctx: CanvasRenderingContext2D, noReally = false) {
+    if(!game.debugmode && !noReally) return;
     ctx.save();
-    if(potentialScore) {
-      const hue = Math.floor(potentialScore * 120);
-      ctx.fillStyle = `hsl(${hue}deg, 100%, 50%, 0.5)`;
-      ctx.strokeStyle = `hsl(${hue}deg, 100%, 100%)`;
-    }
-    else {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-      ctx.strokeStyle = 'black';
-    }
+    ctx.fillStyle = `rgba(0, 0, 255, 0.25)`;
+    ctx.strokeStyle = 'blue';
     makeRectanglePath(ctx, this, this);
-    ctx.fill();
     ctx.stroke();
+    ctx.fill();
     ctx.restore();
   }
 

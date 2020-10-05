@@ -31,7 +31,7 @@ export class GameMap {
   private readonly chunkLookup: GeoLookup<Chunk> = {};
 
   private readonly hud: HUD;
-  private car?: Car;
+  car?: Car;
   gameInfo?: GameInfo = undefined;
 
   widthInTiles = 0;

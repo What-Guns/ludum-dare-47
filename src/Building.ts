@@ -32,7 +32,9 @@ export class Building extends GameObject {
       if(isBase) this.clipBase(ctx);
       const topLeftX = this.screenX - piece.image.width / 2;
       const topLeftY = bottomY - piece.image.height + piece.offsetPX.y;
+      if(this.isCarObscured()) ctx.globalAlpha = 0.25;
       ctx.drawImage(piece.image, topLeftX, topLeftY);
+      ctx.globalAlpha = 1;
       bottomY -= piece.tallness;
       ctx.restore();
       isBase = false;
@@ -48,6 +50,12 @@ export class Building extends GameObject {
     ctx.lineTo(this.screenX + this.grid.width / 2, this.screenY - 100);
     ctx.closePath();
     ctx.clip();
+  }
+
+  isCarObscured() {
+    const carX = this.map.car?.x;
+    const carY = this.map.car?.y;
+    return carX && carY && (carX < this.x || carY < this.y) && ((Math.pow(carX - this.x, 2) + Math.pow(carY - this.y, 2)) < 9);
   }
 
   static async create(map: GameMap, {x, y}: Point, zoning: ZoningRestrictions, seed: string) {

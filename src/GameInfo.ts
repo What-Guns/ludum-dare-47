@@ -1,5 +1,5 @@
 import { GameObject } from "./GameObject.js";
-import { Job, JobManifest, Delivery } from "./Job.js";
+import { Job, JobManifest } from "./Job.js";
 import { MessageBar } from "./MessageBar.js";
 import { Package } from "./Package.js";
 import { PackageSpawn } from "./PackageSpawn.js";
@@ -11,7 +11,10 @@ import { generateTutorialEvents } from "./TutorialEvents.js";
 
 export abstract class GameInfo {
   currentlyHeldPackages = 0;
+  score = 0;
   messageBar?: MessageBar;
+
+  abstract timeRemaining: number;
 
   incrementPackages(num = 1) {
     this.currentlyHeldPackages += num;
@@ -51,6 +54,8 @@ export abstract class GameInfo {
 }
 
 export class StaticGameInfo extends GameInfo {
+  timeRemaining = Infinity;
+
   constructor(private readonly manifests: JobManifest[], delay: number) {
     super();
     generateTutorialEvents(delay);
@@ -87,6 +92,8 @@ export class DynamicGameInfo extends GameInfo {
   // When crating jobs, pick the n closest spawn points.
   numClosestSpawnersToChooseFrom = 3;
 
+  timeRemaining = 60_000;
+
   tick(dt: number) {
     if(!this.jobs.length) this.createNewJob();
 
@@ -102,9 +109,20 @@ export class DynamicGameInfo extends GameInfo {
     const sources = this.chooseSources();
     const destinations = this.chooseDestinations();
 
+    const deliveries = Array.from(this.createDeliveries(sources, destinations));
+
+    const score = deliveries
+      .map(d => distanceSquared(d.destination, d.spawner))
+      .reduce((l, r) => l + r);
+
     const manifest: JobManifest = {
-      deliveries: Array.from(this.createDeliveries(sources, destinations)),
+      deliveries: deliveries.map(d => ({
+        spawnerId: d.spawner.id!,
+        destinationId: d.destination.id!,
+      })),
       description: 'do a job',
+      timeAdd: 30_000,
+      score: Math.floor(score * 100)/100,
     };
 
     const job = Job.fromManifest(manifest, () => {
@@ -118,9 +136,9 @@ export class DynamicGameInfo extends GameInfo {
   private *createDeliveries(sources: PackageSpawn[], destinations: DeliveryZone[]) {
     const numDeliveries = randomBetween(this.minDeliveriesPerJob, this.maxDeliveriesPerJob);
     for(let i = 0; i < numDeliveries; i++) {
-      const delivery: Delivery = {
-        spawnerId: sources[randomBetween(0, sources.length)].id!,
-        destinationId: destinations[randomBetween(0, destinations.length)].id!,
+      const delivery = {
+        spawner: sources[randomBetween(0, sources.length)],
+        destination: destinations[randomBetween(0, destinations.length)],
       }
       yield delivery;
     }

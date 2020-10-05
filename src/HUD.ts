@@ -3,6 +3,7 @@ import { DebugHUD } from "./DebugHUD.js";
 import { MessageBar } from "./MessageBar.js";
 import { Minimap } from "./Minimap.js";
 import { TimeRemaining } from "./TimeRemaining.js";
+import { ScoreDisplay } from "./ScoreDisplay.js";
 
 export class HUD {
   readonly minimap = new Minimap();
@@ -19,6 +20,7 @@ export class HUD {
     this.addHUDElement(this.audioControls);
     this.addHUDElement(this.timeRemaining);
     this.addHUDElement(this.debugHUD);
+    this.addHUDElement(new ScoreDisplay());
   }
 
   addHUDElement(el: HUDElement) {

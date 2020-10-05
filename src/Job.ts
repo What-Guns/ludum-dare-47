@@ -5,6 +5,8 @@ import { PackageSpawn } from "./PackageSpawn.js";
 export type JobManifest = {
   deliveries: Delivery[];
   description: string;
+  score: number;
+  timeAdd: number;
 }
 
 export interface Delivery {
@@ -13,13 +15,21 @@ export interface Delivery {
 }
 
 export class Job {
-  constructor(readonly packages: Array<Package>, readonly onComplete: Function, readonly description: string) {
+  readonly description: string;
+  readonly score: number;
+
+  constructor(readonly packages: Array<Package>, readonly onComplete: Function, manifest: JobManifest) {
+    this.description = manifest.description;
+    this.score = manifest.score;
     packages.forEach(p => p.job = this);
   }
 
   deliverPackage(pkg: Package) {
     this.packages.splice(this.packages.findIndex(p => p === pkg), 1);
-    if (!this.packages.length) this.onComplete();
+    if (!this.packages.length) {
+      game.gameInfo.score += this.score;
+      this.onComplete();
+    }
   }
 
   static fromManifest(manifest: JobManifest, onComplete: Function) {
@@ -37,7 +47,7 @@ export class Job {
         console.error('Could not spawn package: invalid spawner:', spawner);
       }
     };
-    const job = new Job(pkgs, onComplete, manifest.description);
+    const job = new Job(pkgs, onComplete, manifest);
     if (!manifest.deliveries.length) {
       job.onComplete(); 
     }

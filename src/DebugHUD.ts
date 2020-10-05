@@ -5,7 +5,7 @@ export class DebugHUD implements HUDElement {
     ctx.textAlign = 'right';
     ctx.font = '24px KenneyMini';
     ctx.fillStyle = 'black';
-    ctx.fillText(`Currently collected packages: ${game.gameInfo.currentlyHeldPackages}`, ctx.canvas.width - 30, 50);
+    ctx.fillText(`Currently collected packages: ${game.gameInfo.currentlyHeldPackages}`, ctx.canvas.width - 30, 80);
   }
 
   tick(timestamp: number): void {

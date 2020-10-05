@@ -24,7 +24,9 @@ export class Game {
           { spawnerId: 31, destinationId: 35 },
           { spawnerId: 31, destinationId: 36 },
         ],
-        description: "Deliver 3 packages"
+        description: "Deliver 3 packages",
+        score: 50,
+        timeAdd: 60_000
       }
     ], 6000);
   }

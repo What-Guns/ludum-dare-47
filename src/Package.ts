@@ -65,17 +65,28 @@ export class Package extends GameObject {
   }
 
   draw(ctx: CanvasRenderingContext2D) {
+    const dest = this.deliveryZone;
+    const direction = Math.atan2(dest.center.y - this.y, dest.center.x - this.x);
+    ctx.save();
+    ctx.translate(this.screenX, this.screenY);
+    ctx.scale(1, 0.5);
+    ctx.rotate(direction + Math.PI / 4);
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = 'blue';
+    ctx.lineWidth = 8;
+    ctx.beginPath();
+    const angle = Math.max(Math.PI / 8, Math.atan(1 / Math.sqrt(distanceSquared(this, dest))));
+    ctx.arc(0, 0, 32, - angle, angle, false)
+    ctx.stroke();
+    ctx.restore();
+
     const sprite = this.chooseSprite(this.spriteIndex);
     const bobOffset = Math.sin(this.bob * this.bobSpeed) * this.bobAmplitude;
     ctx.drawImage(sprite, this.screenX - sprite.width / 2, bobOffset + this.screenY - sprite.height / 2);
     ctx.fillText(this.id?.toString() ?? 'PACKAGE WITH NO ID', this.screenX + 30, this.screenY + 30);
 
-    const dest = this.deliveryZone;
-    if(!dest) return;
-    ctx.beginPath();
-    ctx.moveTo(this.screenX, this.screenY);
-    ctx.lineTo(dest.center.screenX, dest.center.screenY);
-    ctx.stroke();
+    dest.draw(ctx, 0.5);
+
   }
 
   chooseSprite(index: number) {

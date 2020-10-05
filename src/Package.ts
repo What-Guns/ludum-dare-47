@@ -1,5 +1,5 @@
 import {GameObject, SerializedObject} from './GameObject.js';
-import {Point} from './math.js';
+import {Point, distanceSquared} from './math.js';
 import {DeliveryZone} from './DeliveryZone.js';
 import { Job } from './Job.js';
 

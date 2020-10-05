@@ -1,7 +1,7 @@
 import {Serializable} from './serialization.js';
 import {GameObject, SerializedObject} from './GameObject.js';
 import {Car} from './Car.js';
-import {clamp, computeScreenCoords, ScreenPoint, makeRectanglePath} from './math.js';
+import {clamp, computeScreenCoords, ScreenPoint} from './math.js';
 import {Audio} from './Audio.js';
 
 @Serializable()
@@ -10,6 +10,12 @@ export class Portal extends GameObject {
   readonly height: number;
   readonly center: ScreenPoint;
   destination?: number;
+
+  static IMAGES: Array<HTMLImageElement> = [];
+
+  readonly timeBetweenRotation = 100;
+  currentFace = 0;
+  currentTime = 0;
 
   constructor({width, height, properties, ...data}: SerializedObject) {
     super(data);
@@ -22,12 +28,22 @@ export class Portal extends GameObject {
     this.center = computeScreenCoords({}, {x: this.x + this.width / 2, y: this.y + this.height / 2});
   }
 
-  tick() {
+  tick(dt: number) {
     this.warpCars();
+    this.currentTime += dt;
+    if (this.currentTime > this.timeBetweenRotation) {
+      this.currentTime -= this.timeBetweenRotation;
+      this.currentFace ++;
+      this.currentFace %= Portal.IMAGES.length;
+    }
   }
 
   draw(ctx: CanvasRenderingContext2D) {
+    const currentImage = Portal.IMAGES[this.currentFace];
+    if (!currentImage) return;
     ctx.save();
+    ctx.drawImage(currentImage, this.center.screenX, this.center.screenY, 50, 20)
+    /*
     ctx.lineWidth = 4;
     ctx.strokeStyle = 'blue';
 
@@ -40,7 +56,7 @@ export class Portal extends GameObject {
       ctx.moveTo(this.center.screenX, this.center.screenY);
       ctx.lineTo(dest.screenX + (dest.width ?? 0)/2, dest.screenY + (dest.height ?? 0)/2);
       ctx.stroke();
-    }
+    }*/
     ctx.restore();
   }
 
@@ -78,7 +94,28 @@ export class Portal extends GameObject {
   }
 
   static async deserialize(obj: SerializedObject) {
+    await this.load();
     await Audio.load('audio/sfx/warp.wav', 'warp');
     return new Portal(obj);
   }
+
+  static async load() {
+    Portal.IMAGES = await Promise.all([
+      'images/items/portal1.png',
+      'images/items/portal2.png',
+      'images/items/portal3.png',
+      'images/items/portal4.png',
+    ].map(waitForImageToLoad));
+  }
 }
+
+async function waitForImageToLoad(path: string) {
+  const img = new Image();
+  img.src = path;
+  await new Promise((resolve, reject) => {
+    img.addEventListener('load', resolve);
+    img.addEventListener('error', reject);
+  });
+  return img;
+}
+

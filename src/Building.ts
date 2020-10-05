@@ -30,6 +30,7 @@ export class Building extends GameObject {
     for(const piece of this.pieces) {
       ctx.save();
       if(isBase) this.clipBase(ctx);
+      this.clipAroundCar(ctx);
       const topLeftX = this.screenX - piece.image.width / 2;
       const topLeftY = bottomY - piece.image.height + piece.offsetPX.y;
       ctx.drawImage(piece.image, topLeftX, topLeftY);
@@ -48,6 +49,30 @@ export class Building extends GameObject {
     ctx.lineTo(this.screenX + this.grid.width / 2, this.screenY - 100);
     ctx.closePath();
     ctx.clip();
+  }
+
+  clipAroundCar(ctx: CanvasRenderingContext2D) {
+    const width = ctx.canvas.width;
+    const height = ctx.canvas.height;
+    const squareSize = 0.05
+    ctx.translate(this.map.camera.screenX, this.map.camera.screenY);
+    ctx.translate(-width / 2, -height / 2);
+    ctx.beginPath();
+    ctx.moveTo(0, 1);
+    ctx.lineTo(width, 0);
+    ctx.lineTo(width, height);
+    ctx.lineTo(0, height)
+    ctx.lineTo(1, 0);
+    ctx.lineTo(width * (0.5 - squareSize), height * (0.5 - squareSize))
+    ctx.lineTo(width * (0.5 - squareSize), height * (0.5 + squareSize))
+    ctx.lineTo(width * (0.5 + squareSize), height * (0.5 + squareSize))
+    ctx.lineTo(width * (0.5 + squareSize), height * (0.5 - squareSize))
+    ctx.lineTo(width * (0.5 - squareSize), height * (0.5 - squareSize))
+    ctx.lineTo(0, 0);
+    ctx.clip('evenodd');
+    //ctx.fill()
+    ctx.translate(width / 2, height / 2);
+    ctx.translate(-this.map.camera.screenX, -this.map.camera.screenY);
   }
 
   static async create(map: GameMap, {x, y}: Point, zoning: ZoningRestrictions, seed: string) {

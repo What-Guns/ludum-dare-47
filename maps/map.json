@@ -2728,7 +2728,7 @@
                         {
                          "name":"destination",
                          "type":"object",
-                         "value":22
+                         "value":693
                         }],
                  "rotation":0,
                  "type":"Portal",
@@ -2787,6 +2787,180 @@
                  "width":50,
                  "x":1300,
                  "y":4350
+                }, 
+                {
+                 "height":350,
+                 "id":684,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"color",
+                         "type":"string",
+                         "value":"white"
+                        }, 
+                        {
+                         "name":"direction",
+                         "type":"string",
+                         "value":"west"
+                        }],
+                 "rotation":0,
+                 "type":"BuildingBlock",
+                 "visible":true,
+                 "width":50,
+                 "x":4050,
+                 "y":2100
+                }, 
+                {
+                 "height":100,
+                 "id":686,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"maxTallness",
+                         "type":"int",
+                         "value":8
+                        }, 
+                        {
+                         "name":"minTallness",
+                         "type":"int",
+                         "value":4
+                        }],
+                 "rotation":0,
+                 "type":"BuildingBlock",
+                 "visible":true,
+                 "width":100,
+                 "x":3450,
+                 "y":2550
+                }, 
+                {
+                 "height":50,
+                 "id":687,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"destination",
+                         "type":"object",
+                         "value":688
+                        }],
+                 "rotation":0,
+                 "type":"Portal",
+                 "visible":true,
+                 "width":50,
+                 "x":3350,
+                 "y":2500
+                }, 
+                {
+                 "height":50,
+                 "id":688,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"destination",
+                         "type":"object",
+                         "value":687
+                        }],
+                 "rotation":0,
+                 "type":"Portal",
+                 "visible":true,
+                 "width":50,
+                 "x":2450,
+                 "y":3650
+                }, 
+                {
+                 "height":50,
+                 "id":689,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"destination",
+                         "type":"object",
+                         "value":691
+                        }],
+                 "rotation":0,
+                 "type":"Portal",
+                 "visible":true,
+                 "width":50,
+                 "x":3400,
+                 "y":3300
+                }, 
+                {
+                 "height":50,
+                 "id":691,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"destination",
+                         "type":"object",
+                         "value":689
+                        }],
+                 "rotation":0,
+                 "type":"Portal",
+                 "visible":true,
+                 "width":50,
+                 "x":2050,
+                 "y":2100
+                }, 
+                {
+                 "height":250,
+                 "id":692,
+                 "name":"",
+                 "rotation":0,
+                 "type":"BuildingBlock",
+                 "visible":true,
+                 "width":100,
+                 "x":2700,
+                 "y":950
+                }, 
+                {
+                 "height":50,
+                 "id":693,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"destination",
+                         "type":"object",
+                         "value":679
+                        }],
+                 "rotation":0,
+                 "type":"Portal",
+                 "visible":true,
+                 "width":50,
+                 "x":2650,
+                 "y":950
+                }, 
+                {
+                 "height":50,
+                 "id":694,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"destination",
+                         "type":"object",
+                         "value":695
+                        }],
+                 "rotation":0,
+                 "type":"Portal",
+                 "visible":true,
+                 "width":50,
+                 "x":950,
+                 "y":4350
+                }, 
+                {
+                 "height":50,
+                 "id":695,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"destination",
+                         "type":"object",
+                         "value":694
+                        }],
+                 "rotation":0,
+                 "type":"Portal",
+                 "visible":true,
+                 "width":50,
+                 "x":1050,
+                 "y":2100
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -2795,7 +2969,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":684,
+ "nextobjectid":696,
  "orientation":"isometric",
  "properties":[
         {

@@ -28,6 +28,10 @@ button {
   margin: 1rem;
 }
 
+img {
+  margin: 2rem;
+}
+
 @font-face {
   font-family: 'KenneyMini';
   src: url('fonts/Kenney\ Mini.ttf');

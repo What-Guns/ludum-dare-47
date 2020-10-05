@@ -82,6 +82,8 @@ export class Portal extends GameObject {
       car.y = destObj.y + (destObj.height ?? 0)/2;
       Audio.playSFX('warp');
       game.map.objectMoved(car);
+      game.hud.minimap.addPoint(this, 'purple')
+      dest && game.hud.minimap.addPoint(dest, 'purple')
     }
   }
 

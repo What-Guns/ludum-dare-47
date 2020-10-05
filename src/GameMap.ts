@@ -78,7 +78,7 @@ export class GameMap {
       game.hud.minimap.addPoint(obj, 'blue')
     }
     if(obj instanceof Package) {
-      game.hud.minimap.addPoint(obj, 'green')
+      game.hud.minimap.addPoint(obj, 'white')
     }
     if(obj instanceof GhostCar) {
       this.camera.target = obj;

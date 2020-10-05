@@ -65,6 +65,7 @@ export class PackageSpawn extends GameObject {
   static async deserialize(data: SerializedObject) {
     if(typeof(data.width) !== 'number') throw new Error(`Invalid width ${data.width}`);
     if(typeof(data.height) !== 'number') throw new Error(`Invalid height ${data.height}`);
+    await Package.load();
     return new PackageSpawn(data as PackageSpawnProp);
   }
 

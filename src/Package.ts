@@ -18,7 +18,7 @@ export class Package extends GameObject {
 
   readonly deliveryZone: DeliveryZone;
 
-  private static async load() {
+  static async load() {
     Package.IMAGES = await Promise.all([
       'images/items/package.png',
       'images/items/box1.png',

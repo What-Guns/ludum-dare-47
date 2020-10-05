@@ -79,7 +79,7 @@ export class DynamicGameInfo extends GameInfo {
   // When crating jobs, pick the n closest spawn points.
   numClosestSpawnersToChooseFrom = 3;
 
-  timeRemaining = 60_000;
+  timeRemaining = 90_000;
 
   constructor() {
     super();

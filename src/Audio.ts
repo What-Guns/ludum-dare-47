@@ -61,6 +61,12 @@ export class Audio {
     this.currentlyPlayingSounds[trackName] = bufferSource;
   }
 
+  static stfu() {
+    for(const namedTrack in this.currentlyPlayingSounds) {
+      this.stop(namedTrack);
+    }
+  }
+
   static stop(trackName: string) {
     const namedTrack = this.currentlyPlayingSounds[trackName];
     if (namedTrack) {

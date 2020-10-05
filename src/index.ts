@@ -4,12 +4,41 @@ import {Audio} from './Audio.js';
 import {Game} from './Game.js';
 
 addEventListener('load', () => {
-  for(const button of Array.from(document.querySelectorAll('button[data-map]'))) {
-    button.addEventListener('click', () => {
-      startTheGameAlready(button.getAttribute('data-map')!);
+  showMenu();
+});
+
+function showMenu() {
+  if(document.getElementById('menu')) return;
+
+  const template = document.getElementById('menu-template') as HTMLTemplateElement;
+  const menu = template.content.cloneNode(true) as DocumentFragment;
+
+  for(const button of Array.from(menu.querySelectorAll('button[data-map]'))) {
+    button.addEventListener('click', async () => {
+      const mapFileName = button.getAttribute('data-map')!;
+      closeOverlays();
+      await startTheGameAlready(mapFileName);
     });
   }
-});
+
+  document.body.appendChild(menu);
+}
+
+function showGameOver() {
+  const template = document.getElementById('game-over-template') as HTMLTemplateElement;
+  const overlay = template.content.cloneNode(true) as DocumentFragment;
+  overlay.querySelector('button')!.addEventListener('click', () => {
+    closeOverlays();
+    showMenu();
+  });
+  document.body.appendChild(overlay);
+}
+
+function closeOverlays() {
+  for(const overlay of Array.from(document.querySelectorAll('.overlay'))) {
+    overlay.remove();
+  }
+}
 
 // any tick longer than this will be split into smaller ticks
 const BIG_TICK_ENERGY = 500;
@@ -18,8 +47,6 @@ let outputCanvas: HTMLCanvasElement;
 let bufferCanvas: HTMLCanvasElement;
 
 async function startTheGameAlready(mapPath: string) {
-  const menu = document.getElementById('menu');
-  if(menu) menu.remove();
   outputCanvas = document.getElementById('main') as HTMLCanvasElement;
   bufferCanvas = document.getElementById('buffer') as HTMLCanvasElement;
 
@@ -51,7 +78,12 @@ async function loadMap(path: string) {
 
   let lastTick = 0;
   function tick(timestamp: number) {
-    if(game.over) return;
+    if(game.over) {
+      Audio.stfu();
+      showGameOver();
+      mainCtx.clearRect(0, 0, mainCtx.canvas.width, mainCtx.canvas.height);
+      return;
+    }
     if(lastTick !== 0) {
       const dt = Math.min(timestamp - lastTick, BIG_TICK_ENERGY);
       game.tick(dt);
@@ -66,9 +98,4 @@ async function loadMap(path: string) {
 async function loadAudio() {
   await Audio.load('audio/music/truckin.ogg', 'truckin');
   await Audio.load('audio/music/intro.ogg', 'intro');
-  // (document.querySelector('#titleScreenMusicButton') as HTMLButtonElement).onclick = () => Audio.playMusic('intro', 13.640, 25.633);
 }
-
-(window as any).loadTut = () => { Audio.stop('truckin'); Audio.stop('intro'); loadMap('maps/tutorial.json'); }
-(window as any).loadMain = () => { Audio.stop('truckin'); Audio.stop('intro'); loadMap('maps/map.json');} 
-

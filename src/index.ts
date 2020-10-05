@@ -4,22 +4,26 @@ import {Audio} from './Audio.js';
 import {Game} from './Game.js';
 
 addEventListener('load', () => {
-  startTheGameAlready()
+  for(const button of Array.from(document.querySelectorAll('button[data-map]'))) {
+    button.addEventListener('click', () => {
+      startTheGameAlready(button.getAttribute('data-map')!);
+    });
+  }
 });
 
 // any tick longer than this will be split into smaller ticks
 const BIG_TICK_ENERGY = 500;
 
-let currentMapPath = 'maps/tutorial.json';
-
 let outputCanvas: HTMLCanvasElement;
 let bufferCanvas: HTMLCanvasElement;
 
-async function startTheGameAlready() {
+async function startTheGameAlready(mapPath: string) {
+  const menu = document.getElementById('menu');
+  if(menu) menu.remove();
   outputCanvas = document.getElementById('main') as HTMLCanvasElement;
   bufferCanvas = document.getElementById('buffer') as HTMLCanvasElement;
 
-  await loadMap(currentMapPath);
+  await loadMap(mapPath);
   await loadAudio();
   Audio.playMusic('truckin', 2.097)
   
@@ -37,7 +41,6 @@ async function startTheGameAlready() {
 
 async function loadMap(path: string) {
   if(window.game) window.game.over = true;
-  currentMapPath = path;
   const mainCtx = outputCanvas.getContext('2d')!;
   const bufferCtx = bufferCanvas.getContext('2d')!;
   const mapData = await loadJson(path);
@@ -56,7 +59,7 @@ async function loadMap(path: string) {
     }
 
     lastTick = timestamp;
-    if (currentMapPath === path) requestAnimationFrame(tick);
+    requestAnimationFrame(tick);
   }
 }
 

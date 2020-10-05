@@ -1,7 +1,15 @@
 import {loadAudioAsync} from './loader.js';
 
 export class Audio {
-  static readonly audioContext = new AudioContext();
+  private static createdAudioContext: AudioContext|null = null;
+
+  static get audioContext() {
+    if(!this.createdAudioContext) {
+      console.log(`created audio context`);
+      this.createdAudioContext = new AudioContext();
+    }
+    return this.createdAudioContext;
+  }
   static soundLibrary: {[key in string]: AudioBuffer} = {};
   static sfxNode: GainNode;
   static musicNode: GainNode;
@@ -13,8 +21,8 @@ export class Audio {
     this.musicNode = Audio.audioContext.createGain();
     this.sfxNode.connect(Audio.audioContext.destination);
     this.musicNode.connect(Audio.audioContext.destination);
-    this.sfxNode.gain.value = 0;
-    this.musicNode.gain.value = 0;
+    this.sfxNode.gain.value = 1;
+    this.musicNode.gain.value = 1;
   }
 
   static currentlyPlayingSounds: {[key in string]: AudioBufferSourceNode} = {};

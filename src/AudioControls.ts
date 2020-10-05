@@ -2,8 +2,8 @@ import { Audio } from './Audio.js';
 import { HUDElement } from './HUD.js';
 
 export class AudioControls implements HUDElement {
-  sfxIsMuted = true;
-  musicIsMuted = true;
+  sfxIsMuted = false;
+  musicIsMuted = false;
   images: {[key in string]: HTMLImageElement} = {};
 
   constructor() {

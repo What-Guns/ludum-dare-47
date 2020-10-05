@@ -4,7 +4,7 @@ import {Terrain} from './GameMap.js';
 import {Obstacle} from './Obstacle.js';
 import {Serializable} from './serialization.js';
 import {Audio} from './Audio.js';
-import {clamp} from './math.js';
+import {clamp, Point} from './math.js';
 import {RespawnPoint} from './RespawnPoint.js';
 import { Package } from './Package.js';
 import { GameInfo } from './GameInfo.js';
@@ -47,6 +47,7 @@ export class Car extends GameObject {
   timeSpentBraking = 0;
   isSquealing = false;
 
+  packages: List<Package>|null = null;
 
   readonly MAX_SPEED = 0.003;
   readonly ACCELERATION = 0.000005;
@@ -165,6 +166,8 @@ export class Car extends GameObject {
     if (currentCollisions[0]) {
       this.processCollision(currentCollisions[0]);
     }
+
+    this.pullPackages();
   }
   
   draw(ctx: CanvasRenderingContext2D) {
@@ -267,6 +270,14 @@ export class Car extends GameObject {
     this.direction = Math.PI / 4 * this.snappedDirectionIndex;
   }
 
+  private pullPackages() {
+    let towards: Point = this;
+    for(let node = this.packages; node; node = node.next) {
+      node.item.dragTowards(towards);
+      towards = node.item;
+    }
+  }
+
   private collideWithObjects() {
     this.debug = '';
     let currentCollision;
@@ -275,7 +286,7 @@ export class Car extends GameObject {
       for(const obj of chunk.objects) {
         if(obj instanceof Obstacle) {
           currentCollision = this.collideWithObstacle(obj);
-        } else if (obj instanceof Package) {
+        } else if (obj instanceof Package && !this.hasPackage(obj)) {
           currentCollision = this.collideWithPackage(obj);
         }
         if (currentCollision) collisionList.push(currentCollision);
@@ -305,6 +316,13 @@ export class Car extends GameObject {
     return collisionExists ? target : null;
   }
 
+  private hasPackage(pkg: Package) {
+    for(let node = this.packages; node; node = node.next) {
+      if(node.item === pkg) return true;
+    }
+    return false;
+  }
+
   private collideWithPackage(obj: Package) {
     if (this.map.gameInfo!.currentlyHeldPackages < this.PACKAGE_CAPACITY){
       const distanceToPackageSquared = Math.pow(this.x - obj.x, 2) + Math.pow(this.y - obj.y, 2);
@@ -322,14 +340,21 @@ export class Car extends GameObject {
   }
 
   collectPackage(pkg: Package) {
-    this.map.remove(pkg);
     Audio.playSFX('pickup');
     this.map.gameInfo!.incrementPackages();
+    const node = { item: pkg, next: null };
+    if(this.packages) {
+      let pkg = this.packages;
+      while(pkg.next) pkg = pkg.next;
+      pkg.next = node;
+    } else {
+      this.packages = node;
+    }
   }
 
   denyPackage(){
     this.map.gameInfo!.messageBar?.setNewMessage("You require more car capacity. Drop off packages at post office to carry more");
-    }
+  }
 
   setGameInfo(info: GameInfo) {
     this.map.gameInfo! = info;
@@ -344,4 +369,9 @@ async function waitForImageToLoad(path: string) {
     img.addEventListener('error', reject);
   });
   return img;
+}
+
+interface List<T> {
+  item: T;
+  next: List<T>|null;
 }

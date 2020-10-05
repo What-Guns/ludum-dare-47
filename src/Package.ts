@@ -1,4 +1,5 @@
 import {GameObject, SerializedObject} from './GameObject.js';
+import {Point} from './math.js';
 
 export class Package extends GameObject {
   screenX!: number;
@@ -24,6 +25,19 @@ export class Package extends GameObject {
     this.bob += dt;
   }
 
+  dragTowards({x, y}: Point) {
+    this.bob = 0;
+    const dx = x - this.x;
+    const dy = y - this.y;
+    const dist = Math.sqrt(Math.pow(dy, 2) + Math.pow(dx, 2)) - 0.5;
+    if(dist < 0) return;
+    const direction = Math.atan2(dy, dx);
+    // const speed = Math.min(dist, TERRAIN_SPEED.road * dt);
+    this.x += Math.cos(direction) * dist;
+    this.y += Math.sin(direction) * dist;
+    this.map.objectMoved(this);
+  }
+
   static async deserialize(data: SerializedObject) {
     await this.load();
     return new Package({...data});
@@ -45,9 +59,7 @@ export class Package extends GameObject {
   chooseSprite(index: number) {
     return Package.IMAGES[index];
   }
-
 }
-
 
 async function waitForImageToLoad(path: string) {
   const img = new Image();

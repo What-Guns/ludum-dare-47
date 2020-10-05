@@ -55,7 +55,7 @@ export abstract class GameInfo {
 export class StaticGameInfo extends GameInfo {
   timeRemaining = Infinity;
 
-  constructor(private readonly manifests: JobManifest[], delay: number) {
+  constructor(delay: number) {
     super();
     runTutorialEvents(delay);
   }

@@ -33,8 +33,6 @@ export class Car extends GameObject {
   screenY!: number;
   terrain: Terrain = 'road';
 
-  debug = "";
-
   // Direction of the car from 0-7
   snappedDirectionIndex = 0;
   currentTurn = 0;
@@ -185,7 +183,6 @@ export class Car extends GameObject {
   draw(ctx: CanvasRenderingContext2D) {
     const sprite = this.chooseSprite(this.snappedDirectionIndex);
     ctx.drawImage(sprite, this.screenX - sprite.width / 2, this.screenY - sprite.height / 2);
-    ctx.fillText(this.debug, this.screenX + 30, this.screenY + 30);
   }
 
   chooseSprite(index: number) {
@@ -303,7 +300,6 @@ export class Car extends GameObject {
   }
 
   private collideWithObjects() {
-    this.debug = '';
     let currentCollision;
     const collisionList = [];
     for(const chunk of this.chunks) {
@@ -336,7 +332,6 @@ export class Car extends GameObject {
     const distSquared = Math.pow(collisionX - this.x, 2) + Math.pow(collisionY - this.y, 2);
 
     const collisionExists = distSquared <= this.radius * this.radius
-    this.debug = (collisionExists).toString();
     return collisionExists ? target : null;
   }
 

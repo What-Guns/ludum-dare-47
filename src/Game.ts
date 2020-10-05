@@ -16,6 +16,8 @@ export class Game {
 
   over = false;
 
+  debugmode = false;
+
   constructor(readonly mainCtx: CanvasRenderingContext2D, readonly bufferCtx: CanvasRenderingContext2D, mode: Mode) {
     window.game = this;
 

@@ -11,6 +11,7 @@ export class RespawnPoint extends GameObject {
   }
 
   draw(ctx: CanvasRenderingContext2D) {
+    if(!game.debugmode) return;
     ctx.save();
     ctx.fillStyle = 'rgba(0, 255, 0, 0.5)';
     ctx.strokeStyle = '#00FF00';

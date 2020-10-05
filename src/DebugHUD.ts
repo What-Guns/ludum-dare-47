@@ -2,6 +2,7 @@ import { HUDElement } from "./HUD.js";
 
 export class DebugHUD implements HUDElement {
   draw(ctx: CanvasRenderingContext2D): void {
+    if(!game.debugmode) return;
     ctx.textAlign = 'right';
     ctx.font = '24px KenneyMini';
     ctx.fillStyle = 'black';

@@ -92,7 +92,7 @@
          "imageheight":65,
          "imagewidth":100,
          "terrain":[1, 0, 1, 1],
-         "type":"water"
+         "type":"grass"
         }, 
         {
          "id":7,
@@ -108,7 +108,7 @@
          "imageheight":58,
          "imagewidth":100,
          "terrain":[0, 1, 1, 1],
-         "type":"water"
+         "type":"grass"
         }, 
         {
          "id":9,
@@ -116,7 +116,7 @@
          "imageheight":65,
          "imagewidth":100,
          "terrain":[1, 1, 0, 1],
-         "type":"water"
+         "type":"grass"
         }, 
         {
          "id":10,
@@ -132,7 +132,7 @@
          "imageheight":65,
          "imagewidth":100,
          "terrain":[1, 1, 1, 0],
-         "type":"water"
+         "type":"grass"
         }, 
         {
          "id":12,
@@ -642,7 +642,7 @@
          "image":"tilesets\/roads\/waterES.png",
          "imageheight":65,
          "imagewidth":100,
-         "type":"water"
+         "type":"grass"
         }, 
         {
          "id":90,
@@ -656,14 +656,14 @@
          "image":"tilesets\/roads\/waterNE.png",
          "imageheight":65,
          "imagewidth":100,
-         "type":"water"
+         "type":"grass"
         }, 
         {
          "id":92,
          "image":"tilesets\/roads\/waterNW.png",
          "imageheight":65,
          "imagewidth":100,
-         "type":"water"
+         "type":"grass"
         }, 
         {
          "id":93,
@@ -677,7 +677,7 @@
          "image":"tilesets\/roads\/waterSW.png",
          "imageheight":58,
          "imagewidth":100,
-         "type":"water"
+         "type":"grass"
         }, 
         {
          "id":95,

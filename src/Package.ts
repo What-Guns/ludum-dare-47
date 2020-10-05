@@ -89,12 +89,7 @@ export class Package extends GameObject {
       ctx.restore();
       dest.draw(ctx, 0.5);
     } else {
-      if(!this.job) return;
-      const value = this.job.score / this.job.packages.length;
-      ctx.textAlign = 'center';
-      ctx.font = '12px KenneyMini';
-      ctx.fillStyle = 'green';
-      ctx.fillText(`$${value}`, this.screenX, this.screenY - 30 + bobOffset);
+      if(this.job && this.job.packages[0] === this) this.drawJob(ctx);
     }
   }
 
@@ -102,8 +97,26 @@ export class Package extends GameObject {
     return game.map.car?.hasPackage(this) ?? false;
   }
 
-  chooseSprite(index: number) {
+  private chooseSprite(index: number) {
     return Package.IMAGES[index];
+  }
+
+  private drawJob(ctx: CanvasRenderingContext2D) {
+    if(!this.job) return;
+    const value = this.job.score / this.job.packages.length;
+    ctx.textAlign = 'center';
+    ctx.font = '12px KenneyMini';
+    ctx.fillStyle = 'green';
+    let sx = 0;
+    let sy = 0;
+    for(const pkg of this.job.packages) {
+      sx += pkg.screenX;
+      sy += pkg.screenY;
+    }
+
+    sx /= this.job.packages.length;
+    sy /= this.job.packages.length;
+    ctx.fillText(`$${value}`, sx, sy - 30);
   }
 }
 

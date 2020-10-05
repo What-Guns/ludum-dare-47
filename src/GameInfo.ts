@@ -42,12 +42,7 @@ export abstract class GameInfo {
   checkForJobComplete() {
     if (!game.map.objects.find(o => o instanceof Package)) {
       game.hud.messageBar.setNewMessage('Job complete!')
-      window.setTimeout(() => this.startNewJob(), 2000);
     }
-  }
-
-  startNewJob() {
-    game.hud.messageBar.setNewMessage('New job should start now')
   }
 
   abstract tick(dt: number): void;

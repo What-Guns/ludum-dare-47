@@ -85,6 +85,7 @@ async function loadMap(path: string) {
   function tick(timestamp: number) {
     if(game.over) {
       Audio.stfu();
+      Audio.playSFX('timeOver');
       showGameOver();
       return;
     }
@@ -102,6 +103,7 @@ async function loadMap(path: string) {
 async function loadAudio() {
   await Audio.load('audio/music/truckin.ogg', 'truckin');
   await Audio.load('audio/music/intro.ogg', 'intro');
+  await Audio.load('audio/sfx/time_over.ogg', 'timeOver');
 }
 
 function sizeCanvas() {

@@ -12,6 +12,8 @@ export class Game {
   // HACK map sets this!
   readonly hud!: HUD;
 
+  over = false;
+
   constructor(readonly mainCtx: CanvasRenderingContext2D, readonly bufferCtx: CanvasRenderingContext2D) {
     window.game = this;
   }

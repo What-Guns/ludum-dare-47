@@ -36,6 +36,7 @@ async function startTheGameAlready() {
 }
 
 async function loadMap(path: string) {
+  if(window.game) window.game.over = true;
   currentMapPath = path;
   const mainCtx = outputCanvas.getContext('2d')!;
   const bufferCtx = bufferCanvas.getContext('2d')!;
@@ -47,6 +48,7 @@ async function loadMap(path: string) {
 
   let lastTick = 0;
   function tick(timestamp: number) {
+    if(game.over) return;
     if(lastTick !== 0) {
       const dt = Math.min(timestamp - lastTick, BIG_TICK_ENERGY);
       game.tick(dt);

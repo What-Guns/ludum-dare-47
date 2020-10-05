@@ -82,10 +82,12 @@ export class PackageSpawn extends GameObject {
 
   getsPackage(){
      const randomNum = Math.random();
-    if (!this.hasPackage && randomNum < .5){
+     if (!this.hasPackage){
+       if (randomNum < .5){
         this.spawnPackage()
-      } else if (!this.hasPackage && randomNum >=.5){
+      } else {
         this.visible = false;
+        }
       }
     }
     
@@ -115,6 +117,7 @@ export class PackageSpawn extends GameObject {
       properties: {},
       deliveryZone,
     });
+
     game.map.add(apackage);
   }
 

@@ -892,7 +892,7 @@
                  "y":72
                 }, 
                 {
-                 "data":[77, 77, 22, 77, 77, 51, 35, 35, 35, 35, 35, 35, 35, 35, 35, 84, 35, 35, 35, 35, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 35, 35, 35, 84, 84, 84, 35, 35, 35, 35, 35, 67, 67, 84],
+                 "data":[77, 77, 22, 77, 77, 23, 35, 35, 35, 35, 35, 35, 35, 67, 35, 84, 35, 35, 35, 35, 84, 14, 84, 84, 84, 84, 84, 84, 84, 14, 84, 84, 84, 84, 84, 84, 84, 14, 84, 84, 84, 84, 84, 84, 84, 14, 84, 84, 84, 84, 35, 35, 35, 14, 84, 84, 35, 35, 35, 35, 35, 67, 35, 84],
                  "height":8,
                  "width":8,
                  "x":72,
@@ -983,7 +983,7 @@
                  "y":80
                 }, 
                 {
-                 "data":[35, 35, 35, 35, 35, 67, 67, 35, 35, 35, 35, 35, 35, 67, 67, 35, 35, 35, 35, 35, 35, 67, 67, 35, 35, 35, 35, 35, 35, 67, 67, 35, 35, 35, 35, 35, 35, 67, 66, 77, 35, 48, 45, 45, 45, 31, 45, 45, 35, 47, 65, 65, 65, 65, 65, 65, 35, 47, 65, 65, 65, 65, 65, 65],
+                 "data":[35, 35, 35, 35, 35, 67, 35, 35, 35, 35, 35, 35, 35, 67, 35, 35, 35, 35, 35, 35, 35, 67, 35, 35, 35, 35, 35, 35, 35, 67, 35, 35, 35, 35, 35, 35, 35, 21, 77, 77, 35, 48, 45, 45, 45, 31, 45, 45, 35, 47, 65, 65, 65, 65, 65, 65, 35, 47, 65, 65, 65, 65, 65, 65],
                  "height":8,
                  "width":8,
                  "x":72,
@@ -1422,7 +1422,7 @@
                 {
                  "height":100,
                  "id":284,
-                 "name":"",
+                 "name":"Pete's Horrible Package Spawner",
                  "rotation":0,
                  "type":"PackageSpawn",
                  "visible":true,
@@ -1434,6 +1434,12 @@
                  "height":250,
                  "id":540,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"fillInterior",
+                         "type":"bool",
+                         "value":true
+                        }],
                  "rotation":0,
                  "type":"BuildingBlock",
                  "visible":true,
@@ -1574,7 +1580,7 @@
                  "y":2150
                 }, 
                 {
-                 "height":250,
+                 "height":200,
                  "id":556,
                  "name":"",
                  "rotation":0,
@@ -1849,7 +1855,7 @@
                  "y":3350
                 }, 
                 {
-                 "height":250,
+                 "height":200,
                  "id":586,
                  "name":"",
                  "rotation":0,
@@ -1857,12 +1863,18 @@
                  "visible":true,
                  "width":250,
                  "x":2450,
-                 "y":3350
+                 "y":3400
                 }, 
                 {
-                 "height":250,
+                 "height":200,
                  "id":587,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"fillInterior",
+                         "type":"bool",
+                         "value":true
+                        }],
                  "rotation":0,
                  "type":"BuildingBlock",
                  "visible":true,
@@ -2056,8 +2068,8 @@
                  "type":"PackageSpawn",
                  "visible":true,
                  "width":100,
-                 "x":3250,
-                 "y":3050
+                 "x":2050,
+                 "y":3350
                 }, 
                 {
                  "height":250,
@@ -2180,8 +2192,8 @@
                  "type":"DeliveryZone",
                  "visible":true,
                  "width":50,
-                 "x":1100,
-                 "y":1500
+                 "x":1150,
+                 "y":1450
                 }, 
                 {
                  "height":50,
@@ -2191,8 +2203,107 @@
                  "type":"PackageSpawn",
                  "visible":true,
                  "width":50,
-                 "x":1150,
-                 "y":1450
+                 "x":1100,
+                 "y":1500
+                }, 
+                {
+                 "height":450,
+                 "id":629,
+                 "name":"A really big delivery zone",
+                 "rotation":0,
+                 "type":"DeliveryZone",
+                 "visible":true,
+                 "width":450,
+                 "x":3750,
+                 "y":4350
+                }, 
+                {
+                 "height":250,
+                 "id":632,
+                 "name":"",
+                 "rotation":0,
+                 "type":"PackageSpawn",
+                 "visible":true,
+                 "width":100,
+                 "x":2300,
+                 "y":300
+                }, 
+                {
+                 "height":250,
+                 "id":634,
+                 "name":"",
+                 "rotation":0,
+                 "type":"PackageSpawn",
+                 "visible":true,
+                 "width":100,
+                 "x":3250,
+                 "y":3050
+                }, 
+                {
+                 "height":250,
+                 "id":635,
+                 "name":"",
+                 "rotation":0,
+                 "type":"PackageSpawn",
+                 "visible":true,
+                 "width":100,
+                 "x":4800,
+                 "y":1500
+                }, 
+                {
+                 "height":250,
+                 "id":636,
+                 "name":"",
+                 "rotation":0,
+                 "type":"DeliveryZone",
+                 "visible":true,
+                 "width":100,
+                 "x":3800,
+                 "y":850
+                }, 
+                {
+                 "height":50,
+                 "id":637,
+                 "name":"",
+                 "rotation":0,
+                 "type":"PackageSpawn",
+                 "visible":true,
+                 "width":150,
+                 "x":2650,
+                 "y":2950
+                }, 
+                {
+                 "height":100,
+                 "id":638,
+                 "name":"",
+                 "rotation":0,
+                 "type":"PackageSpawn",
+                 "visible":true,
+                 "width":100,
+                 "x":900,
+                 "y":4250
+                }, 
+                {
+                 "height":100,
+                 "id":639,
+                 "name":"",
+                 "rotation":0,
+                 "type":"PackageSpawn",
+                 "visible":true,
+                 "width":100,
+                 "x":1750,
+                 "y":4550
+                }, 
+                {
+                 "height":100,
+                 "id":640,
+                 "name":"",
+                 "rotation":0,
+                 "type":"DeliveryZone",
+                 "visible":true,
+                 "width":100,
+                 "x":1300,
+                 "y":3950
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -2201,7 +2312,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":629,
+ "nextobjectid":641,
  "orientation":"isometric",
  "properties":[
         {

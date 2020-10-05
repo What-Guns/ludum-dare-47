@@ -66,8 +66,8 @@ export class DynamicGameInfo extends GameInfo {
   private readonly jobs: Job[] = [];
 
   timeUntilNextJob = 60_000;
-  minTimeBetweenJobs = 10_000;
-  maxTimeBetweenJobs = 120_000;
+  minTimeBetweenJobs = 5_000;
+  maxTimeBetweenJobs = 30_000
 
   minDeliveriesPerJob = 1;
   maxDeliveriesPerJob = 3;

@@ -44,6 +44,7 @@ export class MessageBar {
   }
 
   setNewMessage(msg: string) {
+    if (this.goalMessage === msg) return;
     this.goalMessage = msg;
     this.messageText = this.gibberish(msg.length);
     this.currentIterations = 0;

@@ -214,6 +214,7 @@ export class Car extends GameObject {
   accelerate(dt: number) {
     this.timeInReverse = 0;
     this.speed += this.ACCELERATION * dt;
+    this.terrain = 'grass';     // DEBUG CODE DON'T FORGET TO GET RID OF THIS LINE RIGHT HERE
     if (this.speed >= TERRAIN_SPEED[this.terrain]) {
       this.speed = TERRAIN_SPEED[this.terrain]
     }
@@ -336,12 +337,8 @@ export class Car extends GameObject {
   }
 
   private collideWithPackage(obj: Package) {
-    if (this.map.gameInfo!.currentlyHeldPackages < this.PACKAGE_CAPACITY){
-      const distanceToPackageSquared = Math.pow(this.x - obj.x, 2) + Math.pow(this.y - obj.y, 2);
-      if (distanceToPackageSquared < this.radius) this.collectPackage(obj);
-    } else {
-      this.denyPackage()
-    }
+    const distanceToPackageSquared = Math.pow(this.x - obj.x, 2) + Math.pow(this.y - obj.y, 2);
+    if (distanceToPackageSquared < this.radius) this.collectPackage(obj);
     return null;
   }
 
@@ -352,6 +349,9 @@ export class Car extends GameObject {
   }
 
   collectPackage(pkg: Package) {
+    if (this.getGameInfo().currentlyHeldPackages >= this.PACKAGE_CAPACITY) {
+      return this.denyPackage();
+    }
     Audio.playSFX('pickup');
     this.map.gameInfo!.incrementPackages();
     const node = { item: pkg, next: null };

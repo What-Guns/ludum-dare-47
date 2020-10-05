@@ -21,8 +21,8 @@ export class Job {
 
   constructor(readonly packages: Array<Package>, readonly onComplete: Function, manifest: JobManifest) {
     this.description = manifest.description;
-    this.score = manifest.score;
-    this.timeAdd = manifest.timeAdd;
+    this.score = manifest.score ?? 0;
+    this.timeAdd = manifest.timeAdd ?? 0;
     packages.forEach(p => p.job = this);
   }
 

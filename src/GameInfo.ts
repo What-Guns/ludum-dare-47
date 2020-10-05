@@ -53,6 +53,7 @@ export abstract class GameInfo {
       game.hud.messageBar.setNewMessage('Job complete!')
       return true;
     }
+    return false;
   }
 
   abstract tick(dt: number): void;

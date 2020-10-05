@@ -2,6 +2,7 @@ import { GameObject, SerializedObject } from './GameObject.js';
 import { Serializable } from './serialization.js';
 import { computeScreenCoords, ScreenPoint } from './math.js';
 import {Package} from './Package.js';
+import {DeliveryZone} from './DeliveryZone.js';
 
 export interface PackageSpawnProp extends SerializedObject {
   visible?: boolean;
@@ -102,7 +103,11 @@ export class PackageSpawn extends GameObject {
   spawnPackage(){
     this.hasPackage = true;
     this.visible = true;
-        const apackage = new Package({
+
+    const deliveryZones = this.map.expensivelyFindObjectsOfType(DeliveryZone);
+    const deliveryZone = deliveryZones[Math.floor(Math.random() * deliveryZones.length)];
+
+    const apackage = new Package({
       id: Math.floor(Math.random() * 100000),
       map: this.map,
       x: this.randomPointInsidePackageSpawn()[0],
@@ -110,6 +115,7 @@ export class PackageSpawn extends GameObject {
       name: 'bob',
       type: Package.name,
       properties: {},
+      deliveryZone,
     });
     this.map.add(apackage);
   }

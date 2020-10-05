@@ -4,7 +4,7 @@ import {Terrain} from './GameMap.js';
 import {Obstacle} from './Obstacle.js';
 import {Serializable} from './serialization.js';
 import {Audio} from './Audio.js';
-import {clamp, Point} from './math.js';
+import {clamp, Point, pointIsInside} from './math.js';
 import {RespawnPoint} from './RespawnPoint.js';
 import { Package } from './Package.js';
 import { GameInfo } from './GameInfo.js';
@@ -159,7 +159,7 @@ export class Car extends GameObject {
       this.map.remove(this);
 
       const sprite = this.chooseSprite(this.snappedDirectionIndex);
-      this.map.expensivelyfindNearestOfType(RespawnPoint, this)?.spawnGhost(this, sprite);
+      this.map.expensivelyFindNearestOfType(RespawnPoint, this)?.spawnGhost(this, sprite);
     }
 
     const currentCollisions = this.collideWithObjects();
@@ -168,6 +168,7 @@ export class Car extends GameObject {
     }
 
     this.pullPackages();
+    this.packages = this.deliverPackages(this.packages);
   }
   
   draw(ctx: CanvasRenderingContext2D) {
@@ -271,11 +272,22 @@ export class Car extends GameObject {
   }
 
   private pullPackages() {
-    let towards: Point = this;
+    let pullTowards: Point = this;
     for(let node = this.packages; node; node = node.next) {
-      node.item.dragTowards(towards);
-      towards = node.item;
+      node.item.dragTowards(pullTowards);
+      pullTowards = node.item;
     }
+  }
+
+  /** Returns whether the package was delivered. */
+  private deliverPackages(head: List<Package>|null): List<Package>|null {
+    if(!head) return null;
+    head.next = this.deliverPackages(head.next);
+    if(pointIsInside(head.item, head.item.deliveryZone)) {
+      this.map.remove(head.item);
+      return head.next;
+    }
+    return head;
   }
 
   private collideWithObjects() {

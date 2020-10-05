@@ -1,10 +1,10 @@
 import {GameObject, SerializedObject} from './GameObject.js';
 import {Point} from './math.js';
+import {DeliveryZone} from './DeliveryZone.js';
 
 export class Package extends GameObject {
   screenX!: number;
   screenY!: number;
-  debug = "";
 
   bob = Math.random() * 1000;
   readonly bobSpeed = .006;
@@ -12,6 +12,8 @@ export class Package extends GameObject {
 
   spriteIndex: number;
   static IMAGES: Array<HTMLImageElement>;
+
+  readonly deliveryZone: DeliveryZone;
 
   private static async load() {
     Package.IMAGES = await Promise.all([
@@ -23,6 +25,11 @@ export class Package extends GameObject {
 
   tick(dt: number) {
     this.bob += dt;
+    if(!this.deliveryZone) {
+      console.error(`Package had no delivery zone! Picking closest one.`);
+      (this as any).deliveryZone = this.map.expensivelyFindNearestOfType(DeliveryZone, this);
+      if(!this.deliveryZone) throw new Error(`No delivery zone found`);
+    }
   }
 
   dragTowards({x, y}: Point) {
@@ -38,22 +45,30 @@ export class Package extends GameObject {
     this.map.objectMoved(this);
   }
 
-  static async deserialize(data: SerializedObject) {
+  static async deserialize(data: SerializedObject&{deliveryZone: DeliveryZone}) {
     await this.load();
-    return new Package({...data});
+    return new Package(data);
   }
 
-  constructor({...serialized}: SerializedObject&{}) {
+  constructor({deliveryZone, ...serialized}: SerializedObject&{deliveryZone: DeliveryZone}) {
     super(serialized);
     (window as any).package = this;
-    this.spriteIndex = Math.floor(1 + Math.random() * 2)
+    this.spriteIndex = Math.floor(1 + Math.random() * 2);
+    this.deliveryZone = deliveryZone;
   }
 
   draw(ctx: CanvasRenderingContext2D) {
     const sprite = this.chooseSprite(this.spriteIndex);
     const bobOffset = Math.sin(this.bob * this.bobSpeed) * this.bobAmplitude;
     ctx.drawImage(sprite, this.screenX - sprite.width / 2, bobOffset + this.screenY - sprite.height / 2);
-    ctx.fillText(this.debug, this.screenX + 30, this.screenY + 30);
+    ctx.fillText(this.id.toString(), this.screenX + 30, this.screenY + 30);
+
+    const dest = this.deliveryZone;
+    if(!dest) return;
+    ctx.beginPath();
+    ctx.moveTo(this.screenX, this.screenY);
+    ctx.lineTo(dest.center.screenX, dest.center.screenY);
+    ctx.stroke();
   }
 
   chooseSprite(index: number) {

@@ -22,6 +22,8 @@ export interface Size {
   height: number;
 }
 
+export type Box = Point&Size;
+
 type TileDimensions = {tilewidth: number, tileheight: number}
 
 export type GeoLookup<T> = {
@@ -38,6 +40,10 @@ export function removeFromArray<T>(obj: T, array: T[]) {
   const index = array.indexOf(obj);
   if(index === -1) return;
   array.splice(index, 1);
+}
+
+export function pointIsInside({x, y}: Point, box: Box) {
+  return x > box.x && x < box.x + box.width && y > box.y && y < box.y + box.height;
 }
 
 let scratchPoint: Point&ScreenPoint = {

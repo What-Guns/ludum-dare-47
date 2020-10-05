@@ -97,9 +97,12 @@ export class GameMap {
     return this.objectsById.get(id);
   }
 
-  expensivelyfindNearestOfType<T extends GameObject>(type: Type<T>, point: Point) {
-    return this.objects
-      .filter(obj => obj instanceof type)
+  expensivelyFindObjectsOfType<T extends GameObject>(type: Type<T>): T[] {
+    return this.objects.filter((obj): obj is T => obj instanceof type)
+  }
+
+  expensivelyFindNearestOfType<T extends GameObject>(type: Type<T>, point: Point) {
+    return this.expensivelyFindObjectsOfType(type)
       .map(obj => {
         return {
           obj,

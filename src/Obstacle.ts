@@ -61,10 +61,6 @@ export class Obstacle extends GameObject {
     return pt;
   }
 
-  pointIsInside(x: number, y: number) {
-    return x > this.x && x < this.x + this.width && y > this.y && y < this.y + this.height;
-  }
-
   midpointX() {
     return this.x + this.width/2;
   }

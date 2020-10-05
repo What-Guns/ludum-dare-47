@@ -9,15 +9,32 @@ addEventListener('load', () => {
 // any tick longer than this will be split into smaller ticks
 const BIG_TICK_ENERGY = 500;
 
+let currentMapPath = 'maps/map.json';
+
 async function startTheGameAlready() {
   const canvas = document.querySelector('canvas')!;
-  const ctx = canvas!.getContext('2d')!;
-  // const mapData = await loadJson('maps/map.json');
-  const mapData = await loadJson('maps/map.json');
+
+  await loadMap(currentMapPath);
   await loadAudio();
+  Audio.playMusic('truckin', 2.097)
+  
+  addEventListener('resize', sizeCanvas);
+
+  sizeCanvas();
+
+  function sizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+}
+
+async function loadMap(path: string) {
+  currentMapPath = path;
+  const canvas = document.querySelector('canvas')!;
+  const ctx = canvas!.getContext('2d')!;
+  const mapData = await loadJson(path);
 
   const game = await deserialize('Game', { ctx, mapData });
-  Audio.playMusic('truckin', 2.097)
 
   requestAnimationFrame(tick);
 
@@ -32,16 +49,7 @@ async function startTheGameAlready() {
     }
 
     lastTick = timestamp;
-    requestAnimationFrame(tick);
-  }
-
-  addEventListener('resize', sizeCanvas);
-
-  sizeCanvas();
-
-  function sizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    if (currentMapPath === path) requestAnimationFrame(tick);
   }
 }
 
@@ -50,4 +58,7 @@ async function loadAudio() {
   await Audio.load('audio/music/intro.ogg', 'intro');
   // (document.querySelector('#titleScreenMusicButton') as HTMLButtonElement).onclick = () => Audio.playMusic('intro', 13.640, 25.633);
 }
+
+(window as any).loadTut = () => loadMap('maps/tutorial.json');
+(window as any).loadMain = () => loadMap('maps/map.json');
 

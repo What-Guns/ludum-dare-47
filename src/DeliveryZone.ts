@@ -21,6 +21,7 @@ export class DeliveryZone extends GameObject {
   }
 
   draw(ctx: CanvasRenderingContext2D, potentialScore = 0) {
+    if(!potentialScore) return;
     ctx.save();
     if(potentialScore) {
       const hue = Math.floor(potentialScore * 120);

@@ -335,7 +335,7 @@ export class Car extends GameObject {
     return collisionExists ? target : null;
   }
 
-  private hasPackage(pkg: Package) {
+  hasPackage(pkg: Package) {
     for(let node = this.packages; node; node = node.next) {
       if(node.item === pkg) return true;
     }

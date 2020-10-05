@@ -65,6 +65,13 @@ export class Package extends GameObject {
   }
 
   draw(ctx: CanvasRenderingContext2D) {
+
+    const sprite = this.chooseSprite(this.spriteIndex);
+    const bobOffset = Math.sin(this.bob * this.bobSpeed) * this.bobAmplitude;
+    ctx.drawImage(sprite, this.screenX - sprite.width / 2, bobOffset + this.screenY - sprite.height / 2);
+    ctx.fillText(this.id?.toString() ?? 'PACKAGE WITH NO ID', this.screenX + 30, this.screenY + 30);
+
+    if(!this.isHeld()) return;
     const dest = this.deliveryZone;
     const direction = Math.atan2(dest.center.y - this.y, dest.center.x - this.x);
     ctx.save();
@@ -79,14 +86,11 @@ export class Package extends GameObject {
     ctx.arc(0, 0, 32, - angle, angle, false)
     ctx.stroke();
     ctx.restore();
-
-    const sprite = this.chooseSprite(this.spriteIndex);
-    const bobOffset = Math.sin(this.bob * this.bobSpeed) * this.bobAmplitude;
-    ctx.drawImage(sprite, this.screenX - sprite.width / 2, bobOffset + this.screenY - sprite.height / 2);
-    ctx.fillText(this.id?.toString() ?? 'PACKAGE WITH NO ID', this.screenX + 30, this.screenY + 30);
-
     dest.draw(ctx, 0.5);
+  }
 
+  private isHeld() {
+    return game.map.car?.hasPackage(this) ?? false;
   }
 
   chooseSprite(index: number) {

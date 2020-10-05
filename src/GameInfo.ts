@@ -13,10 +13,18 @@ export class GameInfo {
     this.getMessageBar().setNewMessage(`You have collected ${this.currentlyHeldPackages} so far!`);
   }
 
+  fallInWater() {
+    if (this.currentlyHeldPackages > 0) {
+      this.currentlyHeldPackages = 0;
+      this.getMessageBar().setNewMessage(`Splash! You lost all of your packages!`);
+    } else this.getMessageBar().setNewMessage(`Splash!`);
+  }
+
   deliverPackage(pkg: GameObject) {
     if (pkg instanceof Package) {
       this.getMessageBar().setNewMessage(`You delivered package number ${pkg.id.toString()}!`)
       pkg.map.remove(pkg);
+      this.currentlyHeldPackages--;
       this.checkForJobComplete();
     } else {
       console.error('Tried to deliver something that wasn\'t a package', pkg)

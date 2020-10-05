@@ -156,6 +156,7 @@ export class Car extends GameObject {
     if(this.terrain === 'water') {
       Audio.playSFX('splash');
       Audio.stop('engine');
+      this.getGameInfo().fallInWater();
       this.map.remove(this);
 
       const sprite = this.chooseSprite(this.snappedDirectionIndex);

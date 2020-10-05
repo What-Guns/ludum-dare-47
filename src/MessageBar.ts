@@ -6,13 +6,18 @@ export class MessageBar {
   private messageText = this.gibberish(this.goalMessage.length);
   private elapsedTime = 0;
   private currentIterations = 0;
+  private flashNow = false;
+  private flashTime = 0;
 
   readonly maxIterations = 5;
-  readonly timeBetweenIterations = 180;
+  readonly timeBetweenIterations = 100;
   readonly unscramblePercentage = 0.6;
   
   draw(ctx: CanvasRenderingContext2D){
     ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+    if (this.flashNow) {
+      ctx.fillStyle = 'darkgrey'
+    }
     const x = (1 - this.width) * ctx.canvas.width / 2;
     const y = ctx.canvas.height - this.bottomMargin - this.height;
     const width = ctx.canvas.width * this.width;
@@ -26,6 +31,7 @@ export class MessageBar {
 
   tick(dt: number){
     this.elapsedTime += dt;
+    this.flashTime += dt;
     if(this.elapsedTime > this.timeBetweenIterations) {
       this.elapsedTime -= this.timeBetweenIterations;
       if (this.currentIterations < this.maxIterations) {
@@ -35,10 +41,13 @@ export class MessageBar {
         this.messageText = this.goalMessage;
       }
     }
+    this.flashNow = this.flashTime < 2000 && (this.flashTime % 500 < 250)
   }
 
   setNewMessage(msg: string) {
     if (this.goalMessage === msg) return;
+    this.elapsedTime = 0;
+    this.flashTime = 0;
     this.goalMessage = msg;
     this.messageText = this.gibberish(msg.length);
     this.currentIterations = 0;

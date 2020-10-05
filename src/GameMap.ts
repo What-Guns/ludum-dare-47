@@ -23,7 +23,7 @@ export class GameMap {
     screenY: 0,
   };
 
-  private readonly objects: GameObject[] = [];
+  readonly objects: GameObject[] = [];
   private readonly objectsById = new Map<number, GameObject>();
 
   private readonly grid: [ScreenPoint, ScreenPoint][];

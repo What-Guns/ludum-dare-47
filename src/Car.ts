@@ -284,7 +284,6 @@ export class Car extends GameObject {
     if(!head) return null;
     head.next = this.deliverPackages(head.next);
     if(pointIsInside(head.item, head.item.deliveryZone)) {
-      //this.map.remove(head.item);
       this.getGameInfo().deliverPackage(head.item);
       return head.next;
     }

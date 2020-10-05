@@ -22,6 +22,7 @@ export class Game {
     const game = new Game(ctx);
     game.map = await deserialize(GameMap, mapData)
     game.map.setGameInfo(game.gameInfo);
+    game.gameInfo.map = game.map;
     // HACK! these objects reference each other, so we just set this here.
     return game;
   }

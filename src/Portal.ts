@@ -17,6 +17,8 @@ export class Portal extends GameObject {
   currentFace = 0;
   currentTime = 0;
 
+  cooldown = 0;
+
   constructor({width, height, properties, ...data}: SerializedObject) {
     super(data);
     this.destination = properties.destination as number|undefined;
@@ -31,6 +33,7 @@ export class Portal extends GameObject {
   tick(dt: number) {
     this.warpCars();
     this.currentTime += dt;
+    this.cooldown -= dt;
     if (this.currentTime > this.timeBetweenRotation) {
       this.currentTime -= this.timeBetweenRotation;
       this.currentFace ++;
@@ -43,25 +46,12 @@ export class Portal extends GameObject {
     if (!currentImage) return;
     ctx.save();
     ctx.drawImage(currentImage, this.center.screenX, this.center.screenY, 50, 20)
-    /*
-    ctx.lineWidth = 4;
-    ctx.strokeStyle = 'blue';
-
-    makeRectanglePath(ctx, this, this);
-    ctx.stroke();
-
-    const dest = this.destination && game.map.find(this.destination);
-    if(dest) {
-      ctx.beginPath();
-      ctx.moveTo(this.center.screenX, this.center.screenY);
-      ctx.lineTo(dest.screenX + (dest.width ?? 0)/2, dest.screenY + (dest.height ?? 0)/2);
-      ctx.stroke();
-    }*/
     ctx.restore();
   }
 
   private warpCars() {
     if(!this.destination) return;
+    if(this.cooldown > 0) return;
     for(const chunk of this.chunks) {
       for(const obj of chunk.objects) {
         if(obj instanceof Car) this.warpCar(obj);
@@ -86,11 +76,17 @@ export class Portal extends GameObject {
     const isColliding = (distSquared <= car.radius * car.radius);
 
     if(isColliding) {
+      const dest = this.destination ? game.map.find(this.destination) : undefined;
+      if(dest && (dest instanceof Portal)) dest.setCooldown();
       car.x = destObj.x + (destObj.width ?? 0)/2;
       car.y = destObj.y + (destObj.height ?? 0)/2;
       Audio.playSFX('warp');
       game.map.objectMoved(car);
     }
+  }
+
+  setCooldown() {
+    this.cooldown = 1000;
   }
 
   static async deserialize(obj: SerializedObject) {

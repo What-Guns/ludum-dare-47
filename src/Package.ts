@@ -90,7 +90,7 @@ export class Package extends GameObject {
       ctx.fill();
       ctx.stroke();
       ctx.restore();
-      dest.draw(ctx, 0.5);
+      dest.draw(ctx, true);
     } else {
       if(this.job && this.job.packages[0] === this) this.drawJob(ctx);
     }

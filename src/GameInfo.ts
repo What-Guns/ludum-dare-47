@@ -75,7 +75,7 @@ export class DynamicGameInfo extends GameInfo {
   maxTimeBetweenJobs = 120_000;
 
   minDeliveriesPerJob = 1;
-  maxDeliveriesPerJob = 1;
+  maxDeliveriesPerJob = 3;
 
   // When crating jobs, pick the n closest spawn points.
   numClosestSpawnersToChooseFrom = 3;
@@ -102,10 +102,10 @@ export class DynamicGameInfo extends GameInfo {
     this.timeUntilNextJob = randomBetween(this.minTimeBetweenJobs, this.maxTimeBetweenJobs);
 
 
-    const sources = this.chooseSources();
+    const source = this.chooseSource();
     const destinations = this.chooseDestinations();
 
-    const deliveries = Array.from(this.createDeliveries(sources, destinations));
+    const deliveries = Array.from(this.createDeliveries(source, destinations));
 
     const score = deliveries
       .map(d => distanceSquared(d.destination, d.spawner))
@@ -129,18 +129,18 @@ export class DynamicGameInfo extends GameInfo {
     this.jobs.push(job);
   }
 
-  private *createDeliveries(sources: PackageSpawn[], destinations: DeliveryZone[]) {
+  private *createDeliveries(source: PackageSpawn, destinations: DeliveryZone[]) {
     const numDeliveries = randomBetween(this.minDeliveriesPerJob, this.maxDeliveriesPerJob);
     for(let i = 0; i < numDeliveries; i++) {
       const delivery = {
-        spawner: sources[randomBetween(0, sources.length)],
+        spawner: source,
         destination: destinations[randomBetween(0, destinations.length)],
       }
       yield delivery;
     }
   }
 
-  private chooseSources() {
+  private chooseSource() {
     let sources = game.map.expensivelyFindObjectsOfType(PackageSpawn);
     if(!sources.length) throw new Error(`No package sources, can't start a new job!`);
 
@@ -150,7 +150,7 @@ export class DynamicGameInfo extends GameInfo {
       sources = sources.slice(0, 3);
     }
 
-    return sources;
+    return sources[randomBetween(0, sources.length)];
   }
 
   private chooseDestinations() {

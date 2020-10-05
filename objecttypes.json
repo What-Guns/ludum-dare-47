@@ -74,6 +74,12 @@
         ]
     },
     {
+        "color": "#ffffaa00",
+        "name": "DeliveryZone",
+        "properties": [
+        ]
+    },
+    {
         "color": "#ffaa0000",
         "name": "Obstacle",
         "properties": [
@@ -83,18 +89,17 @@
         "color": "#ffa0a0a4",
         "name": "Package",
         "properties": [
-            {
-                "name": "direction",
-                "type": "float",
-                "value": 0
-            }
         ]
     },
     {
         "color": "#ff00ff00",
         "name": "PackageSpawn",
         "properties": [
-            
+            {
+                "name": "deliveryZone",
+                "type": "object",
+                "value": 0
+            }
         ]
     },
     {

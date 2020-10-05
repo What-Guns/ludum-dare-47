@@ -127,7 +127,7 @@ export class DynamicGameInfo extends GameInfo {
         destinationId: d.destination.id!,
       })),
       description: 'do a job',
-      timeAdd: 30_000,
+      timeAdd: 15_000,
       score: Math.floor(score * 100)/100,
     };
 

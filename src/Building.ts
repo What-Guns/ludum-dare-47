@@ -1,4 +1,5 @@
 import {GameObject, SerializedObject, reduceProperties} from './GameObject.js';
+import {SeedRandom} from './seedrandom';
 import {Point} from './math.js';
 import {GameMap} from './GameMap.js';
 import {Serializable} from './serialization.js';
@@ -49,7 +50,7 @@ export class Building extends GameObject {
     ctx.clip();
   }
 
-  static async create(map: GameMap, {x, y}: Point, zoning: ZoningRestrictions) {
+  static async create(map: GameMap, {x, y}: Point, zoning: ZoningRestrictions, seed: string) {
     return this.deserialize({
       id: -1,
       name: '',
@@ -58,20 +59,22 @@ export class Building extends GameObject {
       y,
       map,
       properties: zoning as any,
-    });
+    }, seed);
   }
 
-  static async deserialize(obj: SerializedObject) {
+  static async deserialize(obj: SerializedObject, seed?: string) {
     const {pieces, grid} = await buildings;
+
+    const rnd = new Math.seedrandom(seed);
 
     const myPieces = [];
 
     const {tallness: fixedTallness, maxTallness = 8, minTallness = 2, ...globalFilter} = obj.properties as unknown as ZoningRestrictions&{tallness?: number};
 
-    const tallness = fixedTallness ?? minTallness + Math.floor(Math.random() * (maxTallness - minTallness));
+    const tallness = fixedTallness ?? minTallness + Math.floor(rnd() * (maxTallness - minTallness));
 
-    if(!globalFilter.color && Math.random() > 0.6) {
-      globalFilter.color = pickRandom(['red', 'yellow', 'white', 'brown']);
+    if(!globalFilter.color && rnd() > 0.6) {
+      globalFilter.color = pickRandom(['red', 'yellow', 'white', 'brown'], rnd);
     }
 
     for(let i = 0; i < tallness; i++) {
@@ -81,7 +84,7 @@ export class Building extends GameObject {
         middle: i > 0 && i < tallness - 1 || undefined,
         top: i === tallness - 1 || undefined,
       };
-      myPieces.push(pickPiece(pieces, filter));
+      myPieces.push(pickPiece(pieces, filter, rnd));
     }
 
     return new Building({
@@ -109,7 +112,7 @@ async function loadPieces(pieces: BuildingPiece[]) {
   }));
 }
 
-function pickPiece(pieces: BuildingPiece[], filters: BuildingFilters): BuildingPiece {
+function pickPiece(pieces: BuildingPiece[], filters: BuildingFilters, rnd: SeedRandom): BuildingPiece {
   for(const [key, value] of Object.entries(filters)) {
     if(value === undefined || value === "") delete (filters as any)[key];
   }
@@ -127,10 +130,10 @@ function pickPiece(pieces: BuildingPiece[], filters: BuildingFilters): BuildingP
     if(!filters.color) throw new Error(`No pieces match the filter ${JSON.stringify(filters)}`);
     console.warn(`Warning: no pieces match ${JSON.stringify(filters)}`);
     delete filters.color;
-    return pickPiece(pieces, filters);
+    return pickPiece(pieces, filters, rnd);
   }
 
-  return pickRandom(legalPieces);
+  return pickRandom(legalPieces, rnd);
 }
 
 type BuildingFilters = Partial<Pick<BuildingPiece, 'top'|'middle'|'bottom'|'color'>>;
@@ -188,6 +191,6 @@ async function loadBuildings(): Promise<BuildingSet> {
   return { pieces, grid };
 }
 
-function pickRandom<T>(items: T[]) {
-  return items[Math.floor((Math.random() * items.length))];
+function pickRandom<T>(items: T[], rnd: SeedRandom) {
+  return items[Math.floor((rnd() * items.length))];
 }

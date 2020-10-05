@@ -38,7 +38,7 @@ export function removeFromArray<T>(obj: T, array: T[]) {
 declare global {
   interface Math {
     seedrandom: {
-      new(seed: any): SeedRandom;
+      new(seed?: any): SeedRandom;
     }
   }
 }

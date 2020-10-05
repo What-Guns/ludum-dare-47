@@ -2,6 +2,7 @@ import {SerializedObject} from './GameObject.js';
 import {Obstacle, ObstacleProps} from './Obstacle.js';
 import {Serializable} from './serialization.js';
 import {Building, ZoningRestrictions} from './Building.js';
+import {SeedRandom} from './seedrandom';
 
 @Serializable()
 export class BuildingBlock extends Obstacle {
@@ -9,7 +10,7 @@ export class BuildingBlock extends Obstacle {
     if(typeof(data.width) !== 'number') throw new Error(`Invalid width ${data.width}`);
     if(typeof(data.height) !== 'number') throw new Error(`Invalid height ${data.height}`);
 
-    const {fillInterior, ...properties} = data.properties;
+    const {fillInterior, seed, ...properties} = data.properties;
 
     const zoning: ZoningRestrictions = {
       minTallness: 2,
@@ -17,13 +18,15 @@ export class BuildingBlock extends Obstacle {
       ...properties,
     };
 
+    const rnd = new Math.seedrandom(seed ?? `${data.x}-${data.y}`);
+
     const waitFor: Promise<Building>[] = [];
     for(let x = 0; x < data.width; x++) {
       for(let y = 0; y < data.height; y++) {
         if(!fillInterior && isInterior(x, y, data.width, data.height)) continue;
-        const direction = chooseDirection(x, y, data.width, data.height);
+        const direction = chooseDirection(rnd, x, y, data.width, data.height);
         const where = { x: data.x + x, y: data.y + y, };
-        waitFor.push(Building.create(data.map, where, {...zoning, direction}));
+        waitFor.push(Building.create(data.map, where, {...zoning, direction}, rnd.int32().toString()));
       }
     }
 
@@ -33,7 +36,7 @@ export class BuildingBlock extends Obstacle {
   }
 }
 
-function chooseDirection(x: number, y: number, width: number, height: number) {
+function chooseDirection(rnd: SeedRandom, x: number, y: number, width: number, height: number) {
   const directions = new Set(['north', 'east', 'south', 'west']);
   if (x > 0) directions.delete('west');
   if (x < width - 1) directions.delete('east');
@@ -41,7 +44,7 @@ function chooseDirection(x: number, y: number, width: number, height: number) {
   if (y < height - 1) directions.delete('south');
 
   if(directions.size === 0) return undefined;
-  const index = Math.floor(Math.random() * directions.size);
+  const index = rnd.int32() % directions.size;
   return Array.from(directions)[index];
 }
 

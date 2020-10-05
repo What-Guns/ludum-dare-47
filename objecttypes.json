@@ -54,6 +54,11 @@
                 "name": "minTallness",
                 "type": "int",
                 "value": 1
+            },
+            {
+                "name": "seed",
+                "type": "string",
+                "value": ""
             }
         ]
     },

@@ -1595,7 +1595,7 @@
          "source":"terrain.json"
         }, 
         {
-         "firstgid":97,
+         "firstgid":98,
          "source":"buildings.json"
         }],
  "tilewidth":100,

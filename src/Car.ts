@@ -120,10 +120,7 @@ export class Car extends GameObject {
     }
     if (isKeyPressed('KeyW') || isKeyPressed('ArrowUp')) {
       this.accelerate(dt);
-      Audio.setPlaybackSpeed('engine', ((this.speed / this.MAX_SPEED) * (this.MAX_ENGINE_PITCH - 1) + 1.0));
-    } else {
-      Audio.setPlaybackSpeed('engine', 1.0);
-    }
+    } 
     if (isKeyPressed('KeyA') || isKeyPressed('ArrowLeft')) {
       this.turnLeft(dt);
       turning = true;
@@ -178,6 +175,8 @@ export class Car extends GameObject {
 
     this.pullPackages();
     this.packages = this.deliverPackages(this.packages);
+
+    Audio.setPlaybackSpeed('engine', ((this.speed / this.MAX_SPEED) * (this.MAX_ENGINE_PITCH - 1) + 1.0));
   }
   
   draw(ctx: CanvasRenderingContext2D) {

@@ -1,6 +1,6 @@
 import { GameObject, SerializedObject } from './GameObject.js';
 import { Serializable } from './serialization.js';
-import { computeScreenCoords, ScreenPoint } from './math.js';
+import {makeRectanglePath} from './math.js'
 
 export interface ObstacleProps extends SerializedObject {
   visible?: boolean;
@@ -17,21 +17,13 @@ export class Obstacle extends GameObject {
 
   visible: boolean;
 
-  /** All corners except the top, which is represented by screenX/Y. */
-  private otherCorners: ScreenPoint[];
-
   constructor(data: ObstacleProps) {
     super(data);
     this.visible = data.visible ?? true;
     (window as any).obstacle = this;
-    const {x, y, width, height, map} = data;
+    const {width, height} = data;
     this.height = height;
     this.width = width;
-    this.otherCorners = [
-      computeScreenCoords({}, {x: x + width, y}, map.world),
-      computeScreenCoords({}, {x: x + width, y: y + height}, map.world),
-      computeScreenCoords({}, {x, y: y + height}, map.world),
-    ];
   }
 
   draw(ctx: CanvasRenderingContext2D) {
@@ -42,10 +34,7 @@ export class Obstacle extends GameObject {
     ctx.strokeStyle = 'red';
     ctx.lineWidth = 2;
 
-    ctx.beginPath();
-    ctx.moveTo(this.screenX, this.screenY);
-    for(const corner of this.otherCorners) ctx.lineTo(corner.screenX, corner.screenY);
-    ctx.closePath();
+    makeRectanglePath(ctx, this, this, this.map.world);
     ctx.fill();
     ctx.stroke();
 

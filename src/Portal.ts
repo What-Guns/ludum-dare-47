@@ -1,7 +1,7 @@
 import {Serializable} from './serialization.js';
 import {GameObject, SerializedObject} from './GameObject.js';
 import {Car} from './Car.js';
-import {clamp, computeScreenCoords, ScreenPoint} from './math.js';
+import {clamp, computeScreenCoords, ScreenPoint, makeRectanglePath} from './math.js';
 import {Audio} from './Audio.js';
 
 @Serializable()
@@ -27,16 +27,20 @@ export class Portal extends GameObject {
   }
 
   draw(ctx: CanvasRenderingContext2D) {
-    const dest = this.destination && this.map.find(this.destination);
-    if(!dest) return;
-
     ctx.save();
     ctx.lineWidth = 4;
     ctx.strokeStyle = 'blue';
-    ctx.beginPath();
-    ctx.moveTo(this.center.screenX, this.center.screenY);
-    ctx.lineTo(dest.screenX + (dest.width ?? 0)/2, dest.screenY + (dest.height ?? 0)/2);
+
+    makeRectanglePath(ctx, this, this, this.map.world);
     ctx.stroke();
+
+    const dest = this.destination && this.map.find(this.destination);
+    if(dest) {
+      ctx.beginPath();
+      ctx.moveTo(this.center.screenX, this.center.screenY);
+      ctx.lineTo(dest.screenX + (dest.width ?? 0)/2, dest.screenY + (dest.height ?? 0)/2);
+      ctx.stroke();
+    }
     ctx.restore();
   }
 

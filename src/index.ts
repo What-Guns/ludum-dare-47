@@ -9,7 +9,7 @@ addEventListener('load', () => {
 // any tick longer than this will be split into smaller ticks
 const BIG_TICK_ENERGY = 500;
 
-let currentMapPath = 'maps/map.json';
+let currentMapPath = 'maps/tutorial.json';
 
 async function startTheGameAlready() {
   const canvas = document.querySelector('canvas')!;

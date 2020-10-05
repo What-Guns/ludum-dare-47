@@ -101,7 +101,7 @@ export class PackageSpawn extends GameObject {
     
   }
 
-  spawnPackage(dz: DeliveryZone | undefined){
+  spawnPackage(dz?: DeliveryZone){
     this.hasPackage = true;
     this.visible = true;
 
@@ -110,6 +110,8 @@ export class PackageSpawn extends GameObject {
       const deliveryZones = game.map.expensivelyFindObjectsOfType(DeliveryZone);
       deliveryZone = deliveryZones[Math.floor(Math.random() * deliveryZones.length)];
     }
+
+    deliveryZone = deliveryZone!;
 
     const apackage = new Package({
       id: Math.floor(Math.random() * 100000),

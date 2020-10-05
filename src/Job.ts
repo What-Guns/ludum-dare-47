@@ -1,3 +1,4 @@
+import { DeliveryZone } from "./DeliveryZone.js";
 import { Package } from "./Package.js";
 import { PackageSpawn } from "./PackageSpawn.js";
 
@@ -8,22 +9,29 @@ export class Job {
 
   deliverPackage(pkg: Package) {
     this.packages.splice(this.packages.findIndex(p => p === pkg), 1);
-    console.log(this.packages)
     if (!this.packages.length) this.onComplete();
   }
 
-  static fromManifest(manifest: string) {
+  static fromManifest(manifest: Array<{spawnerId: number, destinationId: number}>, onComplete: Function) {
     const pkgs: Array<Package> = [];
-    const spawner = (window as any).game.map.find(31);
-    if (spawner instanceof PackageSpawn) {
-      pkgs.push(spawner.spawnPackage(this.dzById(34)))
-      //pkgs.push(spawner.spawnPackage((window as any).game.map.find(35)))
-      //pkgs.push(spawner.spawnPackage((window as any).game.map.find(36)))
-    }
-    return new Job(pkgs, () => this.sendMessage('Job complete!'));
+    manifest.forEach(item => {
+      const spawner = this.findById(item.spawnerId);
+      if (spawner instanceof PackageSpawn) {
+        const deliveryZone = this.findById(item.destinationId);
+        if (deliveryZone instanceof DeliveryZone) {
+          pkgs.push(spawner.spawnPackage(deliveryZone))
+        } else {
+          console.error('Could not spawn package: invalid delivery zone:', deliveryZone);
+        }
+      } else {
+        console.error('Could not spawn package: invalid spawner:', spawner);
+      }
+    });
+    
+    return new Job(pkgs, onComplete);
   }
 
-  static dzById(id: number) {
+  static findById(id: number) {
     return (window as any).game.map.find(id);
   }
 

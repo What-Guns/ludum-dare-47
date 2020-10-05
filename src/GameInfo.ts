@@ -11,7 +11,11 @@ export class GameInfo {
   job?: Job;
 
   constructor() {
-    window.setTimeout(() => this.job = Job.fromManifest(''), 6000);
+    window.setTimeout(() => this.job = Job.fromManifest([
+      { spawnerId: 31, destinationId: 34 },
+      { spawnerId: 31, destinationId: 35 },
+      { spawnerId: 31, destinationId: 36 },
+    ], () => game.hud.messageBar.setNewMessage(`Job complete!`)), 6000);
   }
 
   incrementPackages(num = 1) {

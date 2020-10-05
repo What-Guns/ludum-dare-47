@@ -8,14 +8,12 @@ export class TimeRemaining implements HUDElement{
   readonly PULSE_SPEED = 0.003;
   readonly PULSE_AMPLITUDE = 1;
 
-  timeInMillis = 22347;
   timeString = '';
 
   draw(ctx: CanvasRenderingContext2D) {
-    /*if(this.timeInMillis < 0)*/ return;
-    const critical = this.timeInMillis < this.CRITICAL_TIME;
+    const critical = game.gameInfo.timeRemaining < this.CRITICAL_TIME;
     ctx.save();
-    const sorryForNotNamingThisBetter = this.PULSE_AMPLITUDE * Math.sin((this.timeInMillis - this.CRITICAL_TIME) * this.PULSE_SPEED);
+    const sorryForNotNamingThisBetter = this.PULSE_AMPLITUDE * Math.sin((game.gameInfo.timeRemaining - this.CRITICAL_TIME) * this.PULSE_SPEED);
     const scale = critical ? 1 + Math.abs(sorryForNotNamingThisBetter) : 1.0;
     ctx.translate(ctx.canvas.width / 2 - (scale * 145), 0);
     ctx.scale(scale, scale);
@@ -30,12 +28,12 @@ export class TimeRemaining implements HUDElement{
   }
 
   tick(dt: number) {
-    this.timeInMillis -= dt;
+    game.gameInfo.timeRemaining -= dt;
     this.calculateTimeString();
   }
   
   calculateTimeString() {
-    const date = new Date(this.timeInMillis);
+    const date = new Date(game.gameInfo.timeRemaining);
     this.timeString = `${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}.${String(date.getMilliseconds()).padStart(3, '0')}`;
   }
 

@@ -17,10 +17,12 @@ export interface Delivery {
 export class Job {
   readonly description: string;
   readonly score: number;
+  readonly timeAdd: number;
 
   constructor(readonly packages: Array<Package>, readonly onComplete: Function, manifest: JobManifest) {
     this.description = manifest.description;
     this.score = manifest.score;
+    this.timeAdd = manifest.timeAdd;
     packages.forEach(p => p.job = this);
   }
 
@@ -28,6 +30,7 @@ export class Job {
     this.packages.splice(this.packages.findIndex(p => p === pkg), 1);
     if (!this.packages.length) {
       game.gameInfo.score += this.score;
+      game.gameInfo.timeRemaining += this.timeAdd;
       this.onComplete();
     }
   }

@@ -7,7 +7,7 @@ import { removeFromArray, distanceSquared } from './math.js';
 import { Car } from './Car.js';
 import { GhostCar } from './RespawnPoint.js';
 import { DeliveryZone } from './DeliveryZone.js';
-import { generateTutorialEvents } from "./TutorialEvents.js";
+import { runTutorialEvents } from "./TutorialEvents.js";
 
 export abstract class GameInfo {
   currentlyHeldPackages = 0;
@@ -18,7 +18,7 @@ export abstract class GameInfo {
 
   incrementPackages(num = 1) {
     this.currentlyHeldPackages += num;
-    game.hud.messageBar.setNewMessage(`You have collected ${this.currentlyHeldPackages} so far!`);
+    // game.hud.messageBar.setNewMessage(`You have collected ${this.currentlyHeldPackages} so far!`);
   }
 
   fallInWater() {
@@ -58,24 +58,11 @@ export class StaticGameInfo extends GameInfo {
 
   constructor(private readonly manifests: JobManifest[], delay: number) {
     super();
-    generateTutorialEvents(delay);
-    //setTimeout(() => this.popJob(), delay);
+    runTutorialEvents(delay);
   }
 
   tick() {
     // do nothing because this uses setTimeout. It probably shouldn't, but w/e.
-  }
-
-  private popJob() {
-    const manifest = this.manifests.pop();
-
-    if(!manifest) {
-      alert('You win');
-      return;
-    }
-
-    const job = Job.fromManifest(manifest, () => this.popJob());
-    game.hud.messageBar.setNewMessage(job.description);
   }
 }
 

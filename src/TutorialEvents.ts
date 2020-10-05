@@ -3,7 +3,7 @@ import { loadJson } from './loader.js';
 
 let te: {[key in string]: Array<EventItem | JobEventItem>};
 
-export async function generateTutorialEvents(delay: number) {
+export async function runTutorialEvents(delay: number) {
   const tutorialEvents = await loadJson('./src/tutorial-events.json');
   te = (tutorialEvents as {[key in string]: Array<EventItem | JobEventItem>});
   window.setTimeout(() => runEvent(te.init), delay)

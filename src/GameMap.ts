@@ -5,6 +5,7 @@ import {Serializable, deserialize, Type} from './serialization.js';
 import {TileProxy} from './TileProxy.js';
 import {loadImage, loadJson} from './loader.js';
 import {Point, GeoLookup, computeScreenCoords, ScreenPoint, removeFromArray} from './math.js';
+import {GhostCar} from './RespawnPoint.js';
 import {Car} from './Car.js';
 import { HUD } from './HUD.js';
 import { Package } from './Package.js';
@@ -78,6 +79,9 @@ export class GameMap {
     }
     if(obj instanceof Package) {
       this.hud.minimap.addPoint(obj, 'blue')
+    }
+    if(obj instanceof GhostCar) {
+      this.camera.target = obj;
     }
   }
 

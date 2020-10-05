@@ -156,7 +156,8 @@ export class Car extends GameObject {
       Audio.stop('engine');
       this.map.remove(this);
 
-      this.map.expensivelyfindNearestOfType(RespawnPoint, this)?.startTimer();
+      const sprite = this.chooseSprite(this.snappedDirectionIndex);
+      this.map.expensivelyfindNearestOfType(RespawnPoint, this)?.spawnGhost(this, sprite);
     }
 
     const currentCollisions = this.collideWithObjects();

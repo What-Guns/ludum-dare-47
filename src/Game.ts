@@ -5,15 +5,7 @@ import { HUD } from './HUD.js';
 
 @Serializable()
 export class Game {
-  readonly gameInfo: GameInfo = new StaticGameInfo(
-    [
-      [
-        { spawnerId: 31, destinationId: 34 },
-        { spawnerId: 31, destinationId: 35 },
-        { spawnerId: 31, destinationId: 36 },
-      ]
-    ]
-  );
+  readonly gameInfo: GameInfo ;
 
   readonly map!: GameMap;
 
@@ -24,6 +16,15 @@ export class Game {
 
   constructor(readonly mainCtx: CanvasRenderingContext2D, readonly bufferCtx: CanvasRenderingContext2D) {
     window.game = this;
+
+    const manifests = [
+        [
+          { spawnerId: 31, destinationId: 34 },
+          { spawnerId: 31, destinationId: 35 },
+          { spawnerId: 31, destinationId: 36 },
+        ]
+      ];
+    this.gameInfo = new StaticGameInfo(manifests, 6000);
   }
 
   tick(dt: number){

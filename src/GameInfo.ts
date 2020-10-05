@@ -1,5 +1,4 @@
 import { GameObject } from "./GameObject.js";
-import { GameMap } from './GameMap.js';
 import { Job, JobManifest } from "./Job.js";
 import { MessageBar } from "./MessageBar.js";
 import { Package } from "./Package.js";
@@ -7,9 +6,6 @@ import { Package } from "./Package.js";
 export abstract class GameInfo {
   currentlyHeldPackages = 0;
   messageBar?: MessageBar;
-  map?: GameMap;
-  job?: Job;
-
 
   incrementPackages(num = 1) {
     this.currentlyHeldPackages += num;
@@ -47,9 +43,21 @@ export abstract class GameInfo {
 }
 
 export class StaticGameInfo extends GameInfo {
-  constructor(manifests: JobManifest[]) {
+  constructor(private readonly manifests: JobManifest[], delay: number) {
     super();
-    window.setTimeout(() => this.job = Job.fromManifest(manifests[0], () => game.hud.messageBar.setNewMessage(`Job complete!`)), 6000);
+    setTimeout(() => this.popJob(), delay);
+  }
+
+  private popJob() {
+    const manifest = this.manifests.pop();
+
+    if(!manifest) {
+      alert('You win');
+      return;
+    }
+
+    const job = Job.fromManifest(manifest, () => this.popJob());
+    game.hud.messageBar.setNewMessage(job.description);
   }
 }
 

@@ -5,8 +5,11 @@ import { PackageSpawn } from "./PackageSpawn.js";
 export type JobManifest = Array<{spawnerId: number, destinationId: number}>;
 
 export class Job {
+  readonly description: string;
+
   constructor(readonly packages: Array<Package>, readonly onComplete: Function) {
     packages.forEach(p => p.job = this);
+    this.description = `Deliver ${packages.length} packages`;
   }
 
   deliverPackage(pkg: Package) {

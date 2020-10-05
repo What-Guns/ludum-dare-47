@@ -75,7 +75,7 @@ export class Building extends GameObject {
       globalFilter.color = pickRandom(['red', 'yellow', 'white', 'brown'], rnd);
     }
 
-    for(let i = 0; i < tallness; i++) {
+    for(let i = 0; i < Math.max(tallness); i++) {
       const filter = {
         ...globalFilter,
         bottom: i === 0 || undefined,

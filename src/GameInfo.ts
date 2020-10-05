@@ -1,8 +1,18 @@
 import { GameObject } from "./GameObject.js";
+import { GameMap } from './GameMap.js';
+import { Job } from "./Job.js";
+import { MessageBar } from "./MessageBar.js";
 import { Package } from "./Package.js";
 
 export class GameInfo {
   currentlyHeldPackages = 0;
+  messageBar?: MessageBar;
+  map?: GameMap;
+  job?: Job;
+
+  constructor() {
+    window.setTimeout(() => this.job = Job.fromManifest(''), 6000);
+  }
 
   incrementPackages(num = 1) {
     this.currentlyHeldPackages += num;
@@ -19,7 +29,7 @@ export class GameInfo {
   deliverPackage(pkg: GameObject) {
     if (pkg instanceof Package) {
       game.hud.messageBar.setNewMessage(`You delivered package number ${pkg.id}!`)
-      game.map.remove(pkg);
+      pkg.deliver();
       this.currentlyHeldPackages--;
       this.checkForJobComplete();
     } else {

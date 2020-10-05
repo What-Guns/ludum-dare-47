@@ -129,18 +129,6 @@
                  "y":925
                 }, 
                 {
-                 "height":0,
-                 "id":10,
-                 "name":"",
-                 "point":true,
-                 "rotation":0,
-                 "type":"Package",
-                 "visible":true,
-                 "width":0,
-                 "x":325,
-                 "y":1275
-                }, 
-                {
                  "height":50,
                  "id":14,
                  "name":"",
@@ -389,6 +377,62 @@
                  "width":0,
                  "x":1023.37878787879,
                  "y":722.439393939394
+                }, 
+                {
+                 "height":41.25,
+                 "id":31,
+                 "name":"",
+                 "rotation":0,
+                 "type":"PackageSpawn",
+                 "visible":true,
+                 "width":44.7500000000001,
+                 "x":303.25,
+                 "y":1254.75
+                }, 
+                {
+                 "height":50,
+                 "id":34,
+                 "name":"",
+                 "rotation":0,
+                 "type":"DeliveryZone",
+                 "visible":true,
+                 "width":50,
+                 "x":250,
+                 "y":800
+                }, 
+                {
+                 "height":50,
+                 "id":35,
+                 "name":"",
+                 "rotation":0,
+                 "type":"DeliveryZone",
+                 "visible":true,
+                 "width":50,
+                 "x":600,
+                 "y":800
+                }, 
+                {
+                 "height":50,
+                 "id":36,
+                 "name":"",
+                 "rotation":0,
+                 "type":"DeliveryZone",
+                 "visible":true,
+                 "width":50,
+                 "x":750,
+                 "y":750
+                }, 
+                {
+                 "height":0,
+                 "id":37,
+                 "name":"Do not remove",
+                 "point":true,
+                 "rotation":0,
+                 "type":"Package",
+                 "visible":true,
+                 "width":0,
+                 "x":1587,
+                 "y":17
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -397,7 +441,7 @@
          "y":0
         }],
  "nextlayerid":3,
- "nextobjectid":31,
+ "nextobjectid":38,
  "orientation":"isometric",
  "renderorder":"right-down",
  "tiledversion":"1.4.2",

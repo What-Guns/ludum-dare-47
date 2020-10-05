@@ -58,8 +58,8 @@ export class PackageSpawn extends GameObject {
 
   tick() { 
     if (game.gameInfo.currentlyHeldPackages == 0){
-    this.getsPackage
-  }
+      //this.getsPackage
+    }
   }
 
   static async deserialize(data: SerializedObject) {
@@ -84,7 +84,7 @@ export class PackageSpawn extends GameObject {
      const randomNum = Math.random();
      if (!this.hasPackage){
        if (randomNum < .5){
-        this.spawnPackage()
+        this.spawnPackage(undefined)
       } else {
         this.visible = false;
         }
@@ -101,12 +101,15 @@ export class PackageSpawn extends GameObject {
     
   }
 
-  spawnPackage(){
+  spawnPackage(dz: DeliveryZone | undefined){
     this.hasPackage = true;
     this.visible = true;
 
-    const deliveryZones = game.map.expensivelyFindObjectsOfType(DeliveryZone);
-    const deliveryZone = deliveryZones[Math.floor(Math.random() * deliveryZones.length)];
+    let deliveryZone = dz;
+    if (!dz) {
+      const deliveryZones = game.map.expensivelyFindObjectsOfType(DeliveryZone);
+      deliveryZone = deliveryZones[Math.floor(Math.random() * deliveryZones.length)];
+    }
 
     const apackage = new Package({
       id: Math.floor(Math.random() * 100000),
@@ -117,8 +120,8 @@ export class PackageSpawn extends GameObject {
       properties: {},
       deliveryZone,
     });
-
     game.map.add(apackage);
+    return apackage;
   }
 
   

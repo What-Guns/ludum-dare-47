@@ -1,6 +1,7 @@
 import {GameObject, SerializedObject} from './GameObject.js';
 import {Point} from './math.js';
 import {DeliveryZone} from './DeliveryZone.js';
+import { Job } from './Job.js';
 
 export class Package extends GameObject {
   screenX!: number;
@@ -9,6 +10,8 @@ export class Package extends GameObject {
   bob = Math.random() * 1000;
   readonly bobSpeed = .006;
   readonly bobAmplitude = 3;
+
+  job?: Job;
 
   spriteIndex: number;
   static IMAGES: Array<HTMLImageElement>;
@@ -43,6 +46,11 @@ export class Package extends GameObject {
     this.x += Math.cos(direction) * dist;
     this.y += Math.sin(direction) * dist;
     game.map.objectMoved(this);
+  }
+
+  deliver() {
+    game.map.remove(this);
+    this.job?.deliverPackage(this);
   }
 
   static async deserialize(data: SerializedObject&{deliveryZone: DeliveryZone}) {

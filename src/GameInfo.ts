@@ -24,8 +24,7 @@ export abstract class GameInfo {
   fallInWater() {
     if (this.currentlyHeldPackages > 0) {
       this.currentlyHeldPackages = 0;
-      game.hud.messageBar.setNewMessage(`Splash! You lost all of your packages!`);
-    } else game.hud.messageBar.setNewMessage(`Splash!`);
+    };
   }
 
   deliverPackage(pkg: GameObject) {

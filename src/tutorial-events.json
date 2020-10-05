@@ -1,0 +1,77 @@
+{
+  "init": [
+    {
+      "type": "sendMessage",
+      "messageText": "Hello! Welcome to the Archipelago!",
+      "delay": 0
+    },
+    {
+      "type": "sendMessage",
+      "messageText": "Time to get started delivering some packages!",
+      "delay": 4000
+    },
+    {
+      "type": "sendMessage",
+      "messageText": "Drive to the Post Office using WASD or the arrow keys",
+      "delay": 4000
+    },
+    {
+      "type": "createJob",
+      "jobManifest": [
+        { "spawnerId": 31, "destinationId": 34 }
+      ],
+      "onComplete": "firstJobComplete",
+      "messageText": "Pick up the package outside and drive it to the destination",
+      "delay": 4000
+    }
+  ],
+  "firstJobComplete": [
+    {
+      "type": "sendMessage",
+      "messageText": "Great job!",
+      "delay": 0
+    },
+    {
+      "type": "sendMessage",
+      "messageText": "It honestly doesn't get too much more complicated that that",
+      "delay": 4000
+    },
+    {
+      "type": "createJob",
+      "jobManifest": [
+        { "spawnerId": 31, "destinationId": 34 },
+        { "spawnerId": 31, "destinationId": 35 },
+        { "spawnerId": 31, "destinationId": 36 }
+      ],
+      "onComplete": "secondJobComplete",
+      "messageText": "Come on back, there are a few more packages to deliver",
+      "delay": 4000
+    }
+  ],
+  "secondJobComplete": [
+    {
+      "type": "sendMessage",
+      "messageText": "Wonderful! See, it's not too challenging!",
+      "delay": 0
+    },
+    {
+      "type": "sendMessage",
+      "messageText": "Next package goes to another island on the archpelago.",
+      "delay": 4000
+    },
+    {
+      "type": "sendMessage",
+      "messageText": "There's no bridge, so you'll have to ...",
+      "delay": 4000
+    },
+    {
+      "type": "createJob",
+      "jobManifest": [
+        { "spawnerId": 31, "destinationId": 15 }
+      ],
+      "onComplete": "thirdJobComplete",
+      "messageText": "Actually, I won't spoil it, try exploring the right side of the island above this one!",
+      "delay": 4000
+    }
+  ]
+}

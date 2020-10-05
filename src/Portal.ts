@@ -2,6 +2,7 @@ import {Serializable} from './serialization.js';
 import {GameObject, SerializedObject} from './GameObject.js';
 import {Car} from './Car.js';
 import {clamp, computeScreenCoords, ScreenPoint} from './math.js';
+import {Audio} from './Audio.js';
 
 @Serializable()
 export class Portal extends GameObject {
@@ -67,11 +68,13 @@ export class Portal extends GameObject {
     if(isColliding) {
       car.x = destObj.x + (destObj.width ?? 0)/2;
       car.y = destObj.y + (destObj.height ?? 0)/2;
+      Audio.playSFX('warp');
       this.map.objectMoved(car);
     }
   }
 
   static async deserialize(obj: SerializedObject) {
+    await Audio.load('audio/sfx/warp.wav', 'warp');
     return new Portal(obj);
   }
 }

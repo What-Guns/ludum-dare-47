@@ -7,6 +7,7 @@ export class Audio {
   static musicNode: GainNode;
   static async load(path: string, name: string) {
     (window as any).ac = Audio.audioContext;
+    if(this.soundLibrary[name]) return;
     this.soundLibrary[name] = await loadAudioAsync(path, Audio.audioContext);
     this.sfxNode = Audio.audioContext.createGain();
     this.musicNode = Audio.audioContext.createGain();

@@ -1,7 +1,5 @@
 html, body {
   overflow: hidden;
-  background-image: url('images/ui/bg.png');
-  background-size: auto 100%;
 }
 
 .overlay, canvas {
@@ -25,7 +23,8 @@ canvas {
 }
 
 #menu {
-  background-color: white;
+  background-image: url('images/ui/bg.png');
+  background-size: auto 100%;
 }
 
 #quit {

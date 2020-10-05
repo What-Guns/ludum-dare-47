@@ -3,12 +3,29 @@ import {deserialize} from './serialization.js';
 import {Audio} from './Audio.js';
 import {Game} from './Game.js';
 
+let outputCanvas: HTMLCanvasElement;
+let bufferCanvas: HTMLCanvasElement;
+
+let mainCtx: CanvasRenderingContext2D;
+let bufferCtx: CanvasRenderingContext2D;
+
 addEventListener('load', () => {
+  outputCanvas = document.getElementById('main') as HTMLCanvasElement;
+  bufferCanvas = document.getElementById('buffer') as HTMLCanvasElement;
+  mainCtx = outputCanvas.getContext('2d')!;
+  bufferCtx = bufferCanvas.getContext('2d')!;
+
+  addEventListener('resize', sizeCanvas);
+  sizeCanvas();
+
   showMenu();
 });
 
 function showMenu() {
   if(document.getElementById('menu')) return;
+
+  const mainCtx = outputCanvas.getContext('2d')!;
+  mainCtx.clearRect(0, 0, mainCtx.canvas.width, mainCtx.canvas.height);
 
   const template = document.getElementById('menu-template') as HTMLTemplateElement;
   const menu = template.content.cloneNode(true) as DocumentFragment;
@@ -43,33 +60,17 @@ function closeOverlays() {
 // any tick longer than this will be split into smaller ticks
 const BIG_TICK_ENERGY = 500;
 
-let outputCanvas: HTMLCanvasElement;
-let bufferCanvas: HTMLCanvasElement;
 
 async function startTheGameAlready(mapPath: string) {
-  outputCanvas = document.getElementById('main') as HTMLCanvasElement;
-  bufferCanvas = document.getElementById('buffer') as HTMLCanvasElement;
 
   await loadAudio();
   await loadMap(mapPath);
   //Audio.playMusic('truckin', 2.097)
   
-  addEventListener('resize', sizeCanvas);
-
-  sizeCanvas();
-
-  function sizeCanvas() {
-    outputCanvas.width = window.innerWidth;
-    outputCanvas.height = window.innerHeight;
-    bufferCanvas.width = window.innerWidth;
-    bufferCanvas.height = window.innerHeight;
-  }
 }
 
 async function loadMap(path: string) {
   if(window.game) window.game.over = true;
-  const mainCtx = outputCanvas.getContext('2d')!;
-  const bufferCtx = bufferCanvas.getContext('2d')!;
   const mapData = await loadJson(path);
 
   const game = await deserialize(Game, { mainCtx, bufferCtx, mapData });
@@ -81,7 +82,6 @@ async function loadMap(path: string) {
     if(game.over) {
       Audio.stfu();
       showGameOver();
-      mainCtx.clearRect(0, 0, mainCtx.canvas.width, mainCtx.canvas.height);
       return;
     }
     if(lastTick !== 0) {
@@ -98,4 +98,11 @@ async function loadMap(path: string) {
 async function loadAudio() {
   await Audio.load('audio/music/truckin.ogg', 'truckin');
   await Audio.load('audio/music/intro.ogg', 'intro');
+}
+
+function sizeCanvas() {
+  outputCanvas.width = window.innerWidth;
+  outputCanvas.height = window.innerHeight;
+  bufferCanvas.width = window.innerWidth;
+  bufferCanvas.height = window.innerHeight;
 }

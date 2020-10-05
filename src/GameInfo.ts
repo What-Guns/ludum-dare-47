@@ -93,6 +93,9 @@ export class DynamicGameInfo extends GameInfo {
     this.timeUntilNextJob -= dt;
 
     if(this.timeUntilNextJob < 0) this.createNewJob();
+
+    this.timeRemaining -= dt;
+    if(this.timeRemaining <= 0) game.over = true;
   }
 
   private createNewJob() {

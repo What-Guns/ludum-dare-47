@@ -28,8 +28,7 @@ export class TimeRemaining implements HUDElement{
     ctx.restore();
   }
 
-  tick(dt: number) {
-    game.gameInfo.timeRemaining -= dt;
+  tick() {
     this.calculateTimeString();
   }
   

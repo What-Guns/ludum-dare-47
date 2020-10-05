@@ -11,6 +11,7 @@ export class TimeRemaining implements HUDElement{
   timeString = '';
 
   draw(ctx: CanvasRenderingContext2D) {
+    if(game.gameInfo.timeRemaining === Infinity) return;
     const critical = game.gameInfo.timeRemaining < this.CRITICAL_TIME;
     ctx.save();
     const sorryForNotNamingThisBetter = this.PULSE_AMPLITUDE * Math.sin((game.gameInfo.timeRemaining - this.CRITICAL_TIME) * this.PULSE_SPEED);

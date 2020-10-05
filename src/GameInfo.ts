@@ -9,11 +9,14 @@ import { GhostCar } from './RespawnPoint.js';
 import { DeliveryZone } from './DeliveryZone.js';
 import { runTutorialEvents } from "./TutorialEvents.js";
 import { Audio } from './Audio.js';
+import { loadJson } from "./loader.js";
 
 export abstract class GameInfo {
   currentlyHeldPackages = 0;
   score = 0;
   messageBar?: MessageBar;
+
+  static listOfNouns = [ 'package' ]
 
   abstract timeRemaining: number;
 
@@ -30,7 +33,8 @@ export abstract class GameInfo {
 
   deliverPackage(pkg: GameObject) {
     if (pkg instanceof Package) {
-      game.hud.messageBar.setNewMessage(`You delivered package number ${pkg.id}!`)
+      const noun = GameInfo.listOfNouns[Math.floor(Math.random() *  GameInfo.listOfNouns.length)]
+      game.hud.messageBar.setNewMessage(`You delivered a ${noun}!`)
       pkg.deliver();
       this.currentlyHeldPackages--;
       this.checkForJobComplete();
@@ -157,3 +161,5 @@ export class DynamicGameInfo extends GameInfo {
 function randomBetween(min: number, max: number) {
   return min + Math.floor(Math.random() * (max - min));
 }
+
+loadJson('./data/package-contents.json').then(ls => GameInfo.listOfNouns = ls);

@@ -7,6 +7,12 @@ export class Audio {
     if(!this.createdAudioContext) {
       console.log(`created audio context`);
       this.createdAudioContext = new AudioContext();
+      this.sfxNode = Audio.audioContext.createGain();
+      this.musicNode = Audio.audioContext.createGain();
+      this.sfxNode.connect(Audio.audioContext.destination);
+      this.musicNode.connect(Audio.audioContext.destination);
+      this.sfxNode.gain.value = 1;
+      this.musicNode.gain.value = 1;
     }
     return this.createdAudioContext;
   }
@@ -17,12 +23,6 @@ export class Audio {
     (window as any).ac = Audio.audioContext;
     if(this.soundLibrary[name]) return;
     this.soundLibrary[name] = await loadAudioAsync(path, Audio.audioContext);
-    this.sfxNode = Audio.audioContext.createGain();
-    this.musicNode = Audio.audioContext.createGain();
-    this.sfxNode.connect(Audio.audioContext.destination);
-    this.musicNode.connect(Audio.audioContext.destination);
-    this.sfxNode.gain.value = 1;
-    this.musicNode.gain.value = 1;
   }
 
   static currentlyPlayingSounds: {[key in string]: AudioBufferSourceNode} = {};

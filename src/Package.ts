@@ -97,7 +97,7 @@ export class Package extends GameObject {
   }
 
   addDestinationPoint() {
-    game.hud.minimap.addPoint(this.deliveryZone, 'cyan')
+    game.hud.minimap.addPoint(this.deliveryZone, 'red')
   }
 
   private isHeld() {

@@ -1,22 +1,15 @@
 import { GameObject } from "./GameObject.js";
 import { GameMap } from './GameMap.js';
-import { Job } from "./Job.js";
+import { Job, JobManifest } from "./Job.js";
 import { MessageBar } from "./MessageBar.js";
 import { Package } from "./Package.js";
 
-export class GameInfo {
+export abstract class GameInfo {
   currentlyHeldPackages = 0;
   messageBar?: MessageBar;
   map?: GameMap;
   job?: Job;
 
-  constructor() {
-    window.setTimeout(() => this.job = Job.fromManifest([
-      { spawnerId: 31, destinationId: 34 },
-      { spawnerId: 31, destinationId: 35 },
-      { spawnerId: 31, destinationId: 36 },
-    ], () => game.hud.messageBar.setNewMessage(`Job complete!`)), 6000);
-  }
 
   incrementPackages(num = 1) {
     this.currentlyHeldPackages += num;
@@ -52,3 +45,15 @@ export class GameInfo {
     game.hud.messageBar.setNewMessage('New job should start now')
   }
 }
+
+export class StaticGameInfo extends GameInfo {
+  constructor(manifests: JobManifest[]) {
+    super();
+    window.setTimeout(() => this.job = Job.fromManifest(manifests[0], () => game.hud.messageBar.setNewMessage(`Job complete!`)), 6000);
+  }
+}
+
+export class DynamicGameInfo extends GameInfo {
+
+}
+

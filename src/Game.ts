@@ -1,11 +1,19 @@
-import { GameInfo } from './GameInfo.js';
+import { GameInfo, StaticGameInfo } from './GameInfo.js';
 import {GameMap, GameMapData} from './GameMap.js';
 import {Serializable, deserialize} from './serialization.js';
 import { HUD } from './HUD.js';
 
 @Serializable()
 export class Game {
-  readonly gameInfo = new GameInfo();
+  readonly gameInfo: GameInfo = new StaticGameInfo(
+    [
+      [
+        { spawnerId: 31, destinationId: 34 },
+        { spawnerId: 31, destinationId: 35 },
+        { spawnerId: 31, destinationId: 36 },
+      ]
+    ]
+  );
 
   readonly map!: GameMap;
 

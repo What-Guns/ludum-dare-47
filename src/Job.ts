@@ -2,6 +2,8 @@ import { DeliveryZone } from "./DeliveryZone.js";
 import { Package } from "./Package.js";
 import { PackageSpawn } from "./PackageSpawn.js";
 
+export type JobManifest = Array<{spawnerId: number, destinationId: number}>;
+
 export class Job {
   constructor(readonly packages: Array<Package>, readonly onComplete: Function) {
     packages.forEach(p => p.job = this);
@@ -12,7 +14,7 @@ export class Job {
     if (!this.packages.length) this.onComplete();
   }
 
-  static fromManifest(manifest: Array<{spawnerId: number, destinationId: number}>, onComplete: Function) {
+  static fromManifest(manifest: JobManifest, onComplete: Function) {
     const pkgs: Array<Package> = [];
     manifest.forEach(item => {
       const spawner = this.findById(item.spawnerId);

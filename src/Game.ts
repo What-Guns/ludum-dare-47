@@ -12,7 +12,7 @@ export class Game {
   // HACK map sets this!
   readonly hud!: HUD;
 
-  constructor(readonly ctx: CanvasRenderingContext2D) {
+  constructor(readonly mainCtx: CanvasRenderingContext2D, readonly bufferCtx: CanvasRenderingContext2D) {
     window.game = this;
   }
 
@@ -22,12 +22,12 @@ export class Game {
   }
 
   draw(){
-    game.map.draw(this.ctx);
-    this.hud.draw(this.ctx);
+    game.map.draw();
+    this.hud.draw(this.mainCtx);
   }
 
-  static async deserialize({ctx, mapData}: GameData) {
-    const game = new Game(ctx);
+  static async deserialize({mainCtx, bufferCtx, mapData}: GameData) {
+    const game = new Game(mainCtx, bufferCtx);
     // HACK: game needs to exist before map, but has a readonly map.
     (game as any).map = await deserialize(GameMap, mapData)
     return game;
@@ -35,7 +35,8 @@ export class Game {
 };
 
 interface GameData {
-  ctx: CanvasRenderingContext2D;
+  mainCtx: CanvasRenderingContext2D;
+  bufferCtx: CanvasRenderingContext2D;
   mapData: GameMapData;
 }
 

@@ -6,11 +6,13 @@ import {TileProxy} from './TileProxy.js';
 import {loadImage, loadJson} from './loader.js';
 import {Point, GeoLookup, computeScreenCoords, ScreenPoint, removeFromArray, TileSize} from './math.js';
 import {GhostCar} from './RespawnPoint.js';
+import {Building} from './Building.js';
 import {Car} from './Car.js';
 import { HUD } from './HUD.js';
 import { Package } from './Package.js';
 
 const GRID_ALPHA = 0;
+const SPOTLIGHT_SIZE = 64;
 
 export type Terrain = 'void'|'grass'|'road'|'water'|'sand'|'dirt'|'meringue';
 
@@ -28,6 +30,8 @@ export class GameMap {
   private readonly gridLines: [ScreenPoint, ScreenPoint][];
 
   private readonly chunkLookup: GeoLookup<Chunk> = {};
+
+  private readonly spotlight: CanvasGradient;
 
   car?: Car;
 
@@ -56,6 +60,10 @@ export class GameMap {
 
     this.widthInTiles = this.world.width;
     this.heightInTiles = this.world.height;
+
+    this.spotlight = game.bufferCtx.createRadialGradient(0, 0, 0, 0, 0, SPOTLIGHT_SIZE);
+    this.spotlight.addColorStop(0, 'white');
+    this.spotlight.addColorStop(1, 'rgba(0, 0, 0, 0.5)');
 
     setInterval(() => this.checkConsistency, 1000);
   }
@@ -152,13 +160,23 @@ export class GameMap {
 
   private readonly visibleObjects: GameObject[] = [];
 
-  draw(ctx: CanvasRenderingContext2D) {
-    const screenWidth = ctx.canvas.width;
-    const screenHeight = ctx.canvas.height;
+  draw() {
+    game.mainCtx.clearRect(0, 0, game.mainCtx.canvas.width, game.mainCtx.canvas.height);
+    game.bufferCtx.globalCompositeOperation = 'source-over';
+    game.bufferCtx.fillStyle = 'white';
+    game.bufferCtx.fillRect(0, 0, game.bufferCtx.canvas.width, game.bufferCtx.canvas.height);
+    game.bufferCtx.globalCompositeOperation = 'source-atop';
+    const screenWidth = game.bufferCtx.canvas.width;
+    const screenHeight = game.bufferCtx.canvas.height;
 
-    ctx.save();
-    ctx.translate(-this.camera.screenX, -this.camera.screenY);
-    ctx.translate(screenWidth / 2, screenHeight / 2);
+    game.bufferCtx.save();
+    game.bufferCtx.translate(-this.camera.screenX, -this.camera.screenY);
+    game.bufferCtx.translate(screenWidth / 2, screenHeight / 2);
+
+    game.mainCtx.save();
+    game.mainCtx.translate(-this.camera.screenX, -this.camera.screenY);
+    game.mainCtx.translate(screenWidth / 2, screenHeight / 2);
+
 
     this.visibleObjects.length = 0;
 
@@ -166,7 +184,7 @@ export class GameMap {
     for(const chunk of backgroundLayer.chunks) {
       if(!this.isChunkVisible(chunk, screenWidth, screenHeight)) continue;
       for(const tile of chunk.tiles) {
-        if(tile.image) this.drawTile(ctx, tile as DrawableCell);
+        if(tile.image) this.drawTile(game.bufferCtx, tile as DrawableCell);
       }
 
       for(const obj of chunk.objects) {
@@ -175,23 +193,51 @@ export class GameMap {
     }
 
     if(GRID_ALPHA) {
-      ctx.globalAlpha = GRID_ALPHA;
+      game.bufferCtx.globalAlpha = GRID_ALPHA;
       for(const line of this.gridLines) {
-        ctx.beginPath();
-        ctx.moveTo(line[0].screenX, line[0].screenY);
-        ctx.lineTo(line[1].screenX, line[1].screenY);
-        ctx.stroke();
+        game.bufferCtx.beginPath();
+        game.bufferCtx.moveTo(line[0].screenX, line[0].screenY);
+        game.bufferCtx.lineTo(line[1].screenX, line[1].screenY);
+        game.bufferCtx.stroke();
       }
-      ctx.globalAlpha = 1;
+      game.bufferCtx.globalAlpha = 1;
     }
 
     this.visibleObjects.sort((l, r) => (l.screenY + l.screenYDepthOffset) - (r.screenY + r.screenYDepthOffset));
 
     for(const obj of this.visibleObjects) {
-      obj.draw(ctx);
+      if(obj instanceof Building) {
+        game.bufferCtx.globalCompositeOperation = 'source-atop';
+      } else {
+        game.bufferCtx.globalCompositeOperation = 'source-over';
+      }
+      obj.draw(game.bufferCtx);
+      if(obj instanceof Car) {
+        // First, copy everything behind the car to the main canvas.
+        game.mainCtx.save()
+        game.mainCtx.resetTransform();
+        game.mainCtx.drawImage(game.bufferCtx.canvas, 0, 0)
+        game.mainCtx.restore();
+
+        // Now, cut a hole in the buffer canvas
+        game.bufferCtx.globalCompositeOperation = 'destination-out';
+
+        game.bufferCtx.save();
+        game.bufferCtx.beginPath();
+        game.bufferCtx.fillStyle = this.spotlight;
+        game.bufferCtx.translate(obj.screenX, obj.screenY);
+        game.bufferCtx.arc(0, 0, SPOTLIGHT_SIZE, 0, 2 * Math.PI, false);
+        game.bufferCtx.fill();
+        game.bufferCtx.restore();
+
+        game.bufferCtx.globalCompositeOperation = 'source-atop';
+      }
     }
 
-    ctx.restore();
+    game.mainCtx.restore();
+    game.mainCtx.drawImage(game.bufferCtx.canvas, 0, 0)
+
+    game.bufferCtx.restore();
   }
 
   drawMinimap(ctx: CanvasRenderingContext2D) {

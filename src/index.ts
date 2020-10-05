@@ -19,6 +19,10 @@ addEventListener('load', () => {
   sizeCanvas();
 
   showMenu();
+
+  document.getElementById('quit')!.addEventListener('click', () => {
+    game.over = true;
+  });
 });
 
 function showMenu() {

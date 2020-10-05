@@ -17,12 +17,23 @@ canvas {
 }
 
 .overlay {
-  z-index: 2;
+  z-index: 3;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
 
+#menu {
+  background-color: white;
+}
+
+#quit {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 2;
+  margin: 0.5rem;
 }
 
 h1 {
@@ -30,7 +41,7 @@ h1 {
   font-family: KenneyMini sans;
 }
 
-button {
+.overlay button {
   width: 8rem;
   height: 2rem;
   margin: 1rem;

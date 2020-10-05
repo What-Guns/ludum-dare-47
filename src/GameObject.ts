@@ -1,3 +1,4 @@
+import { GameInfo } from './GameInfo.js';
 import {GameMap, Chunk} from './GameMap.js';
 import {Point, ScreenPoint} from './math.js';
 import {Property} from './tiled-map';
@@ -32,6 +33,7 @@ export abstract class GameObject implements Point, ScreenPoint {
 
   abstract tick(dt: number): void;
   abstract draw(ctx: CanvasRenderingContext2D): void;
+  getGameInfo() { return this.map.gameInfo || new GameInfo() }
 }
 
 export type BaseProps = Pick<SerializedObject, 'map'|'x'|'y'|'id'>;

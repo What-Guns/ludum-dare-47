@@ -13,7 +13,7 @@ import { GameInfo } from './GameInfo';
 
 const GRID_ALPHA = 0;
 
-export type Terrain = 'void'|'grass'|'road'|'water'|'sand'|'dirt';
+export type Terrain = 'void'|'grass'|'road'|'water'|'sand'|'dirt'|'meringue';
 
 @Serializable()
 export class GameMap {

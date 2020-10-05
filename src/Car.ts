@@ -22,6 +22,7 @@ const TERRAIN_SPEED: {[key in Terrain]: number} = {
   sand: 0.0005,
   void: 1,
   water: 0,
+  meringue: 0.005,
 };
 
 @Serializable()
@@ -215,7 +216,7 @@ export class Car extends GameObject {
   accelerate(dt: number) {
     this.timeInReverse = 0;
     this.speed += this.ACCELERATION * dt;
-    this.terrain = 'grass';     // DEBUG CODE DON'T FORGET TO GET RID OF THIS LINE RIGHT HERE
+    this.terrain = 'meringue';     // DEBUG CODE DON'T FORGET TO GET RID OF THIS LINE RIGHT HERE
     if (this.speed >= TERRAIN_SPEED[this.terrain]) {
       this.speed = TERRAIN_SPEED[this.terrain]
     }

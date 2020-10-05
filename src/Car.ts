@@ -371,7 +371,7 @@ export class Car extends GameObject {
   }
 
   denyPackage(){
-    game.hud.messageBar.setNewMessage("You require more car capacity. Drop off packages at post office to carry more");
+    game.hud.messageBar.setNewMessage("You require more car capacity. Drop off packages at to carry more");
   }
 }
 

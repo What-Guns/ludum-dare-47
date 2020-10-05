@@ -98,6 +98,23 @@
                  "width":0,
                  "x":600,
                  "y":550
+                }, 
+                {
+                 "height":100,
+                 "id":8,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"destination",
+                         "type":"object",
+                         "value":4
+                        }],
+                 "rotation":0,
+                 "type":"Portal",
+                 "visible":true,
+                 "width":100,
+                 "x":250,
+                 "y":500
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -106,7 +123,7 @@
          "y":0
         }],
  "nextlayerid":3,
- "nextobjectid":8,
+ "nextobjectid":9,
  "orientation":"isometric",
  "properties":[
         {

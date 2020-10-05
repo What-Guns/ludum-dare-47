@@ -23,14 +23,14 @@ export class PackageSpawn extends GameObject {
 
   constructor(data: PackageSpawnProp) {
     super(data);
-    this.visible = data.visible ?? true;
+    this.visible = data.visible ?? game.debugmode;
     this.height = data.height;
     this.width = data.width;
     this.hasPackage = data.hasPackage ?? false;
   }
 
   draw(ctx: CanvasRenderingContext2D) {
-    if(!this.visible) return;
+    if(!game.debugmode) return;
     ctx.save();
 
     ctx.fillStyle = 'rgba(0, 255, 0, 0.5)';
@@ -55,7 +55,6 @@ export class PackageSpawn extends GameObject {
 
   spawnPackage(dz?: DeliveryZone){
     this.hasPackage = true;
-    this.visible = true;
 
     let deliveryZone = dz;
     if (!dz) {

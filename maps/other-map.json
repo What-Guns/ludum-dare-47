@@ -1,4 +1,11 @@
 { "compressionlevel":-1,
+ "editorsettings":
+    {
+     "export":
+        {
+         "target":"."
+        }
+    },
  "height":100,
  "infinite":true,
  "layers":[
@@ -498,6 +505,18 @@
                  "width":0,
                  "x":1625,
                  "y":1775
+                }, 
+                {
+                 "height":0,
+                 "id":14,
+                 "name":"",
+                 "point":true,
+                 "rotation":0,
+                 "type":"RespawnPoint",
+                 "visible":true,
+                 "width":0,
+                 "x":1625,
+                 "y":1675
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -506,7 +525,7 @@
          "y":0
         }],
  "nextlayerid":3,
- "nextobjectid":14,
+ "nextobjectid":15,
  "orientation":"isometric",
  "properties":[
         {

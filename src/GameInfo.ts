@@ -8,6 +8,7 @@ import { Car } from './Car.js';
 import { GhostCar } from './RespawnPoint.js';
 import { DeliveryZone } from './DeliveryZone.js';
 import { runTutorialEvents } from "./TutorialEvents.js";
+import { Audio } from './Audio.js';
 
 export abstract class GameInfo {
   currentlyHeldPackages = 0;
@@ -57,6 +58,7 @@ export class StaticGameInfo extends GameInfo {
 
   constructor(delay: number) {
     super();
+    setTimeout(() => Audio.playMusic('intro', 13.640, 25.633), 1000);
     runTutorialEvents(delay);
   }
 
@@ -79,6 +81,11 @@ export class DynamicGameInfo extends GameInfo {
   numClosestSpawnersToChooseFrom = 3;
 
   timeRemaining = 60_000;
+
+  constructor() {
+    super();
+    Audio.playMusic('truckin', 2.097);
+  }
 
   tick(dt: number) {
     if(!this.jobs.length) this.createNewJob();

@@ -23,9 +23,9 @@ async function startTheGameAlready(mapPath: string) {
   outputCanvas = document.getElementById('main') as HTMLCanvasElement;
   bufferCanvas = document.getElementById('buffer') as HTMLCanvasElement;
 
-  await loadMap(mapPath);
   await loadAudio();
-  Audio.playMusic('truckin', 2.097)
+  await loadMap(mapPath);
+  //Audio.playMusic('truckin', 2.097)
   
   addEventListener('resize', sizeCanvas);
 
@@ -69,6 +69,6 @@ async function loadAudio() {
   // (document.querySelector('#titleScreenMusicButton') as HTMLButtonElement).onclick = () => Audio.playMusic('intro', 13.640, 25.633);
 }
 
-(window as any).loadTut = () => loadMap('maps/tutorial.json');
-(window as any).loadMain = () => loadMap('maps/map.json');
+(window as any).loadTut = () => { Audio.stop('truckin'); Audio.stop('intro'); loadMap('maps/tutorial.json'); }
+(window as any).loadMain = () => { Audio.stop('truckin'); Audio.stop('intro'); loadMap('maps/map.json');} 
 

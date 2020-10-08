@@ -4,18 +4,30 @@ import { loadImage } from "./loader.js";
 type button = 'gas' | 'brake' | 'right' | 'left';
 
 export class MobileButtons implements HUDElement{
-  buttons: {[keys in button]: MobileButton} = {
-    gas: new GasButton(),
-    brake: new BrakeButton(),
-    left: new LeftTurnButton(),
-    right: new RightTurnButton(),
+  buttons: {[keys in button]: MobileButton};
+
+  constructor() {
+    if((window as any).isMobile) {
+      this.buttons = {
+        gas: new GasButton(),
+        brake: new BrakeButton(),
+        left: new LeftTurnButton(),
+        right: new RightTurnButton(),
+      }
+    } else {
+      this.buttons = {
+        gas: new InvisibleButton(),
+        brake: new InvisibleButton(),
+        left: new InvisibleButton(),
+        right: new InvisibleButton(),
+      }
+    }
   }
   draw(ctx: CanvasRenderingContext2D) {
     if(!(window as any).isMobile) return;
     Object.keys(this.buttons).forEach(b => this.buttons[(b as button)].draw(ctx));
   }
-  // @ts-ignore These are event-based, not tick-based
-  tick(dt: number) {}
+  tick() {}
 }
 
 abstract class MobileButton {
@@ -31,6 +43,24 @@ abstract class MobileButton {
         if (this.isOnButton(touch.clientX, touch.clientY)) {
           this.associatedTouches.push(touch);
           this.pressed = true;
+        }
+      }
+    });
+    this.canvas.addEventListener('touchmove', ev => {
+      ev.preventDefault()
+      for (let i=0; i<ev.changedTouches.length; i++) {
+        const touch = ev.changedTouches.item(i)!;
+        if (this.isOnButton(touch.clientX, touch.clientY)) {
+          // Was it not associated before?
+          if (!this.associatedTouches.includes(touch)) {
+            this.associatedTouches.push(touch);
+            this.pressed = true;
+          }
+        } else {
+          if (this.associatedTouches.includes(touch)) {
+            const i = this.associatedTouches.indexOf(touch);
+            this.associatedTouches.splice(i, 1);
+          }
         }
       }
     });
@@ -60,8 +90,27 @@ abstract class MobileButton {
   isPressed(): boolean {
     return this.pressed;
   };
+  //abstract isOnButton(x:number, y: number): boolean;
   abstract isOnButton(x:number, y: number): boolean;
   abstract draw(ctx: CanvasRenderingContext2D) : void;
+}
+
+class InvisibleButton extends MobileButton {
+  protected pressed: boolean = false;
+  canvas: HTMLCanvasElement;
+
+  constructor() {
+    super();
+    this.canvas = document.createElement('canvas');
+  }
+  isPressed(): boolean {
+    return false;
+  }
+  isOnButton(): boolean {
+    return false
+  }
+  draw(): void {}
+  
 }
 
 class GasButton extends MobileButton {

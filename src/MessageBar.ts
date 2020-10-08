@@ -1,5 +1,5 @@
 export class MessageBar {
-  private width = 0.8; // 80% of the screen
+  private width = (window as any).isMobile ? 0.6 : 0.8; // 60% or 80% of the screen
   private bottomMargin = 50;
   private height = 30; // 30 px tall
   private goalMessage = 'WASD or Arrow Keys will let you drive around!';

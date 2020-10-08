@@ -38,10 +38,13 @@ function showMenu() {
   for(const button of Array.from(menu.querySelectorAll('button[data-map]'))) {
     button.addEventListener('click', async () => {
       const mapFileName = button.getAttribute('data-map')!;
+      (window as any).isMobile = (document.querySelector('#mobileControls') as HTMLInputElement).checked;
       closeOverlays();
       await startTheGameAlready(mapFileName);
     });
   }
+
+  if ((window as any).isMobile) (menu.querySelector('#mobileControls') as HTMLInputElement).checked = true;
 
   document.body.appendChild(menu);
 }

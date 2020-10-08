@@ -11,6 +11,7 @@ export class MobileButtons implements HUDElement{
     right: new RightTurnButton(),
   }
   draw(ctx: CanvasRenderingContext2D) {
+    if(!(window as any).isMobile) return;
     Object.keys(this.buttons).forEach(b => this.buttons[(b as button)].draw(ctx));
   }
   // @ts-ignore These are event-based, not tick-based
@@ -64,9 +65,9 @@ abstract class MobileButton {
 }
 
 class GasButton extends MobileButton {
-  readonly rightMargin = 40;
+  readonly rightMargin = 60;
   readonly bottomMargin = 80;
-  readonly radius = 25;
+  readonly radius = 40;
   readonly radiusSquared = this.radius * this.radius;
   
   isOnButton(x: number, y: number): boolean {
@@ -87,9 +88,9 @@ class GasButton extends MobileButton {
 }
 
 class BrakeButton extends MobileButton {
-  readonly rightMargin = 100;
-  readonly bottomMargin = 40;
-  readonly radius = 20;
+  readonly rightMargin = 130;
+  readonly bottomMargin = 50;
+  readonly radius = 30;
   readonly radiusSquared = this.radius * this.radius;
   
   isOnButton(x: number, y: number): boolean {
@@ -110,9 +111,9 @@ class BrakeButton extends MobileButton {
 }
 
 class LeftTurnButton extends MobileButton {
-  readonly leftMargin = 70;
-  readonly bottomMargin = 10;
-  readonly width = 40;
+  readonly leftMargin = 20;
+  readonly bottomMargin = 40;
+  readonly width = 60;
   readonly height = this.width;
   image?: HTMLImageElement;
 
@@ -136,15 +137,14 @@ class LeftTurnButton extends MobileButton {
 }
 
 class RightTurnButton extends MobileButton {
-  readonly leftMargin = 120;
-  readonly bottomMargin = 10;
-  readonly width = 40;
+  readonly leftMargin = 90;
+  readonly bottomMargin = 40;
+  readonly width = 60;
   readonly height = this.width;
   image?: HTMLImageElement;
 
   constructor() {
     super();
-    console.log(this.leftMargin, this.leftMargin + this.width, this.bottomMargin - this.height, this.bottomMargin)
     loadImage('./images/ui/arrowRight.png').then(img => this.image = img);
   }
   

@@ -4,6 +4,7 @@ import { MessageBar } from "./MessageBar.js";
 import { Minimap } from "./Minimap.js";
 import { TimeRemaining } from "./TimeRemaining.js";
 import { ScoreDisplay } from "./ScoreDisplay.js";
+import { MobileButtons } from "./MobileButtons.js";
 
 export class HUD {
   readonly minimap = new Minimap();
@@ -12,6 +13,7 @@ export class HUD {
   readonly audioControls = new AudioControls();
   readonly timeRemaining = new TimeRemaining();
   readonly debugHUD = new DebugHUD();
+  readonly mobileButtons = new MobileButtons();
   readonly hudElementList: Array<HUDElement> = [];
   constructor() {
     this.addHUDElement(this.minimap);
@@ -20,6 +22,7 @@ export class HUD {
     this.addHUDElement(this.audioControls);
     this.addHUDElement(this.timeRemaining);
     this.addHUDElement(this.debugHUD);
+    this.addHUDElement(this.mobileButtons);
     this.addHUDElement(new ScoreDisplay());
   }
 

@@ -89,7 +89,7 @@ export class Portal extends GameObject {
   }
 
   setCooldown() {
-    this.cooldown = 1000;
+    this.cooldown = 5000;
   }
 
   static async deserialize(obj: SerializedObject) {

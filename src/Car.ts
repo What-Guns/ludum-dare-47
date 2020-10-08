@@ -60,6 +60,7 @@ export class Car extends GameObject {
   readonly MAX_ENGINE_PITCH = 1.3;
   readonly ESSENTIALLY_STOPPED = 0.00004;
   readonly PACKAGE_CAPACITY = 7;
+  readonly mobileButtons = game.hud.mobileButtons;
 
   static IMAGES: Array<HTMLImageElement>;
   static BACKUP_IMAGES: Array<HTMLImageElement>;
@@ -118,18 +119,18 @@ export class Car extends GameObject {
       Audio.stop('beep');
       this.isBeeping = false;
     }
-    if (isKeyPressed('KeyW') || isKeyPressed('ArrowUp')) {
+    if (isKeyPressed('KeyW') || isKeyPressed('ArrowUp') || this.mobileButtons.buttons.gas.isPressed()) {
       this.accelerate(dt);
     } 
-    if (isKeyPressed('KeyA') || isKeyPressed('ArrowLeft')) {
+    if (isKeyPressed('KeyA') || isKeyPressed('ArrowLeft') || this.mobileButtons.buttons.left.isPressed()) {
       this.turnLeft(dt);
       turning = true;
     }
-    if (isKeyPressed('KeyD') || isKeyPressed('ArrowRight')) {
+    if (isKeyPressed('KeyD') || isKeyPressed('ArrowRight') || this.mobileButtons.buttons.right.isPressed()) {
       this.turnRight(dt);
       turning = true;
     }
-    if (isKeyPressed('KeyS') || isKeyPressed('ArrowDown')) {
+    if (isKeyPressed('KeyS') || isKeyPressed('ArrowDown') || this.mobileButtons.buttons.brake.isPressed()) {
       this.brakeOrReverse(dt);
     } else {
       Audio.stop('brake');

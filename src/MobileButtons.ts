@@ -52,14 +52,15 @@ abstract class MobileButton {
         const touch = ev.changedTouches.item(i)!;
         if (this.isOnButton(touch.clientX, touch.clientY)) {
           // Was it not associated before?
-          if (!this.associatedTouches.includes(touch)) {
+          if (!this.associatedTouches.find(t => t.identifier === touch.identifier)) {
             this.associatedTouches.push(touch);
             this.pressed = true;
           }
         } else {
-          if (this.associatedTouches.includes(touch)) {
+          if (this.associatedTouches.find(t => t.identifier === touch.identifier)) {
             const i = this.associatedTouches.indexOf(touch);
             this.associatedTouches.splice(i, 1);
+            this.pressed = false;
           }
         }
       }

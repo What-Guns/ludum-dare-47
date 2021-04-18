@@ -33,7 +33,7 @@ export class MobileButtons implements HUDElement{
 abstract class MobileButton {
   protected pressed = false;
   private associatedTouches: Array<Touch> = [];
-  readonly canvas; 
+  readonly canvas: HTMLCanvasElement;
   constructor() {
     this.canvas = document.querySelector('canvas')!;
     this.canvas.addEventListener('touchstart', ev => {
